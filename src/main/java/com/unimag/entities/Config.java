@@ -1,9 +1,6 @@
 package com.unimag.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
@@ -13,10 +10,14 @@ import lombok.*;
 @Entity
 @Setter
 @Getter
-
+@Table(name = "config")
 public class Config {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String value;
+
 }
