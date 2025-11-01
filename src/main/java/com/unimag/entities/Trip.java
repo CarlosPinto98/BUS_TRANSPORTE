@@ -44,4 +44,10 @@ public class Trip {
     @JoinColumn(name = "busID", nullable = false)
     private Bus bus;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Status_Trip status = Status_Trip.SCHEDULED;
+
+
 }

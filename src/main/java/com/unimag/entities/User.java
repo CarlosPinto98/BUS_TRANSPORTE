@@ -26,13 +26,13 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 40)
     private String email;
 
-    @Column(unique = true,name ="phone")
+    @Column(unique = true,name ="phone",length = 10)
     private String phone;
 
-    @Column(nullable = false,name ="passwordHash")
+    @Column(nullable = false,length = 200)
     private String passwordHash;
 
     @Column(nullable = false)
@@ -42,12 +42,13 @@ public class User {
     @Column(nullable = false, name ="roles")
     private Role role;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name ="status")
-    private Status_User status;
+    private Status_User status =   Status_User.ACTIVE;
 
-
-
-
+    @Builder.Default
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createAt =  LocalDateTime.now();
 
 }

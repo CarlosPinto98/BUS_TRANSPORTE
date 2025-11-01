@@ -3,6 +3,8 @@ package com.unimag.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,19 +19,19 @@ public class Stop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "routeID", nullable = false)
-    private Route route;
-
     @Column(nullable = false)
     private String name;
 
     @Column(name = "stopOrder", nullable = false)
     private Integer order;
 
-    @Column(nullable = false)
-    private Double lat;
+    @Column(precision = 10, scale = 5)
+    private BigDecimal lat;
 
-    @Column(nullable = false)
-    private Double lng;
+    @Column(precision = 10, scale = 5)
+    private BigDecimal lng;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "routeID", nullable = false)
+    private Route route;
 }

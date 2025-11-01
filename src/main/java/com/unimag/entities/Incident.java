@@ -4,7 +4,7 @@ import com.unimag.entities.Enums.EntityType;
 import com.unimag.entities.Enums.Type_Incident;
 import jakarta.persistence.*;
 import lombok.*;
-
+import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 
@@ -28,16 +28,23 @@ public class Incident {
     @Column(columnDefinition = "TEXT")
     private String note;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+    @Builder.Default
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false,length = 20)
     private Type_Incident incidentType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EntityType entityType;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reported_by")
+    private User reportedBy;
 
 
 }

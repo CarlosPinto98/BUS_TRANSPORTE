@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -21,28 +22,29 @@ public class FareRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal basePrice;
+
+    @Builder.Default
+    @Convert(converter = AmenitiesConverter.class)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> discounts = new HashMap<>();
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    private DynamicPricing dynamicPricing =  DynamicPricing.OFF;
+
     @ManyToOne(optional = false)
-    @JoinColumn(name = "routeID", nullable = false)
-    private Route route;
+    @JoinColumn(name = "toStopID", nullable = false)
+    private Stop toStop;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "fromStopID", nullable = false)
     private Stop fromStop;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "toStopID", nullable = false)
-    private Stop toStop;
-
-    @Column(nullable = false)
-    private BigDecimal basePrice;
-
-    @Convert(converter = AmenitiesConverter.class)
-    @Column(columnDefinition = "TEXT")
-    private Map<String, Object> discounts;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DynamicPricing dynamicPricing;
-
-
+    @JoinColumn(name = "routeID", nullable = false)
+    private Route route;
 }

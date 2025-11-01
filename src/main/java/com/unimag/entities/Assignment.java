@@ -20,15 +20,15 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "tripID", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tripID", nullable = false,unique = true)
     private Trip trip;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "driverID", nullable = false)
     private User driver;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dispatcherID", nullable = false)
     private User dispatcher;
 

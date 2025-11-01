@@ -23,11 +23,12 @@ public class Seat {
     @JoinColumn(name = "busID", nullable = false)
     private Bus bus;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 15)
     private String number;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Type type;
+    @Column(nullable = false, length = 20)
+    private Type type = Type.STANDARD;
 
 }
