@@ -1,7 +1,7 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enum.EntityType;
-import com.unimag.entities.Enum.Type;
+import com.unimag.entities.Enums.EntityType;
+import com.unimag.entities.Enums.Type_Incident;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,21 +22,22 @@ public class Incident {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private EntityType entityType;
-
     @Column(nullable = false)
     private Long entityId;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Type type;
 
     @Column(columnDefinition = "TEXT")
     private String note;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Type_Incident incidentType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EntityType entityType;
+
 
 }

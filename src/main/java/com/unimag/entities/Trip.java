@@ -1,6 +1,6 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enum.Status;
+import com.unimag.entities.Enums.Status_Trip;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,7 +34,7 @@ public class Trip {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private Status_Trip status_trip;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "routeID", nullable = false)

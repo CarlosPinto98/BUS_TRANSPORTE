@@ -1,6 +1,6 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enum.Status;
+import com.unimag.entities.Enums.Status_Parcel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,15 +40,15 @@ public class Parcel {
     private Stop fromStop;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "toStopIS", nullable = false)
-    private Stop toStop;
+    @JoinColumn(name = "stopID", nullable = false)
+    private Stop stop;
 
     @Column(nullable = false)
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private Status_Parcel status_parcel;
 
     @Column(length = 512)
     private String proofPhotoUrl;

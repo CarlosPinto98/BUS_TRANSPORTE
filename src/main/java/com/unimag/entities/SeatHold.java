@@ -1,6 +1,6 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enum.Status;
+import com.unimag.entities.Enums.Status_User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +37,6 @@ public class SeatHold {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private Status_User status;
 
 }

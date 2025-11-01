@@ -1,7 +1,7 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enum.Role;
-import com.unimag.entities.Enum.Status;
+import com.unimag.entities.Enums.Role;
+import com.unimag.entities.Enums.Status_User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,7 +44,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name ="status")
-    private Status status;
+    private Status_User status;
 
 
 

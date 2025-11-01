@@ -1,6 +1,6 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enum.DynamicPricing;
+import com.unimag.entities.Enums.DynamicPricing;
 import jakarta.persistence.*;
 import lombok.*;
 

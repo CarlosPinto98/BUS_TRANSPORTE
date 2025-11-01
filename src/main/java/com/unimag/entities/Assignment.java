@@ -2,6 +2,7 @@ package com.unimag.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -31,10 +32,12 @@ public class Assignment {
     @JoinColumn(name = "dispatcherID", nullable = false)
     private User dispatcher;
 
+    @Builder.Default
     @Column(nullable = false)
-    private Boolean checklistOk;
+    private Boolean checklistOk = false;
 
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime assignedAt;
 
 

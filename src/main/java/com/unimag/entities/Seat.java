@@ -1,6 +1,6 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enum.Type;
+import com.unimag.entities.Enums.Type;
 import jakarta.persistence.*;
 import lombok.*;
 
