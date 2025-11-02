@@ -2,6 +2,9 @@ package com.unimag.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -10,18 +13,24 @@ import lombok.*;
 @Entity
 @Setter
 @Getter
-@Table(name = "config")
+@Table(name = "configs")
 public class Config {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 100, name = "config_Key")
     private String key;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT",name = "config_value")
     private String value;
+
+    @Column(length = 255)
+    private String description;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     // configuraciones comunes
 

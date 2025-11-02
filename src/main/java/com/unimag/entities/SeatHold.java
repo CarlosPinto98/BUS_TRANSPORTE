@@ -1,13 +1,10 @@
 package com.unimag.entities;
 
 import com.unimag.entities.Enums.Status_SeatHold;
-import com.unimag.entities.Enums.Status_User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDateTime;
-
 
 @Data
 @Builder
@@ -21,25 +18,21 @@ public class SeatHold {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "tripID", nullable = false)
     private Trip trip;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String seatNumber;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userID", nullable = false)
     private User user;
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status_User status;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

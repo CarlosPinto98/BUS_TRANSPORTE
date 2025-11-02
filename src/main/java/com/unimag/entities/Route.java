@@ -2,8 +2,6 @@ package com.unimag.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Length;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +12,13 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-
 @Table(name = "routes")
+
 public class Route {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String code;

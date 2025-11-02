@@ -21,7 +21,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false,length = 10)
     private String seatNumber;
@@ -44,19 +44,19 @@ public class Ticket {
     @Column(nullable = false,length = 20)
     private Status_Ticket status_ticket = Status_Ticket.SOLD;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "passengerID", nullable = false)
     private User passenger;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fromStopID", nullable = false)
     private Stop fromStop;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "toStopId", nullable = false)
     private Stop toStop;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tripID", nullable = false)
     private Trip trip;
 

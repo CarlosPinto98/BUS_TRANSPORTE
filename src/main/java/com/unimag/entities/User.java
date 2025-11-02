@@ -4,8 +4,6 @@ import com.unimag.entities.Enums.Role;
 import com.unimag.entities.Enums.Status_User;
 import jakarta.persistence.*;
 import lombok.*;
-
-
 import java.time.LocalDateTime;
 
 @Data
@@ -21,34 +19,29 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(name = "name")
+    @Column(nullable = false)
     private String name;
 
     @Column(unique = true, nullable = false, length = 40)
     private String email;
 
-    @Column(unique = true,name ="phone",length = 10)
+    @Column(nullable = false, length = 10)
     private String phone;
 
     @Column(nullable = false,length = 200)
     private String passwordHash;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name ="roles")
     private Role role;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name ="status")
-    private Status_User status =   Status_User.ACTIVE;
+    @Column(nullable = false, length = 20)
+    private Status_User status_user =  Status_User.ACTIVE;
 
     @Builder.Default
     @Column(nullable = false, updatable = false)
     private LocalDateTime createAt =  LocalDateTime.now();
-
 }

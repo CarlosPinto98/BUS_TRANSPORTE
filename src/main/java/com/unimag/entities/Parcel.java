@@ -16,11 +16,12 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Table(name = "parcels")
+
 public class Parcel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(unique = false, nullable = false,length = 20)
     private String code;
@@ -67,6 +68,5 @@ public class Parcel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tripID")
     private Trip trip;
-
 
 }

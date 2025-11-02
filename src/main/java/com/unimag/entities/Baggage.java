@@ -16,10 +16,9 @@ import java.math.BigDecimal;
 @Table(name = "baggages")
 public class Baggage {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal weightKg;

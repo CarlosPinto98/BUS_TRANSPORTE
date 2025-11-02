@@ -17,9 +17,9 @@ public class Stop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 50)
     private String name;
 
     @Column(name = "stopOrder", nullable = false)
@@ -31,7 +31,7 @@ public class Stop {
     @Column(precision = 10, scale = 5)
     private BigDecimal lng;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "routeID", nullable = false)
     private Route route;
 }

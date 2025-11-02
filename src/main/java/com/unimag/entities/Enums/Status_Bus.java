@@ -4,5 +4,6 @@ public enum Status_Bus {
 
     ACTIVE,
     MAINTENANCE,
-    INACTIVE
+    INACTIVE;
+
 }

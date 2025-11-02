@@ -1,8 +1,10 @@
 package com.unimag.entities;
 
 import com.unimag.entities.Enums.DynamicPricing;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -20,14 +22,13 @@ public class FareRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private Long id;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal basePrice;
 
     @Builder.Default
-    @Convert(converter = AmenitiesConverter.class)
+    @Type(JsonType.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> discounts = new HashMap<>();
 

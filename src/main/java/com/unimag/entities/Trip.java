@@ -21,7 +21,7 @@ public class Trip {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
     private LocalDate date;
@@ -32,22 +32,16 @@ public class Trip {
     @Column(nullable = false)
     private LocalDateTime arrivalEta;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status_Trip status_trip;
-
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "routeID", nullable = false)
     private Route route;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "busID", nullable = false)
     private Bus bus;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Status_Trip status = Status_Trip.SCHEDULED;
-
-
+    private Status_Trip status_trip = Status_Trip.SCHEDULED;
 }

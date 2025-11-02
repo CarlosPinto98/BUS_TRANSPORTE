@@ -2,8 +2,10 @@ package com.unimag.entities;
 
 import com.unimag.entities.Enums.Status_Bus;
 import com.unimag.entities.Enums.Status_User;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ public class Bus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(unique = true, nullable = false, length = 10)
     private String plate;
@@ -31,13 +33,9 @@ public class Bus {
     @Column(nullable = false)
     private Integer capacity;
 
-    @Convert(converter = AmenitiesConverter.class)
+    @Type(JsonType.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> amenities = new HashMap<>();
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status_User status;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

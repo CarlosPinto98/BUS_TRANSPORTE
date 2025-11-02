@@ -7,7 +7,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class Incident {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
     private Long entityId;
@@ -38,13 +37,10 @@ public class Incident {
     private Type_Incident incidentType;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private EntityType entityType;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reported_by")
+    @JoinColumn(name = "reportedBy")
     private User reportedBy;
-
-
 }
