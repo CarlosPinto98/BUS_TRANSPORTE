@@ -21,7 +21,7 @@ public class Baggage {
     @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal weightKg;
 
-    @Column(nullable = false, precision = 5, scale = 2)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal fee;
 
     @Column(nullable = false, unique = true, length = 50)

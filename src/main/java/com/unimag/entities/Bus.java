@@ -25,7 +25,7 @@ public class Bus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 10)
+    @Column(unique = true, nullable = false, length = 20)
     private String plate;
 
     @Column(nullable = false)
