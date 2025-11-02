@@ -1,6 +1,6 @@
 package com.unimag.entities.Enums;
 
-public enum Status_Ticket {
+public enum StatusTicket {
 
     SOLD,
     CANCELLED,

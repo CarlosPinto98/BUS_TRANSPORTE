@@ -1,6 +1,6 @@
 package com.unimag.repository;
 
-import com.unimag.entities.Enums.Status_Parcel;
+import com.unimag.entities.Enums.StatusParcel;
 import com.unimag.entities.Parcel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,22 +15,22 @@ public interface ParcelRepository extends JpaRepository<Parcel,Long> {
 
     Optional<Parcel> findByCode(String code);
 
-    List<Parcel> findByStatus(Status_Parcel status);
+    List<Parcel> findByStatusParcel(StatusParcel statusParcel);
 
     List<Parcel> findByTripId(Long tripId);
 
-    List<Parcel> findByTripIdAndStatus(Long tripId, Status_Parcel status);
+    List<Parcel> findByTripIdAndStatusParcel(Long tripId, StatusParcel statusParcel);
 
     @Query("SELECT p FROM Parcel p WHERE p.senderPhone = :phone OR p.receiverPhone = :phone")
     List<Parcel> findByPhone(@Param("phone") String phone);
 
-    @Query("SELECT p FROM Parcel p WHERE p.receiverPhone = :phone AND p.status_parcel = 'IN_TRANSIT'")
+    @Query("SELECT p FROM Parcel p WHERE p.receiverPhone = :phone AND p.statusParcel = 'IN_TRANSIT'")
     List<Parcel> findPendingDeliveriesByReceiver(@Param("phone") String phone);
 
     @Query("SELECT p FROM Parcel p WHERE p.fromStop.id = :stopId OR p.toStop.id = :stopId")
     List<Parcel> findByStopId(@Param("stopId") Long stopId);
 
-    @Query("SELECT COUNT(p) FROM Parcel p WHERE p.trip.id = :tripId AND p.status_parcel = 'IN_TRANSIT'")
+    @Query("SELECT COUNT(p) FROM Parcel p WHERE p.trip.id = :tripId AND p.statusParcel = 'IN_TRANSIT'")
     long countInTransitParcelsByTrip(@Param("tripId") Long tripId);
 
     boolean existsByCode(String code);

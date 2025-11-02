@@ -1,10 +1,11 @@
 package com.unimag.repository;
 
 import com.unimag.AbstractRepositoryTest;
+
 import com.unimag.entities.*;
 import com.unimag.entities.Enums.Role;
-import com.unimag.entities.Enums.Status_Bus;
-import com.unimag.entities.Enums.Status_Trip;
+import com.unimag.entities.Enums.StatusBus;
+import com.unimag.entities.Enums.StatusTrip;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,13 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
     @Autowired
     private BusRepository busRepository;
 
+
     @Test
     @DisplayName("Guardar un assignment")
     void shouldSaveAssignment() {
         var trip = createAndSaveTrip("ROUTE-123","ASD 788");
         var driver = createAndSaveUser("driver@example.com", "3001111111", Role.DRIVER);
-        var dispatcher = createAndSaveUser("dispatcher@example.com", "3002222222",Role.DISPATCHER);
+        var dispatcher = createAndSaveUser("dispatcher@example.com", "3002222222", Role.DISPATCHER);
 
         var assignment = createAssignment(trip,driver,dispatcher);
 
@@ -49,11 +51,9 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
         assertThat(saved.getAssignedAt()).isNotNull();
     }
 
-
     @Test
     @DisplayName("Buscar un assignment por id de viaje")
-    void findByTripId() {
-
+    void shouldFindAssignmentByTripId() {
         Trip trip = createAndSaveTrip("ROUTE-132","ASD 778");
         User driver = createAndSaveUser("find@example.com", "3003333333", Role.DRIVER);
         User dispatcher = createAndSaveUser("disp@example.com", "3004444444", Role.DISPATCHER);
@@ -80,27 +80,28 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
     }
 
     @Test
-    @DisplayName("Buscar si existe assignment por id de viaje")
-    void findByDriverId() {
+    @DisplayName("Listar ssignment po id de driver")
+    void shouldFindAssignmentsByDriverId() {
+        User driver = createAndSaveUser("driver1@example.com", "3005555555", Role.DRIVER);
+        User dispatcher = createAndSaveUser("disp1@example.com", "3006666666", Role.DISPATCHER);
 
-        Trip trip = createAndSaveTrip("ROUTE-897","PLM 587");
-        User driver = createAndSaveUser("exists@example.com", "3007070707", Role.DRIVER);
-        User dispatcher = createAndSaveUser("dispexists@example.com", "3008080808", Role.DISPATCHER);
+        Trip trip1 = createAndSaveTrip("ROUTE-324","ASD 121");
+        Trip trip2 = createAndSaveTrip("ROUTE-188","ASD 789");
 
-        Assignment assignment = createAssignment(trip, driver, dispatcher);
-        assignmentRepository.save(assignment);
+        assignmentRepository.saveAll(List.of(
+                createAssignment(trip1, driver, dispatcher),
+                createAssignment(trip2, driver, dispatcher)
+        ));
 
-        boolean exists = assignmentRepository.existsByTripId( trip.getId());
-        boolean notExists = assignmentRepository.existsByTripId(99999L);
+        List<Assignment> assignments = assignmentRepository.findByDriverId(driver.getId());
 
-        assertThat(exists).isTrue();
-        assertThat(notExists).isFalse();
+        assertThat(assignments).hasSize(2);
+        assertThat(assignments).allMatch(a -> a.getDriver().getId().equals(driver.getId()));
     }
 
     @Test
     @DisplayName("Listar assignment por id de dispatcher")
-    void findByDispatcherId() {
-
+    void shouldFindAssignmentsByDispatcherId() {
         User driver1 = createAndSaveUser("d1@example.com", "3007777777", Role.DRIVER);
         User driver2 = createAndSaveUser("d2@example.com", "3008888888", Role.DRIVER);
         User dispatcher = createAndSaveUser("disp2@example.com", "3009999999", Role.DISPATCHER);
@@ -121,8 +122,7 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     @DisplayName("Buscar assignment por viaje con detalles")
-    void findByTripIdWithDetails() {
-
+    void shouldFindAssignmentByTripIdWithDetails() {
         Trip trip = createAndSaveTrip("ROUTE-421","ERW 788");
         User driver = createAndSaveUser("details@example.com", "3001010101", Role.DRIVER);
         User dispatcher = createAndSaveUser("dispdetails@example.com", "3002020202", Role.DISPATCHER);
@@ -139,30 +139,41 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
     }
 
     @Test
-    @DisplayName("Listar ssignment po id de driver")
-    void findActiveAssignmentsByDriver() {
+    @DisplayName("Buscar assignment activas por driver")
+    void shouldFindActiveAssignmentsByDriver() {
+        User driver = createAndSaveUser("active@example.com", "3003030303", Role.DRIVER);
+        User dispatcher = createAndSaveUser("dispactive@example.com", "3004040404", Role.DISPATCHER);
 
-        User driver = createAndSaveUser("driver1@example.com", "3005555555", Role.DRIVER);
-        User dispatcher = createAndSaveUser("disp1@example.com", "3006666666", Role.DISPATCHER);
+        LocalDate today = LocalDate.now();
 
-        Trip trip1 = createAndSaveTrip("ROUTE-324","ASD 121");
-        Trip trip2 = createAndSaveTrip("ROUTE-188","ASD 789");
+        Trip scheduledTrip = createTripForDate(today,"ROUTE-413","QWE 477");
+        scheduledTrip.setStatusTrip(StatusTrip.SCHEDULED);
+        tripRepository.save(scheduledTrip);
+
+        Trip boardingTrip = createTripForDate(today,"ROUTE-431","RTY 479");
+        boardingTrip.setStatusTrip(StatusTrip.BOARDING);
+        tripRepository.save(boardingTrip);
+
+        Trip departedTrip = createTripForDate(today,"ROUTE-456","TYU 892");
+        departedTrip.setStatusTrip(StatusTrip.DEPARTED);
+        tripRepository.save(departedTrip);
 
         assignmentRepository.saveAll(List.of(
-                createAssignment(trip1, driver, dispatcher),
-                createAssignment(trip2, driver, dispatcher)
+                createAssignment(scheduledTrip, driver, dispatcher),
+                createAssignment(boardingTrip, driver, dispatcher),
+                createAssignment(departedTrip, driver, dispatcher)
         ));
 
-        List<Assignment> assignments = assignmentRepository.findByDriverId(driver.getId());
+        List<Assignment> activeAssignments = assignmentRepository.findActiveAssignmentsByDriver(driver.getId());
 
-        assertThat(assignments).hasSize(2);
-        assertThat(assignments).allMatch(a -> a.getDriver().getId().equals(driver.getId()));
+        assertThat(activeAssignments).hasSize(2);
+        assertThat(activeAssignments).extracting(a -> a.getTrip().getStatusTrip())
+                .containsExactlyInAnyOrder(StatusTrip.SCHEDULED, StatusTrip.BOARDING);
     }
 
     @Test
     @DisplayName("Listar assignment por rango de fecha/hora de salida")
-    void findByDepartureDateRange() {
-
+    void shouldFindAssignmentsByDepartureDateRange() {
         User driver = createAndSaveUser("range@example.com", "3005050505", Role.DRIVER);
         User dispatcher = createAndSaveUser("disprange@example.com", "3006060606", Role.DISPATCHER);
 
@@ -187,24 +198,6 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     @DisplayName("Buscar si existe assignment por id de viaje")
-    void existsByTripId() {
-
-        Trip trip = createAndSaveTrip("ROUTE-897","PLM 587");
-        User driver = createAndSaveUser("exists@example.com", "3007070707", Role.DRIVER);
-        User dispatcher = createAndSaveUser("dispexists@example.com", "3008080808", Role.DISPATCHER);
-
-        Assignment assignment = createAssignment(trip, driver, dispatcher);
-        assignmentRepository.save(assignment);
-
-        boolean exists = assignmentRepository.existsByTripId(trip.getId());
-        boolean notExists = assignmentRepository.existsByTripId(99999L);
-
-        assertThat(exists).isTrue();
-        assertThat(notExists).isFalse();
-    }
-
-    @Test
-    @DisplayName("Buscar si existe assignment por id de viaje")
     void shouldCheckIfAssignmentExistsByTripId() {
         Trip trip = createAndSaveTrip("ROUTE-897","PLM 587");
         User driver = createAndSaveUser("exists@example.com", "3007070707", Role.DRIVER);
@@ -213,7 +206,7 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
         Assignment assignment = createAssignment(trip, driver, dispatcher);
         assignmentRepository.save(assignment);
 
-        boolean exists = assignmentRepository.existsByTripId( trip.getId());
+        boolean exists = assignmentRepository.existsByTripId(trip.getId());
         boolean notExists = assignmentRepository.existsByTripId(99999L);
 
         assertThat(exists).isTrue();
@@ -273,7 +266,7 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
         Bus bus = Bus.builder()
                 .plate(plateBus)
                 .capacity(40)
-                .status_bus(Status_Bus.ACTIVE)
+                .statusBus(StatusBus.ACTIVE)
                 .build();
         Bus savedBus = busRepository.save(bus);
 
@@ -283,7 +276,7 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
                 .date(date)
                 .departureAt(date.atTime(10, 0))
                 .arrivalEta(date.atTime(18, 0))
-                .status(Status_Trip.SCHEDULED)
+                .statusTrip(StatusTrip.SCHEDULED)
                 .build();
 
         return tripRepository.save(trip);
@@ -303,7 +296,7 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
         Bus bus = Bus.builder()
                 .plate(plateBus)
                 .capacity(40)
-                .status_bus(Status_Bus.ACTIVE)
+                .statusBus(StatusBus.ACTIVE)
                 .build();
         Bus savedBus = busRepository.save(bus);
 
@@ -313,7 +306,7 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
                 .date(departureAt.toLocalDate())
                 .departureAt(departureAt)
                 .arrivalEta(departureAt.plusHours(8))
-                .status(Status_Trip.SCHEDULED)
+                .statusTrip(StatusTrip.SCHEDULED)
                 .build();
 
         return tripRepository.save(trip);

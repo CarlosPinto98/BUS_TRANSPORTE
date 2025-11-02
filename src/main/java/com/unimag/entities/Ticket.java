@@ -1,7 +1,7 @@
 package com.unimag.entities;
 
 import com.unimag.entities.Enums.PaymentMethod;
-import com.unimag.entities.Enums.Status_Ticket;
+import com.unimag.entities.Enums.StatusTicket;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,7 +41,7 @@ public class Ticket {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 20)
-    private Status_Ticket status_ticket = Status_Ticket.SOLD;
+    private StatusTicket statusTicket = StatusTicket.SOLD;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "passengerID", nullable = false)

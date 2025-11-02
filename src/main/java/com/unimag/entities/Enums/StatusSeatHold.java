@@ -1,6 +1,6 @@
 package com.unimag.entities.Enums;
 
-public enum Status_SeatHold {
+public enum StatusSeatHold {
 
     HOLD,
     EXPIRED,

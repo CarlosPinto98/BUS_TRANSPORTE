@@ -1,6 +1,6 @@
 package com.unimag.entities.Enums;
 
-public enum Status_Bus {
+public enum StatusBus {
 
     ACTIVE,
     MAINTENANCE,

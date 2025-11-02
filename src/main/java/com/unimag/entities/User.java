@@ -1,12 +1,11 @@
 package com.unimag.entities;
 
 import com.unimag.entities.Enums.Role;
-import com.unimag.entities.Enums.Status_User;
+import com.unimag.entities.Enums.StatusUser;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,7 +38,7 @@ public class User {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Status_User status_user =  Status_User.ACTIVE;
+    private StatusUser statusUser =  StatusUser.ACTIVE;
 
     @Builder.Default
     @Column(nullable = false, updatable = false)

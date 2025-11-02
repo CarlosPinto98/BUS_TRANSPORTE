@@ -1,7 +1,6 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enums.Status_Bus;
-import com.unimag.entities.Enums.Status_User;
+import com.unimag.entities.Enums.StatusBus;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,7 +37,7 @@ public class Bus {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Status_Bus status_bus = Status_Bus.ACTIVE;
+    private StatusBus statusBus = StatusBus.ACTIVE;
 
     @Builder.Default
     @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, orphanRemoval = true)

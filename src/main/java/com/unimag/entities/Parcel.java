@@ -1,6 +1,6 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enums.Status_Parcel;
+import com.unimag.entities.Enums.StatusParcel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,7 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,7 +42,7 @@ public class Parcel {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status_Parcel status_parcel =  Status_Parcel.CREATED;
+    private StatusParcel statusParcel =  StatusParcel.CREATED;
 
     @Column(length = 200)
     private String proofPhotoUrl;

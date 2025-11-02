@@ -1,14 +1,12 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enums.Status_Trip;
+import com.unimag.entities.Enums.StatusTrip;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,5 +41,5 @@ public class Trip {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Status_Trip status_trip = Status_Trip.SCHEDULED;
+    private StatusTrip statusTrip = StatusTrip.SCHEDULED;
 }

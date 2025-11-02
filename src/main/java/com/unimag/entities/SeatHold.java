@@ -1,12 +1,11 @@
 package com.unimag.entities;
 
-import com.unimag.entities.Enums.Status_SeatHold;
+import com.unimag.entities.Enums.StatusSeatHold;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,6 +40,6 @@ public class SeatHold {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Status_SeatHold status_seatHold = Status_SeatHold.HOLD;
+    private StatusSeatHold statusSeatHold = StatusSeatHold.HOLD;
 
 }

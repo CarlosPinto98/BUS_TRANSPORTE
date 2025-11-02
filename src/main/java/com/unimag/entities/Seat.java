@@ -4,7 +4,6 @@ import com.unimag.entities.Enums.Type;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

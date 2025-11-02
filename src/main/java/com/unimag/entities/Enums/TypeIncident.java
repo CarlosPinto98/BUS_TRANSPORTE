@@ -1,6 +1,6 @@
 package com.unimag.entities.Enums;
 
-public enum Type_Incident {
+public enum TypeIncident {
 
     SECURITY,
     DELIVERY_FAIL,

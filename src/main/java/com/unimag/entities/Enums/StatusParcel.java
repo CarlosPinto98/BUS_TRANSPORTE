@@ -1,6 +1,6 @@
 package com.unimag.entities.Enums;
 
-public enum Status_Parcel {
+public enum StatusParcel {
 
     CREATED,
     IN_TRANSIT,

@@ -1,7 +1,7 @@
 package com.unimag.repository;
 
 import com.unimag.entities.Enums.Role;
-import com.unimag.entities.Enums.Status_User;
+import com.unimag.entities.Enums.StatusUser;
 import com.unimag.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -23,5 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByRole(Role role);
 
-    List<User> findByRoleAndStatus(Role role, Status_User status);
+    List<User> findByRoleAndStatusUser(Role role, StatusUser statusUser);
 }

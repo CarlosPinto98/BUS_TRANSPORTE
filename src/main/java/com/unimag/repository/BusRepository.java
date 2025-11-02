@@ -1,7 +1,7 @@
 package com.unimag.repository;
 
 import com.unimag.entities.Bus;
-import com.unimag.entities.Enums.Status_Bus;
+import com.unimag.entities.Enums.StatusBus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,13 +14,14 @@ public interface BusRepository extends JpaRepository<Bus,Long> {
 
     Optional<Bus> findByPlate(String plate);
 
-    List<Bus> findByStatus(Status_Bus status);
+    @Query("SELECT b FROM Bus b WHERE b.statusBus = :status")
+    List<Bus> findByStatusBus(StatusBus statusBus);
 
     @Query("SELECT b FROM Bus b JOIN FETCH b.seats WHERE b.id = :id")
     Optional<Bus> findByIdWithSeats(Long id);
 
-    @Query("SELECT b FROM Bus b WHERE b.status = :status AND b.capacity >= :minCapacity")
-    List<Bus> findAvailableBusesByCapacity(Status_Bus status, Integer minCapacity);
+    @Query("SELECT b FROM Bus b WHERE b.statusBus = :status AND b.capacity >= :minCapacity")
+    List<Bus> findAvailableBusesByCapacity(StatusBus statusBus, Integer minCapacity);
 
     boolean existsByPlate(String plate);
 

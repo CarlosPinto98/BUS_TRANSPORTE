@@ -1,7 +1,7 @@
 package com.unimag.repository;
 
 import com.unimag.entities.Enums.EntityType;
-import com.unimag.entities.Enums.Type_Incident;
+import com.unimag.entities.Enums.TypeIncident;
 import com.unimag.entities.Incident;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +14,7 @@ public interface IncidentRepository extends JpaRepository<Incident,Long> {
 
     List<Incident> findByEntityTypeAndEntityId(EntityType entityType, Long entityId);
 
-    List<Incident> findByType(Type_Incident type);
+    List<Incident> findByIncidentType(TypeIncident typeIncident);
 
     List<Incident> findByReportedById(Long reportedById);
 
@@ -33,6 +33,6 @@ public interface IncidentRepository extends JpaRepository<Incident,Long> {
     @Query("SELECT COUNT(i) FROM Incident i WHERE i.entityType = :type " +
             "AND i.createdAt >= :since")
     long countByTypeAndCreatedAtAfter(
-            @Param("type") Type_Incident type,
+            @Param("type") TypeIncident type,
             @Param("since") LocalDateTime since);
 }

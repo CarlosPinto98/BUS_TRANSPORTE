@@ -1,13 +1,12 @@
 package com.unimag.entities;
 
 import com.unimag.entities.Enums.EntityType;
-import com.unimag.entities.Enums.Type_Incident;
+import com.unimag.entities.Enums.TypeIncident;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +33,7 @@ public class Incident {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 20)
-    private Type_Incident incidentType;
+    private TypeIncident incidentType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

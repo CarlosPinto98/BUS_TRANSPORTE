@@ -1,6 +1,6 @@
 package com.unimag.entities.Enums;
 
-public enum Status_Trip {
+public enum StatusTrip {
     SCHEDULED,
     BOARDING,
     DEPARTED,

@@ -11,10 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AssignmentRepository extends JpaRepository<Assignment,Long> {
+public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     Optional<Assignment> findByTripId(Long tripId);
+
     List<Assignment> findByDriverId(Long driverId);
+
     List<Assignment> findByDispatcherId(Long dispatcherId);
 
     @Query("SELECT a FROM Assignment a JOIN FETCH a.trip t JOIN FETCH a.driver " +
@@ -22,7 +24,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment,Long> {
     Optional<Assignment> findByTripIdWithDetails(@Param("tripId") Long tripId);
 
     @Query("SELECT a FROM Assignment a WHERE a.driver.id = :driverId " +
-            "AND a.trip.date = CURRENT_DATE AND a.trip.status IN ('SCHEDULED', 'BOARDING')")
+            "AND a.trip.date = CURRENT_DATE AND a.trip.statusTrip IN ('SCHEDULED', 'BOARDING')")
     List<Assignment> findActiveAssignmentsByDriver(@Param("driverId") Long driverId);
 
     @Query("SELECT a FROM Assignment a WHERE a.trip.departureAt BETWEEN :start AND :end")
@@ -31,5 +33,4 @@ public interface AssignmentRepository extends JpaRepository<Assignment,Long> {
             @Param("end") LocalDateTime end);
 
     boolean existsByTripId(Long tripId);
-
 }
