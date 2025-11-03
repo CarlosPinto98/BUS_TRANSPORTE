@@ -30,9 +30,9 @@ public interface IncidentRepository extends JpaRepository<Incident,Long> {
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end);
 
-    @Query("SELECT COUNT(i) FROM Incident i WHERE i.entityType = :type " +
+    @Query("SELECT COUNT(i) FROM Incident i WHERE i.incidentType = :type " +
             "AND i.createdAt >= :since")
     long countByTypeAndCreatedAtAfter(
-            @Param("type") TypeIncident type,
+            @Param("type") TypeIncident typeIncident,
             @Param("since") LocalDateTime since);
 }
