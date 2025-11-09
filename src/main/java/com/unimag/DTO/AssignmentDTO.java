@@ -26,7 +26,7 @@ public class AssignmentDTO {
             LocalDateTime assignedAt,
             Long tripId,
             String tripInfo,
-            String tripStatus,
+            String statusTrip,
             Long driverId,
             String driverName,
             Long dispatcherId,

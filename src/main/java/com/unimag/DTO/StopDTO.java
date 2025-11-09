@@ -1,7 +1,6 @@
 package com.unimag.DTO;
 
 import jakarta.validation.constraints.*;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -19,13 +18,11 @@ public class StopDTO {
             @DecimalMax(value = "180.0", message = "Longitude must be between -180 and 180")
             BigDecimal lng,
             @NotNull(message = "routeId is required")
-            Long routeId
-    ) implements Serializable {}
+            Long routeId) implements Serializable {}
 
     public record StopUpdateRequest(
             @NotBlank String name,
-            @Min(0) Integer order
-    ) implements Serializable {}
+            @Min(0) Integer order) implements Serializable {}
 
     public record StopResponse(
             Long id,
@@ -35,6 +32,5 @@ public class StopDTO {
             BigDecimal lng,
             Long routeId,
             String routeName,
-            String routeCode
-    ) implements Serializable {}
+            String routeCode) implements Serializable {}
 }

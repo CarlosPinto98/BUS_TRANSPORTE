@@ -16,13 +16,11 @@ public class SeatDTO {
             @NotNull(message = "type is required")
             Type type,
             @NotNull(message = "busId is required")
-            Long busId
-    ) implements Serializable {}
+            Long busId) implements Serializable {}
 
     public record SeatUpdateRequest(
             @NotNull(message = "type is required")
-            Type type
-    ) implements Serializable {}
+            Type type) implements Serializable {}
 
     public record SeatResponse(
             Long id,
@@ -30,6 +28,5 @@ public class SeatDTO {
             String type,
             Long busId,
             String busPlate,
-            Integer busCapacity
-    ) implements Serializable {}
+            Integer busCapacity) implements Serializable {}
 }

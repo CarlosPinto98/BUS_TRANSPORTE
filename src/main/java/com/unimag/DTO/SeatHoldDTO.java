@@ -16,26 +16,25 @@ public class SeatHoldDTO {
             @NotBlank(message = "seatNumber is required")
             @Size(max = 10, message = "seatNumber must not exceed 10 characters")
             String seatNumber,
-            @NotNull(message = "userId is required")
-            Long userId
-    ) implements Serializable {}
+            @NotNull(message = "fromStopId is required")
+            Long fromStopId,
+            @NotNull(message = "toStopId is required")
+            Long toStopId) implements Serializable {}
 
     public record SeatHoldUpdateRequest(
             @NotNull(message = "status is required")
-            StatusSeatHold statusSeatHold
-    ) implements Serializable {}
+            StatusSeatHold statusSeatHold) implements Serializable {}
 
     public record SeatHoldResponse(
             Long id,
             String seatNumber,
             LocalDateTime expiresAt,
-            String status,
-            LocalDateTime createAt,
+            String statusSeatHold,
+            LocalDateTime createdAt,
             Long tripId,
             Long userId,
             String tripDate,
             String tripTime,
             String routeName,
-            Integer minutesLeft
-    ) implements Serializable {}
+            Integer minutesLeft) implements Serializable {}
 }

@@ -24,14 +24,13 @@ public interface AssignmentMapper {
     @Mapping(target = "checklistOk", source = "checklistOk")
     void updateEntity(AssignmentDTO.AssignmentUpdateRequest dto, @MappingTarget Assignment entity);
 
-
     @Mapping(target = "tripId", source = "trip.id")
     @Mapping(target = "tripInfo", source = "trip", qualifiedByName = "formatTripInfo")
-    @Mapping(target = "tripStatus", source = "trip.status")
+    @Mapping(target = "statusTrip",source = "trip.statusTrip")
     @Mapping(target = "driverId", source = "driver.id")
-    @Mapping(target = "driverName", source = "driver.username")
+    @Mapping(target = "driverName", source = "driver.name")
     @Mapping(target = "dispatcherId", source = "dispatcher.id")
-    @Mapping(target = "dispatcherName", source = "dispatcher.username")
+    @Mapping(target = "dispatcherName", source = "dispatcher.name")
     AssignmentDTO.AssignmentResponse toResponse(Assignment entity);
 
     @Named("mapTrip")

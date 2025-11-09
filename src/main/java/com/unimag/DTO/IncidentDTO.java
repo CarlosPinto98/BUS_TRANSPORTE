@@ -11,16 +11,18 @@ import java.time.LocalDateTime;
 public class IncidentDTO {
 
     public record IncidentCreateRequest(
-            @NotBlank EntityType entityType,
-            @NotNull Long entityId,
-            @NotBlank TypeIncident type,
+            @NotNull(message = "entityType is required")
+            EntityType entityType,
+            @NotNull(message = "entityId is required")
+            Long entityId,
+            @NotNull(message = "type is required")
+            TypeIncident typeIncident,
             String note,
-            @NotNull Long reportedBy
-    ) implements Serializable {}
+            @NotNull(message = "reportedBy is required")
+            Long reportedBy) implements Serializable {}
 
     public record IncidentUpdateRequest(
-            @NotBlank String note
-    ) implements Serializable {}
+            @NotBlank String note) implements Serializable {}
 
     public record IncidentResponse(
             Long id,
@@ -29,7 +31,6 @@ public class IncidentDTO {
             String type,
             String note,
             Long reportedBy,
-            String reporteByName,
-            LocalDateTime createdAt
-    ) implements Serializable {}
+            String reportedByName,
+            LocalDateTime createdAt) implements Serializable {}
 }

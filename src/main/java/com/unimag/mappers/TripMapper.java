@@ -18,14 +18,16 @@ public interface TripMapper {
     @Mapping(target = "arrivalEta", source = "arrivalEta")
     @Mapping(target = "route", source = "routeId", qualifiedByName = "mapRoute")
     @Mapping(target = "bus", source = "busId", qualifiedByName = "mapBus")
-    @Mapping(target = "status", expression = "java(com.example.busconnect.domine.entities.enums.TripStatus.SCHEDULED)")
+
+    @Mapping(target = "statusTrip", expression = "java(com.unimag.entities.Enums.StatusTrip.SCHEDULED)")
     Trip toEntity(TripCreateRequest dto);
 
 
     @Mapping(target = "departureAt", source = "departureAt")
     @Mapping(target = "arrivalEta", source = "arrivalEta")
     @Mapping(target = "bus", source = "busId", qualifiedByName = "mapBus")
-    @Mapping(target = "status", source = "status")
+
+    @Mapping(target = "statusTrip", source = "statusTrip")
     void updateEntity(TripUpdateRequest dto, @MappingTarget Trip entity);
 
     @Mapping(target = "routeId", source = "route.id")
@@ -35,6 +37,8 @@ public interface TripMapper {
     @Mapping(target = "busId", source = "bus.id")
     @Mapping(target = "busPlate", source = "bus.plate")
     @Mapping(target = "capacity", source = "bus.capacity")
+
+    @Mapping(target = "statusTrip", source = "statusTrip")
     TripResponse toResponse(Trip entity);
 
     @Named("mapRoute")

@@ -11,6 +11,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface TicketMapper {
@@ -20,23 +21,30 @@ public interface TicketMapper {
     @Mapping(target = "passenger", source = "passengerId", qualifiedByName = "mapUser")
     @Mapping(target = "fromStop", source = "fromStopId", qualifiedByName = "mapStop")
     @Mapping(target = "toStop", source = "toStopId", qualifiedByName = "mapStop")
-    @Mapping(target = "status", expression = "java(com.example.busconnect.domine.entities.enums.TicketStatus.SOLD)")
+
+    @Mapping(target = "statusTicket", expression = "java(com.unimag.entities.Enums.StatusTicket.SOLD)")
     @Mapping(target = "price", ignore = true)
-    @Mapping(target = "qrCode", ignore = true)
+    @Mapping(target = "qrCode", expression =  "java(generateQrCode(dto.tripId(), dto.seatNumber()))")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "seatNumber", source = "seatNumber") //ignore = true
+    @Mapping(target = "paymentMethod", source = "paymentMethod") // ignore = true
     Ticket toEntity(TicketCreateRequest dto);
 
-    @Mapping(target = "status", source = "status")
+    @Mapping(target = "statusTicket", source = "statusTicket")
     void updateEntity(TicketUpdateRequest dto, @MappingTarget Ticket entity);
 
     @Mapping(target = "tripId", source = "trip.id")
     @Mapping(target = "tripDate", source = "trip.date", qualifiedByName = "formatDate")
     @Mapping(target = "tripTime", source = "trip.departureAt", qualifiedByName = "formatTime")
     @Mapping(target = "passengerId", source = "passenger.id")
-    @Mapping(target = "passengerName", source = "passenger.username")
+
+    @Mapping(target = "passengerName", source = "passenger.name")
     @Mapping(target = "fromStopId", source = "fromStop.id")
     @Mapping(target = "fromStopName", source = "fromStop.name")
     @Mapping(target = "toStopId", source = "toStop.id")
     @Mapping(target = "toStopName", source = "toStop.name")
+    @Mapping(target = "paymentMethod", source = "paymentMethod")
+    @Mapping(target = "statusTicket", source = "statusTicket")
     TicketResponse toResponse(Ticket entity);
 
     @Named("mapTrip")
@@ -71,5 +79,9 @@ public interface TicketMapper {
     @Named("formatTime")
     default String formatTime(java.time.LocalDateTime dateTime) {
         return dateTime != null ? dateTime.format(DateTimeFormatter.ofPattern("HH:mm")) : null;
+    }
+
+    default String generateQrCode(Long tripId, String seatNumber) {
+        return "TICKET-" + tripId + "-" + seatNumber + "-" + UUID.randomUUID().toString().substring(0, 8);
     }
 }

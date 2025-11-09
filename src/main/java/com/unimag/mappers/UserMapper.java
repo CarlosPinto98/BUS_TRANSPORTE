@@ -10,18 +10,20 @@ import org.mapstruct.MappingTarget;
 public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createAt", ignore = true)
-    @Mapping(target = "status", expression = "java(UserStatus.ACTIVE)")
+    @Mapping(target = "createAt", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "statusUser", expression = "java(com.unimag.entities.Enums.StatusUser.ACTIVE)")
     @Mapping(target = "role", source = "role")
+    @Mapping(target = "email", source = "email")
+    @Mapping(target = "name", source = "name")
     @Mapping(target = "passwordHash", ignore = true)
     User toEntity(UserCreateRequest dto);
 
-    @Mapping(target = "username", source = "username")
     @Mapping(target = "phone", source = "phone")
-    @Mapping(target = "status", source = "status")
+    @Mapping(target = "statusUser", source = "statusUser")
     void updateEntity(UserUpdateRequest dto, @MappingTarget User user);
 
     @Mapping(target = "role", source = "role")
-    @Mapping(target = "status", source = "status")
+    @Mapping(target = "statusUser", source = "statusUser")
     UserResponse toResponse(User entity);
+
 }

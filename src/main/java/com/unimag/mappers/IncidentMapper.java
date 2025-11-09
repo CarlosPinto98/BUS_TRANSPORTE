@@ -12,21 +12,23 @@ import org.mapstruct.Named;
 public interface IncidentMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "entityType", source = "entityType")
     @Mapping(target = "entityId", source = "entityId")
-    @Mapping(target = "type", source = "type")
     @Mapping(target = "note", source = "note")
-    @Mapping(target = "reportedBy", source = "reportedBy", qualifiedByName = "mapUser")
+    @Mapping(target = "reportedBy",  ignore = true, qualifiedByName = "mapUser")
     @Mapping(target = "createdAt", ignore = true)
     Incident toEntity(IncidentCreateRequest dto);
 
     @Mapping(target = "note", source = "note")
     void updateEntity(IncidentUpdateRequest dto, @MappingTarget Incident entity);
 
-    @Mapping(target = "entityType", source = "entityType")
-    @Mapping(target = "type", source = "type")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "entityType", source = "entityType", qualifiedByName = "enumToString")
+    @Mapping(target = "entityId", source = "entityId")
+    @Mapping(target = "type", source = "typeIncident", qualifiedByName = "enumToString")
+    @Mapping(target = "note", source = "note")
     @Mapping(target = "reportedBy", source = "reportedBy.id")
-    @Mapping(target = "reportedByName", source = "reportedBy.username")
+    @Mapping(target = "reportedByName", source = "reportedBy.name")
+    @Mapping(target = "createdAt", source = "createdAt")
     IncidentResponse toResponse(Incident entity);
 
     @Named("mapUser")
@@ -35,5 +37,10 @@ public interface IncidentMapper {
         User u = new User();
         u.setId(id);
         return u;
+    }
+
+    @Named("enumToString")
+    default String enumToString(Enum<?> value) {
+        return value != null ? value.name() : null;
     }
 }

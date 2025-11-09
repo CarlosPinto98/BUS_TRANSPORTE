@@ -2,6 +2,7 @@ package com.unimag.mappers;
 
 import com.unimag.DTO.SeatHoldDTO.*;
 import com.unimag.entities.SeatHold;
+import com.unimag.entities.Trip;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -11,19 +12,19 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Mapper(componentModel = "spring", uses = {TripMapper.class })
+@Mapper(componentModel = "spring")
 public interface SeatHoldMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "mapTrip")
-    @Mapping(target = "user", source = "userId", qualifiedByName = "mapUser")
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "expiresAt", ignore = true)
-    @Mapping(target = "status", expression = "java(com.example.busconnect.domine.entities.enums.HoldStatus.HOLD)")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "seatNumber", source = "seatNumber")
+    @Mapping(target = "statusSeatHold", ignore = true)
     SeatHold toEntity(SeatHoldCreateRequest dto);
 
-    @Mapping(target = "status", source = "status")
+    @Mapping(target = "statusSeatHold", source = "statusSeatHold")
     void updateEntity(SeatHoldUpdateRequest dto, @MappingTarget SeatHold entity);
 
     @Mapping(target = "tripId", source = "trip.id")
@@ -32,8 +33,15 @@ public interface SeatHoldMapper {
     @Mapping(target = "tripTime", source = "trip.departureAt", qualifiedByName = "formatTime")
     @Mapping(target = "routeName", source = "trip.route.name")
     @Mapping(target = "minutesLeft", source = "expiresAt", qualifiedByName = "calculateMinutesLeft")
-    @Mapping(target = "status", source = "status")
     SeatHoldResponse toResponse(SeatHold entity);
+
+    @Named("mapTrip")
+    default Trip mapTrip(Long id) {
+        if (id == null) return null;
+        Trip t = new Trip();
+        t.setId(id);
+        return t;
+    }
 
     @Named("formatDate")
     default String formatDate(java.time.LocalDate date) {

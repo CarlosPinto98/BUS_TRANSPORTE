@@ -198,5 +198,16 @@ class UserRepositoryTest extends AbstractRepositoryTest {
         assertThat(saved.getStatusUser()).isEqualTo(StatusUser.ACTIVE);
         assertThat(saved.getCreateAt()).isNotNull();
     }
+
+    @Test
+    @DisplayName("Encontrar por nombre")
+    void findByName() {
+
+        Optional<User> found = userRepository.findByName("john_doe");
+
+        assertThat(found).isPresent();
+        assertThat(found.get().getName()).isEqualTo("john_doe");
+        assertThat(found.get().getEmail()).isEqualTo("john@example.com");
+    }
 }
 

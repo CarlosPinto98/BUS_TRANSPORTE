@@ -25,13 +25,11 @@ public class TicketDTO {
             @Size(max = 10, message = "seatNumber must not exceed 10 characters")
             String seatNumber,
             @NotNull(message = "paymentMethod is required")
-            PaymentMethod paymentMethod
-    ) implements Serializable {}
+            PaymentMethod paymentMethod) implements Serializable {}
 
     public record TicketUpdateRequest(
             @NotNull(message = "status is required")
-            StatusTicket statusTicket
-    ) implements Serializable {}
+            StatusTicket statusTicket) implements Serializable {}
 
     public record TicketResponse(
             Long id,
@@ -47,8 +45,7 @@ public class TicketDTO {
             String seatNumber,
             BigDecimal price,
             String paymentMethod,
-            String status,
+            String statusTicket,
             String qrCode,
-            LocalDateTime createdAt
-    ) implements Serializable {}
+            LocalDateTime createdAt) implements Serializable {}
 }

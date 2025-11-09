@@ -1,7 +1,6 @@
 package com.unimag.DTO;
 
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -13,9 +12,7 @@ public class BaggageDTO {
             @NotNull(message = "ticketId is required")
             Long ticketId,
             @NotNull @DecimalMin(value = "0.0", message = "weight must be positive")
-            BigDecimal weightKg,
-            @NotBlank(message = "tagCode is required")
-            String tagCode
+            BigDecimal weightKg
     ) implements Serializable {}
 
     public record BaggageUpdateRequest(

@@ -22,14 +22,12 @@ public class RouteDTO {
             @NotNull @Min(1)
             Integer distanceKm,
             @NotNull @Min(1)
-            Integer durationMin
-    ) implements Serializable {}
+            Integer durationMin) implements Serializable {}
 
     public record RouteUpdateRequest(
             @NotBlank String name,
             @Min(1) Integer distanceKm,
-            @Min(1) Integer durationMin
-    ) implements Serializable {}
+            @Min(1) Integer durationMin) implements Serializable {}
 
     public record RouteResponse(
             Long id,
@@ -39,14 +37,12 @@ public class RouteDTO {
             String destination,
             Integer distanceKm,
             Integer durationMin,
-            List<StopSummary> stops
-    ) implements Serializable {}
+            List<StopSummary> stops) implements Serializable {}
 
     public record StopSummary(
             Long id,
             String name,
             Integer order,
             BigDecimal lat,
-            BigDecimal lng
-    ){}
+            BigDecimal lng)implements Serializable{}
 }

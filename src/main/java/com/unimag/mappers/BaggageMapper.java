@@ -1,6 +1,6 @@
 package com.unimag.mappers;
 
-import com.unimag.DTO.*;
+import com.unimag.DTO.BaggageDTO.*;
 import com.unimag.entities.Baggage;
 import com.unimag.entities.Ticket;
 import com.unimag.entities.Trip;
@@ -14,20 +14,24 @@ public interface BaggageMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "weightKg", source = "weightKg")
-    @Mapping(target = "tagCode", source = "tagCode")
+    @Mapping(target = "tagCode", expression = "java(generateTagCode())")
     @Mapping(target = "ticket", source = "ticketId", qualifiedByName = "mapTicket")
-    @Mapping(target = "fee", ignore = true)
-    Baggage toEntity(BaggageDTO.BaggageCreateRequest dto);
+    @Mapping(target = "fee", source = "weightKg", qualifiedByName = "calculateFee")
+    Baggage toEntity(BaggageCreateRequest dto);
 
     @Mapping(target = "fee", source = "fee")
-    void updateEntity(BaggageDTO.BaggageUpdateRequest dto, @MappingTarget Baggage baggage);
+    void updateEntity(BaggageUpdateRequest dto, @MappingTarget Baggage baggage);
 
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "weightKg", source = "weightKg")
+    @Mapping(target = "fee", source = "fee")
+    @Mapping(target = "tagCode", source = "tagCode")
     @Mapping(target = "ticketId", source = "ticket.id")
-    @Mapping(target = "passengerName", source = "ticket.passenger.username")
+    @Mapping(target = "passengerName", source = "ticket.passenger.name")
     @Mapping(target = "tripInfo", source = "ticket.trip", qualifiedByName = "formatTripInfo")
     @Mapping(target = "excessWeight", ignore = true)
-    BaggageDTO.BaggageResponse toResponse(Baggage entity);
+    BaggageResponse toResponse(Baggage entity);
     @Named("mapTicket")
     default Ticket mapTicket(Long id) {
         if (id == null) return null;
@@ -41,5 +45,20 @@ public interface BaggageMapper {
         if (trip == null) return null;
         return trip.getRoute().getOrigin() + " → " + trip.getRoute().getDestination() +
                 " (" + trip.getDate() + ")";
+    }
+    default String generateTagCode() {
+        return "BAG-" + System.currentTimeMillis() + "-" + (int) (Math.random() * 1000);
+    }
+    @Named("calculateFee")
+    default java.math.BigDecimal calculateFee(java.math.BigDecimal weightKg) {
+        java.math.BigDecimal freeWeight = new java.math.BigDecimal("20.0");
+        java.math.BigDecimal pricePerKg = new java.math.BigDecimal("2000");
+
+        if (weightKg.compareTo(freeWeight) <= 0) {
+            return java.math.BigDecimal.ZERO;
+        }
+
+        java.math.BigDecimal excess = weightKg.subtract(freeWeight);
+        return excess.multiply(pricePerKg);
     }
 }

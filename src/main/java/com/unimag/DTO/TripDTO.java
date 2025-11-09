@@ -24,8 +24,7 @@ public class TripDTO {
             @NotNull(message = "routeId is required")
             Long routeId,
 
-            Long busId
-    ) implements Serializable {}
+            Long busId) implements Serializable {}
 
     public record TripUpdateRequest(
             @NotNull(message = "departureAt is required")
@@ -34,21 +33,26 @@ public class TripDTO {
             LocalDateTime arrivalEta,
             Long busId,
             @NotNull(message = "status is required")
-            StatusTrip statusTrip
-    ) implements Serializable {}
+            StatusTrip statusTrip) implements Serializable {}
 
     public record TripResponse(
             Long id,
             LocalDate date,
             LocalDateTime departureAt,
             LocalDateTime arrivalEta,
-            String status,
+            String statusTrip,
             Long routeId,
             String routeName,
             String origin,
             String destination,
             Long busId,
             String busPlate,
-            Integer capacity
-    ) implements Serializable {}
+            Integer capacity) implements Serializable {}
+
+    String mapStatusTrip(StatusTrip status) {
+        if (status == null) {
+            return null;
+        }
+        return status.name();
+    }
 }

@@ -20,13 +20,14 @@ public class BusDTO {
             Integer capacity,
             Map<String, Object> amenities,
             @NotNull(message = "status is required")
-            StatusBus status
+            StatusBus statusBus
     ) implements Serializable {}
+
     public record BusUpdateRequest(
             @Min(value = 1)
             Integer capacity,
             Map<String, Object> amenities,
-            @NotNull StatusBus status
+            @NotNull StatusBus statusBus
     ) implements Serializable {}
 
     public record BusResponse(
@@ -34,7 +35,7 @@ public class BusDTO {
             String plate,
             Integer capacity,
             String amenities,
-            String status
+            String statusBus
     ) implements Serializable {}
 
     public record BusWithSeatsResponse(
@@ -42,7 +43,7 @@ public class BusDTO {
             String plate,
             Integer capacity,
             Map<String, Object> amenities,
-            String status,
+            String statusBus,
             Integer totalSeats,
             Integer availableSeats
     ) implements Serializable {}

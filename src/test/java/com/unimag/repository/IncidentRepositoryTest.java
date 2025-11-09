@@ -49,7 +49,7 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
         List<Incident> vehicleIncidents = incidentRepository.findByIncidentType(TypeIncident.VEHICLE);
 
         assertThat(vehicleIncidents).hasSize(2);
-        assertThat(vehicleIncidents).allMatch(i -> i.getIncidentType() == TypeIncident.VEHICLE);
+        assertThat(vehicleIncidents).allMatch(i -> i.getTypeIncident() == TypeIncident.VEHICLE);
     }
 
     @Test
@@ -94,8 +94,8 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
                 EntityType.TRIP, 100L);
 
         assertThat(incidents).hasSize(3);
-        assertThat(incidents.get(0).getIncidentType()).isEqualTo(TypeIncident.OVERBOOK);
-        assertThat(incidents.get(2).getIncidentType()).isEqualTo(TypeIncident.VEHICLE);
+        assertThat(incidents.get(0).getTypeIncident()).isEqualTo(TypeIncident.OVERBOOK);
+        assertThat(incidents.get(2).getTypeIncident()).isEqualTo(TypeIncident.VEHICLE);
     }
 
     @Test
@@ -142,27 +142,6 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
         assertThat(deliveryFailCount).isEqualTo(1);
     }
 
-//    @Test
-//    @DisplayName("Buscar incident por tipo despues de una fecha")
-//    void countByTypeAndCreatedAtAfter() {
-//
-//        var reporter = createAndSaveUser("count@example.com", "3008888888");
-//        var oneDayAgo = LocalDateTime.now().minusDays(1);
-//
-//        incidentRepository.saveAll(List.of(
-//                createIncident(EntityType.TRIP, 1L, TypeIncident.SECURITY, reporter, "Problema de seguridad: conductor y pasajero discutiendo acaloradamente."),
-//                createIncident(EntityType.TRIP, 2L, TypeIncident.SECURITY, reporter, "Pasajero se negó a mostrar su boleto y tuvo que ser escoltado fuera del autobús."),
-//                createIncident(EntityType.PARCEL, 3L, TypeIncident.DELIVERY_FAIL, reporter, "Falla en la entrega: nadie respondió en la dirección de destino. Intento fallido.")
-//        ));
-//
-//        long securityCount = incidentRepository.countByTypeAndCreatedAtAfter(
-//                EntityType.TRIP, oneDayAgo);
-//        long deliveryFailCount = incidentRepository.countByTypeAndCreatedAtAfter(
-//                EntityType.PARCEL, oneDayAgo);
-//
-//        assertThat(securityCount).isEqualTo(2);
-//        assertThat(deliveryFailCount).isEqualTo(1);
-//    }
 
     @Test
     @DisplayName("Buscar incidents asociandos a una entity")
@@ -199,7 +178,7 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
 
         assertThat(saved.getId()).isNotNull();
         assertThat(saved.getEntityType()).isEqualTo(EntityType.TRIP);
-        assertThat(saved.getIncidentType()).isEqualTo(TypeIncident.VEHICLE);
+        assertThat(saved.getTypeIncident()).isEqualTo(TypeIncident.VEHICLE);
         assertThat(saved.getCreatedAt()).isNotNull();
     }
 
@@ -222,7 +201,7 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
         assertThat(all).hasSize(6);
         assertThat(all).extracting(Incident::getEntityType)
                 .contains(EntityType.TRIP, EntityType.TICKET, EntityType.PARCEL);
-        assertThat(all).extracting(Incident::getIncidentType)
+        assertThat(all).extracting(Incident::getTypeIncident)
                 .contains(TypeIncident.SECURITY, TypeIncident.DELIVERY_FAIL,
                         TypeIncident.VEHICLE, TypeIncident.OVERBOOK);
     }
@@ -288,7 +267,7 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
         return Incident.builder()
                 .entityType(entityType)
                 .entityId(entityId)
-                .incidentType(type)
+                .typeIncident(type)
                 .note(note)
                 .reportedBy(reporter)
                 .build();
