@@ -1,4 +1,4 @@
-package com.unimag.error;
+package com.unimag.API;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.unimag.error;
+package com.unimag.API;
 
 import com.unimag.exception.NotFoundException;
 import org.hibernate.exception.ConstraintViolationException;
