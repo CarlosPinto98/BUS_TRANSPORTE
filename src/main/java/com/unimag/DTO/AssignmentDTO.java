@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class AssignmentDTO {
 
-    public record AssignmentCreateRequest(
+    public record assignmentCreateRequest(
             @NotNull(message = "tripId is required")
             Long tripId,
             @NotNull(message = "driverId is required")
@@ -15,12 +15,15 @@ public class AssignmentDTO {
             Long dispatcherId
     ) implements Serializable {}
 
-    public record AssignmentUpdateRequest(
+    public record assignmentUpdateRequest(
             @NotNull(message = "checklistOk is required")
-            Boolean checklistOk
+            Boolean checklistOk,
+            Long tripId,
+            Long driverId,
+            Long dispatcherId
     ) implements Serializable {}
 
-    public record AssignmentResponse(
+    public record assignmentResponse(
             Long id,
             Boolean checklistOk,
             LocalDateTime assignedAt,

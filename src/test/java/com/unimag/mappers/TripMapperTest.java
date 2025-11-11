@@ -27,14 +27,14 @@ class TripMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear TripCreateRequest a la entidad Trip")
+    @DisplayName("Debe mapear tripCreateRequest a la entidad Trip")
     void toEntity() {
 
         LocalDate date = LocalDate.of(2025, 12, 25);
         LocalDateTime departure = LocalDateTime.of(2025, 12, 25, 8, 0);
         LocalDateTime arrival = LocalDateTime.of(2025, 12, 25, 11, 0);
 
-        TripCreateRequest request = new TripCreateRequest(
+        tripCreateRequest request = new tripCreateRequest(
                 date,
                 departure,
                 arrival,
@@ -57,7 +57,7 @@ class TripMapperTest {
     }
 
     @Test
-    @DisplayName("Debe actualizar la entidad Trip desde TripUpdateRequest")
+    @DisplayName("Debe actualizar la entidad Trip desde tripUpdateRequest")
     void updateEntity() {
 
         Trip existingTrip = Trip.builder()
@@ -71,7 +71,7 @@ class TripMapperTest {
         LocalDateTime newDeparture = LocalDateTime.of(2025, 12, 25, 9, 0);
         LocalDateTime newArrival = LocalDateTime.of(2025, 12, 25, 12, 0);
 
-        TripUpdateRequest request = new TripUpdateRequest(
+        tripUpdateRequest request = new tripUpdateRequest(
                 newDeparture,
                 newArrival,
                 3L,
@@ -87,7 +87,7 @@ class TripMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Trip a TripResponse")
+    @DisplayName("Debe mapear la entidad Trip a tripResponse")
     void toResponse() {
 
         Route route = Route.builder()
@@ -122,7 +122,7 @@ class TripMapperTest {
                 .bus(bus)
                 .build();
 
-        TripResponse response = tripMapper.toResponse(trip);
+        tripResponse response = tripMapper.toResponse(trip);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -141,14 +141,14 @@ class TripMapperTest {
 
 
     @Test
-    @DisplayName("Debe mapear TripCreateRequest sin asignación de bus")
+    @DisplayName("Debe mapear tripCreateRequest sin asignación de bus")
     void mapBus() {
 
         LocalDate date = LocalDate.of(2025, 12, 25);
         LocalDateTime departure = LocalDateTime.of(2025, 12, 25, 8, 0);
         LocalDateTime arrival = LocalDateTime.of(2025, 12, 25, 11, 0);
 
-        TripCreateRequest request = new TripCreateRequest(
+        tripCreateRequest request = new tripCreateRequest(
                 date,
                 departure,
                 arrival,
@@ -176,7 +176,7 @@ class TripMapperTest {
                     .bus(Bus.builder().id(1L).plate("TEST").capacity(40).build())
                     .build();
 
-            TripResponse response = tripMapper.toResponse(trip);
+            tripResponse response = tripMapper.toResponse(trip);
 
             assertEquals(status.name(), response.statusTrip());
         }
@@ -202,7 +202,7 @@ class TripMapperTest {
                 .bus(null)
                 .build();
 
-        TripResponse response = tripMapper.toResponse(trip);
+        tripResponse response = tripMapper.toResponse(trip);
 
         assertNotNull(response);
         assertNull(response.busId());
@@ -217,7 +217,7 @@ class TripMapperTest {
         LocalDateTime departure1 = LocalDateTime.of(2025, 1, 1, 0, 30);
         LocalDateTime arrival1 = LocalDateTime.of(2025, 1, 1, 3, 30);
 
-        TripCreateRequest request1 = new TripCreateRequest(
+        tripCreateRequest request1 = new tripCreateRequest(
                 date1, departure1, arrival1, 1L, null
         );
 
@@ -229,7 +229,7 @@ class TripMapperTest {
         LocalDateTime departure2 = LocalDateTime.of(2025, 12, 31, 23, 0);
         LocalDateTime arrival2 = LocalDateTime.of(2026, 1, 1, 2, 0);
 
-        TripCreateRequest request2 = new TripCreateRequest(
+        tripCreateRequest request2 = new tripCreateRequest(
                 date2, departure2, arrival2, 1L, null
         );
 
@@ -245,7 +245,7 @@ class TripMapperTest {
         LocalDateTime departure = LocalDateTime.of(2025, 6, 15, 14, 30);
         LocalDateTime arrival = LocalDateTime.of(2025, 6, 15, 18, 45);
 
-        TripCreateRequest request = new TripCreateRequest(
+        tripCreateRequest request = new tripCreateRequest(
                 date, departure, arrival, 100L, 200L
         );
 
@@ -264,7 +264,7 @@ class TripMapperTest {
                 .capacity(50)
                 .build());
 
-        TripResponse response = tripMapper.toResponse(trip);
+        tripResponse response = tripMapper.toResponse(trip);
 
         assertEquals(999L, response.id());
         assertEquals(date, response.date());
@@ -287,7 +287,7 @@ class TripMapperTest {
         LocalDateTime departure = LocalDateTime.now().withHour(10).withMinute(0);
         LocalDateTime arrival = departure.plusMinutes(45);
 
-        TripCreateRequest request = new TripCreateRequest(
+        tripCreateRequest request = new tripCreateRequest(
                 date, departure, arrival, 1L, 1L
         );
 

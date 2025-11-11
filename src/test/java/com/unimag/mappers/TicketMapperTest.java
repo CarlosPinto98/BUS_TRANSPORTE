@@ -24,10 +24,10 @@ class TicketMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear TicketCreateRequest a la entidad Ticket")
+    @DisplayName("Debe mapear ticketCreateRequest a la entidad Ticket")
     void toEntity() {
 
-        TicketCreateRequest request = new TicketCreateRequest(
+        ticketCreateRequest request = new ticketCreateRequest(
                 1L,
                 2L,
                 3L,
@@ -49,7 +49,7 @@ class TicketMapperTest {
     }
 
     @Test
-    @DisplayName("Debe actualizar la entidad Ticket desde TicketUpdateRequest")
+    @DisplayName("Debe actualizar la entidad Ticket desde ticketUpdateRequest")
     void updateEntity() {
 
         Ticket existingTicket = Ticket.builder()
@@ -61,7 +61,7 @@ class TicketMapperTest {
                 .qrCode("QR-123")
                 .build();
 
-        TicketUpdateRequest request = new TicketUpdateRequest(
+        ticketUpdateRequest request = new ticketUpdateRequest(
                 StatusTicket.CANCELLED
         );
 
@@ -75,7 +75,7 @@ class TicketMapperTest {
     @Test
     @DisplayName("Debe generar códigos QR únicos")
     void shouldGenerateUniqueQrCodes() {
-        TicketCreateRequest request = new TicketCreateRequest(
+        ticketCreateRequest request = new ticketCreateRequest(
                 1L, 2L, 3L, 4L, "1A", PaymentMethod.CASH
         );
 
@@ -86,7 +86,7 @@ class TicketMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Ticket a TicketResponse")
+    @DisplayName("Debe mapear la entidad Ticket a ticketResponse")
     void toResponse() {
 
         Route route = Route.builder()
@@ -132,7 +132,7 @@ class TicketMapperTest {
                 .createdAt(createdAt)
                 .build();
 
-        TicketResponse response = ticketMapper.toResponse(ticket);
+        ticketResponse response = ticketMapper.toResponse(ticket);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -177,7 +177,7 @@ class TicketMapperTest {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        TicketResponse response = ticketMapper.toResponse(ticket);
+        ticketResponse response = ticketMapper.toResponse(ticket);
 
         assertEquals("2025-01-05", response.tripDate());
     }
@@ -186,7 +186,7 @@ class TicketMapperTest {
     @DisplayName("Debe mapear todos los tipos de PaymentMethod correctamente")
     void MapAllPaymentMethodTypes() {
         for (PaymentMethod method : PaymentMethod.values()) {
-            TicketCreateRequest request = new TicketCreateRequest(
+            ticketCreateRequest request = new ticketCreateRequest(
                     1L, 2L, 3L, 4L, "1A", method
             );
 
@@ -206,7 +206,7 @@ class TicketMapperTest {
             ticket.setFromStop(Stop.builder().id(1L).name("A").build());
             ticket.setToStop(Stop.builder().id(2L).name("B").build());
 
-            TicketResponse response = ticketMapper.toResponse(ticket);
+            ticketResponse response = ticketMapper.toResponse(ticket);
             assertEquals(method.name(), response.paymentMethod());
         }
     }
@@ -233,7 +233,7 @@ class TicketMapperTest {
                     .createdAt(LocalDateTime.now())
                     .build();
 
-            TicketResponse response = ticketMapper.toResponse(ticket);
+            ticketResponse response = ticketMapper.toResponse(ticket);
 
             assertEquals(status.name(), response.statusTicket());
         }
@@ -242,10 +242,10 @@ class TicketMapperTest {
     @Test
     @DisplayName("Debe manejar la generación de códigos QR para diferentes viajes")
     void HandleQrCodeGenerationForDifferentTrips() {
-        TicketCreateRequest request1 = new TicketCreateRequest(
+        ticketCreateRequest request1 = new ticketCreateRequest(
                 1L, 2L, 3L, 4L, "1A", PaymentMethod.CASH
         );
-        TicketCreateRequest request2 = new TicketCreateRequest(
+        ticketCreateRequest request2 = new ticketCreateRequest(
                 5L, 2L, 3L, 4L, "2B", PaymentMethod.CARD
         );
 
@@ -263,7 +263,7 @@ class TicketMapperTest {
         String[] seatNumbers = {"1A", "10B", "VIP-5", "PREF_1"};
 
         for (String seatNumber : seatNumbers) {
-            TicketCreateRequest request = new TicketCreateRequest(
+            ticketCreateRequest request = new ticketCreateRequest(
                     1L, 2L, 3L, 4L, seatNumber, PaymentMethod.CASH
             );
 
@@ -275,7 +275,7 @@ class TicketMapperTest {
     @Test
     @DisplayName("Debe preservar todos los campos durante el ciclo completo de mapeo")
     void PreserveAllFieldsDuringFullCycleMapping() {
-        TicketCreateRequest request = new TicketCreateRequest(
+        ticketCreateRequest request = new ticketCreateRequest(
                 100L, 200L, 300L, 400L, "VIP-1", PaymentMethod.QR
         );
 
@@ -302,7 +302,7 @@ class TicketMapperTest {
                 .name("End Point")
                 .build());
 
-        TicketResponse response = ticketMapper.toResponse(ticket);
+        ticketResponse response = ticketMapper.toResponse(ticket);
 
         assertEquals(999L, response.id());
         assertEquals(100L, response.tripId());

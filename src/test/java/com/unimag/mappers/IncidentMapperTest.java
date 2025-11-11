@@ -24,10 +24,10 @@ class IncidentMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear IncidentCreateRequest a la entidad Incident")
+    @DisplayName("Debe mapear incidentCreateRequest a la entidad Incident")
     void toEntity() {
 
-        IncidentCreateRequest request = new IncidentCreateRequest(
+        incidentCreateRequest request = new incidentCreateRequest(
                 EntityType.TRIP,
                 1L,
                 TypeIncident.VEHICLE,
@@ -50,7 +50,7 @@ class IncidentMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Incident a IncidentResponse")
+    @DisplayName("Debe mapear la entidad Incident a incidentResponse")
     void toResponse() {
 
         User reporter = User.builder().id(2L).name("Reporter User").build();
@@ -66,7 +66,7 @@ class IncidentMapperTest {
                 .createdAt(createdAt)
                 .build();
 
-        IncidentResponse response = incidentMapper.toResponse(incident);
+        incidentResponse response = incidentMapper.toResponse(incident);
 
         assertNotNull(response);
         assertEquals(1L, response.id());

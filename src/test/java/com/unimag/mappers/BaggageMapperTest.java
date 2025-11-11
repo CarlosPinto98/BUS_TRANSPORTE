@@ -22,10 +22,10 @@ class BaggageMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear BaggageCreateRequest a la entidad Baggage")
+    @DisplayName("Debe mapear baggageCreateRequest a la entidad Baggage")
     void toEntity() {
 
-        BaggageCreateRequest request = new BaggageCreateRequest(
+        baggageCreateRequest request = new baggageCreateRequest(
                 1L,
                 new BigDecimal("25.50")
         );
@@ -46,7 +46,7 @@ class BaggageMapperTest {
     @Test
     @DisplayName("Debe calcular la tarifa correctamente para peso inferior a 20kg")
     void CalculateFeeForWeightUnder20Kg() {
-        BaggageCreateRequest request = new BaggageCreateRequest(1L, new BigDecimal("15.0"));
+        baggageCreateRequest request = new baggageCreateRequest(1L, new BigDecimal("15.0"));
 
         Baggage baggage = baggageMapper.toEntity(request);
 
@@ -54,7 +54,7 @@ class BaggageMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Baggage a BaggageResponse")
+    @DisplayName("Debe mapear la entidad Baggage a baggageResponse")
     void toResponse() {
 
         Trip trip = Trip.builder().id(1L)
@@ -75,7 +75,7 @@ class BaggageMapperTest {
                 .ticket(ticket)
                 .build();
 
-        BaggageResponse response = baggageMapper.toResponse(baggage);
+        baggageResponse response = baggageMapper.toResponse(baggage);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -93,7 +93,7 @@ class BaggageMapperTest {
     @Test
     @DisplayName("Debe calcular la tarifa correctamente para peso superior a 20kg")
     void CalculateFeeForWeightOver20Kg() {
-        BaggageCreateRequest request = new BaggageCreateRequest(1L, new BigDecimal("25.0"));
+        baggageCreateRequest request = new baggageCreateRequest(1L, new BigDecimal("25.0"));
 
         Baggage baggage = baggageMapper.toEntity(request);
 

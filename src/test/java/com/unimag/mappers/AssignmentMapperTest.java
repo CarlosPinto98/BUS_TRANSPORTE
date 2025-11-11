@@ -1,6 +1,5 @@
 package com.unimag.mappers;
 
-import com.unimag.DTO.AssignmentDTO;
 import com.unimag.DTO.AssignmentDTO.*;
 import com.unimag.entities.Assignment;
 import com.unimag.entities.Enums.StatusTrip;
@@ -26,10 +25,10 @@ class AssignmentMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear AssignmentCreateRequest a la entidad Assignment")
+    @DisplayName("Debe mapear assignmentCreateRequest a la entidad Assignment")
     void toEntity() {
 
-        AssignmentCreateRequest request = new AssignmentDTO.AssignmentCreateRequest(
+        assignmentCreateRequest request = new assignmentCreateRequest(
                 1L,
                 2L,
                 3L
@@ -43,7 +42,7 @@ class AssignmentMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Assignment a AssignmentResponse")
+    @DisplayName("Debe mapear la entidad Assignment a assignmentResponse")
     void toResponse() {
 
         Route route = Route.builder().id(1L)
@@ -71,7 +70,7 @@ class AssignmentMapperTest {
                 .assignedAt(assignedAt)
                 .build();
 
-        AssignmentResponse response = assignmentMapper.toResponse(assignment);
+        assignmentResponse response = assignmentMapper.toResponse(assignment);
 
         assertNotNull(response);
         assertEquals(1L, response.id());

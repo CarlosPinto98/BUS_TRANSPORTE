@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class StopDTO {
 
-    public record StopCreateRequest(
+    public record stopCreateRequest(
             @NotBlank(message = "name is required")
             String name,
             @NotNull @Min(0)
@@ -20,11 +20,11 @@ public class StopDTO {
             @NotNull(message = "routeId is required")
             Long routeId) implements Serializable {}
 
-    public record StopUpdateRequest(
+    public record stopUpdateRequest(
             @NotBlank String name,
             @Min(0) Integer order) implements Serializable {}
 
-    public record StopResponse(
+    public record stopResponse(
             Long id,
             String name,
             Integer order,

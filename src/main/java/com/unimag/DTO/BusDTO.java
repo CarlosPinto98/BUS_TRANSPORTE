@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class BusDTO {
 
-    public record BusCreateRequest(
+    public record busCreateRequest(
             @NotBlank(message = "plate is required")
             @Size(max = 20, message = "plate must not exceed 20 characters")
             String plate,
@@ -23,14 +23,14 @@ public class BusDTO {
             StatusBus statusBus
     ) implements Serializable {}
 
-    public record BusUpdateRequest(
+    public record busUpdateRequest(
             @Min(value = 1)
             Integer capacity,
             Map<String, Object> amenities,
             @NotNull StatusBus statusBus
     ) implements Serializable {}
 
-    public record BusResponse(
+    public record busResponse(
             Long id,
             String plate,
             Integer capacity,
@@ -38,7 +38,7 @@ public class BusDTO {
             String statusBus
     ) implements Serializable {}
 
-    public record BusWithSeatsResponse(
+    public record busWithSeatsResponse(
             Long id,
             String plate,
             Integer capacity,

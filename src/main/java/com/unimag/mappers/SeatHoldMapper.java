@@ -22,10 +22,10 @@ public interface SeatHoldMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "seatNumber", source = "seatNumber")
     @Mapping(target = "statusSeatHold", ignore = true)
-    SeatHold toEntity(SeatHoldCreateRequest dto);
+    SeatHold toEntity(seatHoldCreateRequest dto);
 
     @Mapping(target = "statusSeatHold", source = "statusSeatHold")
-    void updateEntity(SeatHoldUpdateRequest dto, @MappingTarget SeatHold entity);
+    void updateEntity(seatHoldUpdateRequest dto, @MappingTarget SeatHold entity);
 
     @Mapping(target = "tripId", source = "trip.id")
     @Mapping(target = "userId", source = "user.id")
@@ -33,7 +33,7 @@ public interface SeatHoldMapper {
     @Mapping(target = "tripTime", source = "trip.departureAt", qualifiedByName = "formatTime")
     @Mapping(target = "routeName", source = "trip.route.name")
     @Mapping(target = "minutesLeft", source = "expiresAt", qualifiedByName = "calculateMinutesLeft")
-    SeatHoldResponse toResponse(SeatHold entity);
+    seatHoldResponse toResponse(SeatHold entity);
 
     @Named("mapTrip")
     default Trip mapTrip(Long id) {

@@ -8,18 +8,18 @@ import java.math.BigDecimal;
 
 public class BaggageDTO {
 
-    public record BaggageCreateRequest(
+    public record baggageCreateRequest(
             @NotNull(message = "ticketId is required")
             Long ticketId,
             @NotNull @DecimalMin(value = "0.0", message = "weight must be positive")
             BigDecimal weightKg
     ) implements Serializable {}
 
-    public record BaggageUpdateRequest(
+    public record baggageUpdateRequest(
             @DecimalMin("0.0") BigDecimal fee
     ) implements Serializable {}
 
-    public record BaggageResponse(
+    public record baggageResponse(
             Long id,
             BigDecimal weightKg,
             BigDecimal fee,

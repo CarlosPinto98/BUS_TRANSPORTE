@@ -16,10 +16,10 @@ public interface IncidentMapper {
     @Mapping(target = "note", source = "note")
     @Mapping(target = "reportedBy",  ignore = true, qualifiedByName = "mapUser")
     @Mapping(target = "createdAt", ignore = true)
-    Incident toEntity(IncidentCreateRequest dto);
+    Incident toEntity(incidentCreateRequest dto);
 
     @Mapping(target = "note", source = "note")
-    void updateEntity(IncidentUpdateRequest dto, @MappingTarget Incident entity);
+    void updateEntity(incidentUpdateRequest dto, @MappingTarget Incident entity);
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "entityType", source = "entityType", qualifiedByName = "enumToString")
@@ -29,7 +29,7 @@ public interface IncidentMapper {
     @Mapping(target = "reportedBy", source = "reportedBy.id")
     @Mapping(target = "reportedByName", source = "reportedBy.name")
     @Mapping(target = "createdAt", source = "createdAt")
-    IncidentResponse toResponse(Incident entity);
+    incidentResponse toResponse(Incident entity);
 
     @Named("mapUser")
     default User mapUser(Long id) {

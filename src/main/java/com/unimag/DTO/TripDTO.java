@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public class TripDTO {
 
-    public record TripCreateRequest(
+    public record tripCreateRequest(
             @NotNull(message = "date is required")
             @FutureOrPresent(message = "date must be today or in the future")
             LocalDate date,
@@ -26,7 +26,7 @@ public class TripDTO {
 
             Long busId) implements Serializable {}
 
-    public record TripUpdateRequest(
+    public record tripUpdateRequest(
             @NotNull(message = "departureAt is required")
             LocalDateTime departureAt,
             @NotNull(message = "arrivalEta is required")
@@ -35,7 +35,7 @@ public class TripDTO {
             @NotNull(message = "status is required")
             StatusTrip statusTrip) implements Serializable {}
 
-    public record TripResponse(
+    public record tripResponse(
             Long id,
             LocalDate date,
             LocalDateTime departureAt,

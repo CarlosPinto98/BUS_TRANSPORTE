@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 public class ParcelDTO {
 
-    public record ParcelCreateRequest(
+    public record parcelCreateRequest(
             @NotBlank String senderName,
             @NotBlank
             @Pattern(regexp = "\\d{10}", message = "phone must be exactly 10 digits")
@@ -27,13 +27,13 @@ public class ParcelDTO {
             @NotNull Long toStopId,
             Long tripId) implements Serializable {}
 
-    public record ParcelUpdateRequest(
+    public record parcelUpdateRequest(
             @NotNull(message = "status is required")
             StatusParcel statusParcel,
             String proofPhotoUrl,
             String deliveryOtp) implements Serializable {}
 
-    public record ParcelResponse(
+    public record parcelResponse(
             Long id,
             String code,
             String senderName,

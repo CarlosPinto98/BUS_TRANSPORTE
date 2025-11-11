@@ -27,10 +27,10 @@ public interface ParcelMapper {
     @Mapping(target = "deliveryOtp", ignore = true)  // Se establece en @AfterMapping
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "deliveredAt", ignore = true)
-    Parcel toEntity(ParcelCreateRequest dto);
+    Parcel toEntity(parcelCreateRequest dto);
 
     @AfterMapping
-    default void generateCodeAndOtp(ParcelCreateRequest request, @MappingTarget Parcel parcel) {
+    default void generateCodeAndOtp(parcelCreateRequest request, @MappingTarget Parcel parcel) {
         parcel.setCode("PCL-" + System.currentTimeMillis());
 
         Random random = new Random();
@@ -55,7 +55,7 @@ public interface ParcelMapper {
     // ← NO pongas @Mapping para statusParcel aquí, MapStruct mapeará automáticamente "delivered" → "statusParcel"
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
             unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
-    void updateEntity(ParcelUpdateRequest dto, @MappingTarget Parcel parcel);
+    void updateEntity(parcelUpdateRequest dto, @MappingTarget Parcel parcel);
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "code", source = "code")
@@ -63,7 +63,7 @@ public interface ParcelMapper {
     @Mapping(target = "fromStopId", source = "fromStop.id")
     @Mapping(target = "toStopId", source = "toStop.id")
     @Mapping(target = "tripId", source = "trip.id")
-    ParcelResponse toResponse(Parcel entity);
+    parcelResponse toResponse(Parcel entity);
 
     @Named("mapStop")
     default Stop mapStop(Long id) {

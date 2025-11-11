@@ -16,14 +16,14 @@ public interface UserMapper {
     @Mapping(target = "email", source = "email")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "passwordHash", ignore = true)
-    User toEntity(UserCreateRequest dto);
+    User toEntity(userCreateRequest dto);
 
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "statusUser", source = "statusUser")
-    void updateEntity(UserUpdateRequest dto, @MappingTarget User user);
+    void updateEntity(userUpdateRequest dto, @MappingTarget User user);
 
     @Mapping(target = "role", source = "role")
     @Mapping(target = "statusUser", source = "statusUser")
-    UserResponse toResponse(User entity);
+    userResponse toResponse(User entity);
 
 }

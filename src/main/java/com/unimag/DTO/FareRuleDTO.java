@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class FareRuleDTO {
 
-    public record FareRuleCreateRequest(
+    public record fareRuleCreateRequest(
             @NotNull @DecimalMin("0.0") BigDecimal basePrice,
             Map<String, Object> discounts,
             @NotNull DynamicPricing dynamicPricing,
@@ -19,13 +19,13 @@ public class FareRuleDTO {
             @NotNull Long toStopId
     ) implements Serializable {}
 
-    public record FareRuleUpdateRequest(
+    public record fareRuleUpdateRequest(
             @DecimalMin("0.0") BigDecimal basePrice,
             Map<String, Object> discounts,
             DynamicPricing dynamicPricing
     ) implements Serializable {}
 
-    public record FareRuleResponse(
+    public record fareRuleResponse(
             Long id,
             BigDecimal basePrice,
             Map<String, Object> discounts,

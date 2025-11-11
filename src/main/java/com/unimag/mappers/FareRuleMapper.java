@@ -19,13 +19,13 @@ public interface FareRuleMapper {
     @Mapping(target = "route", source = "routeId", qualifiedByName = "mapRoute")
     @Mapping(target = "fromStop", source = "fromStopId", qualifiedByName = "mapStop")
     @Mapping(target = "toStop", source = "toStopId", qualifiedByName = "mapStop")
-    FareRule toEntity(FareRuleCreateRequest dto);
+    FareRule toEntity(fareRuleCreateRequest dto);
 
 
     @Mapping(target = "basePrice", source = "basePrice")
     @Mapping(target = "discounts", source = "discounts")
     @Mapping(target = "dynamicPricing", source = "dynamicPricing")
-    void updateEntity(FareRuleUpdateRequest dto, @MappingTarget FareRule entity);
+    void updateEntity(fareRuleUpdateRequest dto, @MappingTarget FareRule entity);
 
     @Mapping(target = "routeId", source = "route.id")
     @Mapping(target = "fromStopId", source = "fromStop.id")
@@ -33,7 +33,7 @@ public interface FareRuleMapper {
     @Mapping(target = "fromStopName", source = "fromStop.name")
     @Mapping(target = "toStopName", source = "toStop.name")
     @Mapping(target = "dynamicPricing", source = "dynamicPricing")
-    FareRuleResponse toResponse(FareRule entity);
+    fareRuleResponse toResponse(FareRule entity);
 
     @Named("mapRoute")
     default Route mapRoute(Long id) {

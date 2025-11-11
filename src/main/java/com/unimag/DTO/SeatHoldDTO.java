@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public class SeatHoldDTO {
 
-    public record SeatHoldCreateRequest(
+    public record seatHoldCreateRequest(
             @NotNull(message = "tripId is required")
             Long tripId,
             @NotBlank(message = "seatNumber is required")
@@ -21,11 +21,11 @@ public class SeatHoldDTO {
             @NotNull(message = "toStopId is required")
             Long toStopId) implements Serializable {}
 
-    public record SeatHoldUpdateRequest(
+    public record seatHoldUpdateRequest(
             @NotNull(message = "status is required")
             StatusSeatHold statusSeatHold) implements Serializable {}
 
-    public record SeatHoldResponse(
+    public record seatHoldResponse(
             Long id,
             String seatNumber,
             LocalDateTime expiresAt,

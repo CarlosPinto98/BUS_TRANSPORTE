@@ -26,14 +26,14 @@ class FareRuleMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear FareRuleCreateRequest a la entidad FareRule")
+    @DisplayName("Debe mapear fareRuleCreateRequest a la entidad FareRule")
     void toEntity() {
 
         Map<String, Object> discounts = new HashMap<>();
         discounts.put("student", 0.15);
         discounts.put("senior", 0.20);
 
-        FareRuleCreateRequest request = new FareRuleCreateRequest(
+        fareRuleCreateRequest request = new fareRuleCreateRequest(
                 new BigDecimal("50000"),
                 discounts,
                 DynamicPricing.ON,
@@ -52,7 +52,7 @@ class FareRuleMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad FareRule a FareRuleResponse")
+    @DisplayName("Debe mapear la entidad FareRule a fareRuleResponse")
     void toResponse() {
 
         Route route = Route.builder().id(1L).build();
@@ -72,7 +72,7 @@ class FareRuleMapperTest {
                 .toStop(toStop)
                 .build();
 
-        FareRuleResponse response = fareRuleMapper.toResponse(fareRule);
+        fareRuleResponse response = fareRuleMapper.toResponse(fareRule);
 
         assertNotNull(response);
         assertEquals(1L, response.id());

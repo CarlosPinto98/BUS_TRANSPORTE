@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class UserDTO {
 
-    public record UserCreateRequest(
+    public record userCreateRequest(
             @NotBlank(message = "name is required")
             String name,
             @NotBlank(message = "email is required")
@@ -24,7 +24,7 @@ public class UserDTO {
             @Size(min = 8, message = "password must be at least 8 characters")
             String password) implements Serializable {}
 
-    public record UserUpdateRequest(
+    public record userUpdateRequest(
             @NotBlank(message = "username is required")
             String name,
             @NotBlank(message = "phone is required")
@@ -52,7 +52,7 @@ public class UserDTO {
             boolean emailAvailable,
             boolean phoneAvailable) implements Serializable {}
 
-    public record UserResponse(
+    public record userResponse(
             Long id,
             String name,
             String email,

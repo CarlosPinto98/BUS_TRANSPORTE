@@ -22,10 +22,10 @@ class UserMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear UserCreateRequest a la entidad User")
+    @DisplayName("Debe mapear userCreateRequest a la entidad User")
     void toEntity() {
 
-        UserCreateRequest request = new UserCreateRequest(
+        userCreateRequest request = new userCreateRequest(
                 "John Doe",
                 "john.doe@example.com",
                 "3001234567",
@@ -57,7 +57,7 @@ class UserMapperTest {
     }
 
     @Test
-    @DisplayName("Debe actualizar la entidad User desde UserUpdateRequest")
+    @DisplayName("Debe actualizar la entidad User desde userUpdateRequest")
     void updateEntity() {
 
         User existingUser = User.builder()
@@ -71,7 +71,7 @@ class UserMapperTest {
                 .createAt(LocalDateTime.now())
                 .build();
 
-        UserUpdateRequest request = new UserUpdateRequest(
+        userUpdateRequest request = new userUpdateRequest(
                 "New Name",
                 "3001111111",
                 StatusUser.INACTIVE
@@ -87,7 +87,7 @@ class UserMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad User a UserResponse")
+    @DisplayName("Debe mapear la entidad User a userResponse")
     void toResponse() {
 
         LocalDateTime now = LocalDateTime.now();
@@ -102,7 +102,7 @@ class UserMapperTest {
                 .createAt(now)
                 .build();
 
-        UserResponse response = userMapper.toResponse(user);
+        userResponse response = userMapper.toResponse(user);
 
 
         assertNotNull(response);
@@ -116,10 +116,10 @@ class UserMapperTest {
     }
 
     @Test
-    @DisplayName("Debe manejar valores nulos en UserCreateRequest")
+    @DisplayName("Debe manejar valores nulos en userCreateRequest")
     void shouldHandleNullValuesInCreateRequest() {
         // Given
-        UserCreateRequest request = new UserCreateRequest(
+        userCreateRequest request = new userCreateRequest(
                 null,
                 null,
                 null,
@@ -140,7 +140,7 @@ class UserMapperTest {
     @DisplayName("Debe mapear todos los tipos de UserRole correctamente")
     void shouldMapAllUserRoles() {
         for (Role role : Role.values()) {
-            UserCreateRequest request = new UserCreateRequest(
+            userCreateRequest request = new userCreateRequest(
                     "Test User",
                     "test@example.com",
                     "3001234567",
@@ -155,7 +155,7 @@ class UserMapperTest {
             user.setCreateAt(LocalDateTime.now());
             user.setPasswordHash("hash");
 
-            UserResponse response = userMapper.toResponse(user);
+            userResponse response = userMapper.toResponse(user);
             assertEquals(role.name(), response.role());
         }
     }
@@ -175,7 +175,7 @@ class UserMapperTest {
                     .createAt(LocalDateTime.now())
                     .build();
 
-            UserResponse response = userMapper.toResponse(user);
+            userResponse response = userMapper.toResponse(user);
             assertEquals(status.name(), response.statusUser());
         }
     }

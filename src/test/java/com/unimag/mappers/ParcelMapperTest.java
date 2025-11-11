@@ -25,10 +25,10 @@ class ParcelMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear ParcelCreateRequest a la entidad Parcel")
+    @DisplayName("Debe mapear parcelCreateRequest a la entidad Parcel")
     void toEntity() {
 
-        ParcelCreateRequest request = new ParcelCreateRequest(
+        parcelCreateRequest request = new parcelCreateRequest(
                 "John Sender",
                 "3001234567",
                 "Jane Receiver",
@@ -59,7 +59,7 @@ class ParcelMapperTest {
     @Test
     @DisplayName("Debe generar códigos de envío únicos")
     void shouldGenerateUniqueParcelCodes() {
-        ParcelCreateRequest request = new ParcelCreateRequest(
+        parcelCreateRequest request = new parcelCreateRequest(
                 "Sender", "3001234567", "Receiver", "3009876543",
                 new BigDecimal("10000"), 1L, 2L, null
         );
@@ -74,7 +74,7 @@ class ParcelMapperTest {
     @Test
     @DisplayName("Debe generar OTP con 6 dígitos")
     void shouldGenerateOtpWith6Digits() {
-        ParcelCreateRequest request = new ParcelCreateRequest(
+        parcelCreateRequest request = new parcelCreateRequest(
                 "Sender", "3001234567", "Receiver", "3009876543",
                 new BigDecimal("10000"), 1L, 2L, null
         );
@@ -87,7 +87,7 @@ class ParcelMapperTest {
     }
 
     @Test
-    @DisplayName("Debe actualizar la entidad Parcel desde ParcelUpdateRequest")
+    @DisplayName("Debe actualizar la entidad Parcel desde parcelUpdateRequest")
     void updateEntity() {
 
         Parcel existingParcel = Parcel.builder()
@@ -102,7 +102,7 @@ class ParcelMapperTest {
                 .deliveryOtp("123456")
                 .build();
 
-        ParcelUpdateRequest request = new ParcelUpdateRequest(
+        parcelUpdateRequest request = new parcelUpdateRequest(
                 StatusParcel.DELIVERED,
                 "https://example.com/photo.jpg",
                 "123456"
@@ -118,7 +118,7 @@ class ParcelMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Parcel a ParcelResponse")
+    @DisplayName("Debe mapear la entidad Parcel a parcelResponse")
     void toResponse() {
 
         Stop fromStop = Stop.builder()
@@ -156,7 +156,7 @@ class ParcelMapperTest {
                 .trip(trip)
                 .build();
 
-        ParcelResponse response = parcelMapper.toResponse(parcel);
+        parcelResponse response = parcelMapper.toResponse(parcel);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -195,7 +195,7 @@ class ParcelMapperTest {
                     .toStop(Stop.builder().id(2L).build())
                     .build();
 
-            ParcelResponse response = parcelMapper.toResponse(parcel);
+            parcelResponse response = parcelMapper.toResponse(parcel);
 
             assertEquals(status.name(), response.statusParcel());
         }
@@ -220,7 +220,7 @@ class ParcelMapperTest {
                 .trip(null)
                 .build();
 
-        ParcelResponse response = parcelMapper.toResponse(parcel);
+        parcelResponse response = parcelMapper.toResponse(parcel);
 
         assertNull(response.tripId());
     }
@@ -245,7 +245,7 @@ class ParcelMapperTest {
                 .toStop(Stop.builder().id(2L).build())
                 .build();
 
-        ParcelResponse response = parcelMapper.toResponse(parcel);
+        parcelResponse response = parcelMapper.toResponse(parcel);
 
         assertNull(response.proofPhotoUrl());
         assertNull(response.deliveredAt());
@@ -254,7 +254,7 @@ class ParcelMapperTest {
     @Test
     @DisplayName("Debe validar el formato del número de teléfono")
     void shouldValidatePhoneNumberFormat() {
-        ParcelCreateRequest request = new ParcelCreateRequest(
+        parcelCreateRequest request = new parcelCreateRequest(
                 "Sender",
                 "3001234567",
                 "Receiver",
@@ -282,7 +282,7 @@ class ParcelMapperTest {
         };
 
         for (BigDecimal price : prices) {
-            ParcelCreateRequest request = new ParcelCreateRequest(
+            parcelCreateRequest request = new parcelCreateRequest(
                     "Sender", "3001234567", "Receiver", "3009876543",
                     price, 1L, 2L, null
             );
@@ -295,7 +295,7 @@ class ParcelMapperTest {
     @Test
     @DisplayName("Debe preservar todos los campos durante el ciclo completo de mapeo")
     void shouldPreserveAllFieldsDuringFullCycleMapping() {
-        ParcelCreateRequest request = new ParcelCreateRequest(
+        parcelCreateRequest request = new parcelCreateRequest(
                 "Complete Sender",
                 "3001111111",
                 "Complete Receiver",
@@ -320,7 +320,7 @@ class ParcelMapperTest {
         parcel.setTrip(Trip.builder().id(300L).build());
         parcel.setStatusParcel(StatusParcel.DELIVERED);
 
-        ParcelResponse response = parcelMapper.toResponse(parcel);
+        parcelResponse response = parcelMapper.toResponse(parcel);
 
         assertEquals(999L, response.id());
         assertTrue(response.code().startsWith("PCL-"));

@@ -29,7 +29,7 @@ class BusMapperTest {
 
 
     @Test
-    @DisplayName("Debe mapear BusCreateRequest a la entidad Bus")
+    @DisplayName("Debe mapear busCreateRequest a la entidad Bus")
     void toEntity() {
 
         Map<String, Object> amenities = new HashMap<>();
@@ -37,7 +37,7 @@ class BusMapperTest {
         amenities.put("ac", true);
         amenities.put("tv", false);
 
-        BusCreateRequest request = new BusCreateRequest(
+        busCreateRequest request = new busCreateRequest(
                 "ABC123",
                 45,
                 amenities,
@@ -57,7 +57,7 @@ class BusMapperTest {
     }
 
     @Test
-    @DisplayName("Debe actualizar la entidad Bus desde BusUpdateRequest")
+    @DisplayName("Debe actualizar la entidad Bus desde busUpdateRequest")
     void updateEntity() {
 
         Map<String, Object> oldAmenities = new HashMap<>();
@@ -75,7 +75,7 @@ class BusMapperTest {
         newAmenities.put("wifi", true);
         newAmenities.put("bathroom", true);
 
-        BusUpdateRequest request = new BusUpdateRequest(
+        busUpdateRequest request = new busUpdateRequest(
                 50,
                 newAmenities,
                 StatusBus.MAINTENANCE
@@ -91,7 +91,7 @@ class BusMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Bus a BusResponse")
+    @DisplayName("Debe mapear la entidad Bus a busResponse")
     void toResponse() {
 
         Map<String, Object> amenities = new HashMap<>();
@@ -106,7 +106,7 @@ class BusMapperTest {
                 .statusBus(StatusBus.ACTIVE)
                 .build();
 
-        BusResponse response = busMapper.toResponse(bus);
+        busResponse response = busMapper.toResponse(bus);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -116,7 +116,7 @@ class BusMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear Bus con asientos a BusWithSeatsResponse")
+    @DisplayName("Debe mapear Bus con asientos a busWithSeatsResponse")
     void toResponseWithSeats() {
 
         Bus bus = Bus.builder()
@@ -140,7 +140,7 @@ class BusMapperTest {
 
         Integer availableSeats = 30;
 
-        BusWithSeatsResponse response = busMapper.toResponseWithSeats(bus, availableSeats);
+        busWithSeatsResponse response = busMapper.toResponseWithSeats(bus, availableSeats);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -154,7 +154,7 @@ class BusMapperTest {
     @Test
     @DisplayName("Debe manejar un mapa de comodidades vacío")
     void shouldHandleEmptyAmenitiesMap() {
-        BusCreateRequest request = new BusCreateRequest(
+        busCreateRequest request = new busCreateRequest(
                 "TEST123",
                 40,
                 new HashMap<>(),
@@ -171,7 +171,7 @@ class BusMapperTest {
     @Test
     @DisplayName("Debe manejar un mapa de comodidades nulo")
     void shouldHandleNullAmenitiesMap() {
-        BusCreateRequest request = new BusCreateRequest(
+        busCreateRequest request = new busCreateRequest(
                 "TEST123",
                 40,
                 null,
@@ -187,7 +187,7 @@ class BusMapperTest {
     @DisplayName("Debe mapear todos los tipos de BusStatus correctamente")
     void shouldMapAllBusStatusTypes() {
         for (StatusBus status : StatusBus.values()) {
-            BusCreateRequest request = new BusCreateRequest(
+            busCreateRequest request = new busCreateRequest(
                     "TEST" + status,
                     40,
                     new HashMap<>(),
@@ -196,7 +196,7 @@ class BusMapperTest {
 
             Bus bus = busMapper.toEntity(request);
             bus.setId(1L);
-            BusResponse response = busMapper.toResponse(bus);
+            busResponse response = busMapper.toResponse(bus);
 
             assertEquals(status, bus.getStatusBus());
             assertEquals(status.name(), response.statusBus());
@@ -213,7 +213,7 @@ class BusMapperTest {
         amenities.put("entertainment", List.of("tv", "radio", "movies"));
         amenities.put("capacity_details", Map.of("standard", 40, "preferential", 5));
 
-        BusCreateRequest request = new BusCreateRequest(
+        busCreateRequest request = new busCreateRequest(
                 "LUXURY001",
                 45,
                 amenities,
@@ -231,7 +231,7 @@ class BusMapperTest {
     }
 
     @Test
-    @DisplayName("Debe manejar autobús sin asientos en BusWithSeatsResponse")
+    @DisplayName("Debe manejar autobús sin asientos en busWithSeatsResponse")
     void shouldHandleBusWithoutSeatsInWithSeatsResponse() {
         Bus bus = Bus.builder()
                 .id(1L)
@@ -244,7 +244,7 @@ class BusMapperTest {
 
         Integer availableSeats = 45;
 
-        BusWithSeatsResponse response = busMapper.toResponseWithSeats(bus, availableSeats);
+        busWithSeatsResponse response = busMapper.toResponseWithSeats(bus, availableSeats);
 
         assertNotNull(response);
         assertEquals(0, response.totalSeats());
@@ -252,9 +252,9 @@ class BusMapperTest {
     }
 
     @Test
-    @DisplayName("Debe manejar autobús nulo en BusWithSeatsResponse")
+    @DisplayName("Debe manejar autobús nulo en busWithSeatsResponse")
     void HandleNullBusInWithSeatsResponse() {
-        BusWithSeatsResponse response = busMapper.toResponseWithSeats(null, 0);
+        busWithSeatsResponse response = busMapper.toResponseWithSeats(null, 0);
 
         assertNull(response);
     }
@@ -266,7 +266,7 @@ class BusMapperTest {
         amenities.put("wifi", true);
         amenities.put("ac", false);
 
-        BusCreateRequest request = new BusCreateRequest(
+        busCreateRequest request = new busCreateRequest(
                 "FULL123",
                 42,
                 amenities,
@@ -275,7 +275,7 @@ class BusMapperTest {
 
         Bus bus = busMapper.toEntity(request);
         bus.setId(999L);
-        BusResponse response = busMapper.toResponse(bus);
+        busResponse response = busMapper.toResponse(bus);
 
         assertEquals(999L, response.id());
         assertEquals("FULL123", response.plate());

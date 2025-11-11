@@ -14,12 +14,12 @@ public interface ConfigMapper {
     @Mapping(target = "value", source = "value")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "updatedAt", ignore = true)
-    Config toEntity(ConfigCreateRequest dto);
+    Config toEntity(configCreateRequest dto);
 
 
     @Mapping(target = "value", source = "value")
     @Mapping(target = "description", source = "description")
-    void updateEntity(ConfigUpdateRequest dto, @MappingTarget Config config);
+    void updateEntity(configUpdateRequest dto, @MappingTarget Config config);
 
-    ConfigResponse toResponse(Config entity);
+    configResponse toResponse(Config entity);
 }

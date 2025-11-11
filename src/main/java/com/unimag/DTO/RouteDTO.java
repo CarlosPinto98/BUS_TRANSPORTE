@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RouteDTO {
 
-    public record RouteCreateRequest(
+    public record routeCreateRequest(
             @NotBlank(message = "code is required")
             String code,
             @NotBlank(message = "name is required")
@@ -24,12 +24,12 @@ public class RouteDTO {
             @NotNull @Min(1)
             Integer durationMin) implements Serializable {}
 
-    public record RouteUpdateRequest(
+    public record routeUpdateRequest(
             @NotBlank String name,
             @Min(1) Integer distanceKm,
             @Min(1) Integer durationMin) implements Serializable {}
 
-    public record RouteResponse(
+    public record routeResponse(
             Long id,
             String code,
             String name,
@@ -37,9 +37,9 @@ public class RouteDTO {
             String destination,
             Integer distanceKm,
             Integer durationMin,
-            List<StopSummary> stops) implements Serializable {}
+            List<stopSummary> stops) implements Serializable {}
 
-    public record StopSummary(
+    public record stopSummary(
             Long id,
             String name,
             Integer order,

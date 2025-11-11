@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public class ConfigDTO {
 
-    public record ConfigCreateRequest(
+    public record configCreateRequest(
             @NotBlank(message = "key is required")
             String key,
             @NotBlank(message = "value is required")
@@ -15,13 +15,13 @@ public class ConfigDTO {
             String description
     ) implements Serializable {}
 
-    public record ConfigUpdateRequest(
+    public record configUpdateRequest(
             @NotBlank(message = "value is required")
             String value,
             String description
     ) implements Serializable {}
 
-    public record ConfigResponse(
+    public record configResponse(
             Long id,
             String key,
             String value,

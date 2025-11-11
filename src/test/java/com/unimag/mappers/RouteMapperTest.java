@@ -24,10 +24,10 @@ class RouteMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear RouteCreateRequest a la entidad Route")
+    @DisplayName("Debe mapear routeCreateRequest a la entidad Route")
     void toEntity() {
 
-        RouteCreateRequest request = new RouteCreateRequest(
+        routeCreateRequest request = new routeCreateRequest(
                 "BOG-TUN",
                 "Bogotá - Tunja",
                 "Bogotá",
@@ -62,7 +62,7 @@ class RouteMapperTest {
                 .durationMin(180)
                 .build();
 
-        RouteUpdateRequest request = new RouteUpdateRequest(
+        routeUpdateRequest request = new routeUpdateRequest(
                 "Bogotá - Tunja Express",
                 160,
                 170
@@ -80,7 +80,7 @@ class RouteMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Route a RouteResponse")
+    @DisplayName("Debe mapear la entidad Route a routeResponse")
     void toResponse() {
 
         Route route = Route.builder()
@@ -94,7 +94,7 @@ class RouteMapperTest {
                 .stops(new ArrayList<>())
                 .build();
 
-        RouteResponse response = routeMapper.toResponse(route);
+        routeResponse response = routeMapper.toResponse(route);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -109,7 +109,7 @@ class RouteMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear Route con paradas a RouteResponse con StopSummary")
+    @DisplayName("Debe mapear Route con paradas a routeResponse con stopSummary")
     void mapStopsToSummary() {
 
         Route route = Route.builder()
@@ -150,25 +150,25 @@ class RouteMapperTest {
 
         route.setStops(stops);
 
-        RouteResponse response = routeMapper.toResponse(route);
+        routeResponse response = routeMapper.toResponse(route);
 
         assertNotNull(response);
         assertNotNull(response.stops());
         assertEquals(3, response.stops().size());
 
-        StopSummary firstStop = response.stops().get(0);
+        stopSummary firstStop = response.stops().get(0);
         assertEquals(1L, firstStop.id());
         assertEquals("Terminal Bogotá", firstStop.name());
         assertEquals(0, firstStop.order());
         assertEquals(new BigDecimal("4.6533"), firstStop.lat());
         assertEquals(new BigDecimal("-74.0836"), firstStop.lng());
 
-        StopSummary secondStop = response.stops().get(1);
+        stopSummary secondStop = response.stops().get(1);
         assertEquals(2L, secondStop.id());
         assertEquals("Zipaquirá", secondStop.name());
         assertEquals(1, secondStop.order());
 
-        StopSummary thirdStop = response.stops().get(2);
+        stopSummary thirdStop = response.stops().get(2);
         assertEquals(3L, thirdStop.id());
         assertEquals("Terminal Tunja", thirdStop.name());
         assertEquals(2, thirdStop.order());
@@ -189,7 +189,7 @@ class RouteMapperTest {
                 .stops(null)
                 .build();
 
-        RouteResponse response = routeMapper.toResponse(route);
+        routeResponse response = routeMapper.toResponse(route);
 
         assertNotNull(response);
         assertNull(response.stops());
@@ -198,7 +198,7 @@ class RouteMapperTest {
     @Test
     @DisplayName("Debe preservar todos los campos durante el mapeo")
     void shouldPreserveAllFieldsDuringMapping() {
-        RouteCreateRequest request = new RouteCreateRequest(
+        routeCreateRequest request = new routeCreateRequest(
                 "MED-CAL",
                 "Medellín - Cali",
                 "Medellín",
@@ -209,7 +209,7 @@ class RouteMapperTest {
 
         Route route = routeMapper.toEntity(request);
         route.setId(5L);
-        RouteResponse response = routeMapper.toResponse(route);
+        routeResponse response = routeMapper.toResponse(route);
 
         assertEquals(5L, response.id());
         assertEquals(request.code(), response.code());
@@ -224,7 +224,7 @@ class RouteMapperTest {
     @DisplayName("Debe manejar valores mínimos")
     void shouldHandleMinimumValues() {
 
-        RouteCreateRequest request = new RouteCreateRequest(
+        routeCreateRequest request = new routeCreateRequest(
                 "A",
                 "B",
                 "C",

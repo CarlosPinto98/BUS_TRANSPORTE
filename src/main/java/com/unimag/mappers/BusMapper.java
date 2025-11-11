@@ -20,20 +20,20 @@ public interface BusMapper {
     @Mapping(target = "amenities", source = "amenities")
     @Mapping(target = "statusBus", source = "statusBus")
     @Mapping(target = "seats", ignore = true)
-    Bus toEntity(BusCreateRequest dto);
+    Bus toEntity(busCreateRequest dto);
 
     @Mapping(target = "capacity", source = "capacity")
     @Mapping(target = "amenities", source = "amenities")
     @Mapping(target = "statusBus", source = "statusBus")
-    void updateEntity(BusUpdateRequest dto, @MappingTarget Bus bus);
+    void updateEntity(busUpdateRequest dto, @MappingTarget Bus bus);
 
 //    @Mapping(target = "statusBus", source = "statusBus")
-//    BusResponse toResponse(Bus entity);
+//    busResponse toResponse(Bus entity);
 
-//    default BusWithSeatsResponse toResponseWithSeats(Bus bus, Integer availableSeats) {
+//    default busWithSeatsResponse toResponseWithSeats(Bus bus, Integer availableSeats) {
 //        if (bus == null) return null;
 //
-//        return new BusWithSeatsResponse(
+//        return new busWithSeatsResponse(
 //                bus.getId(),
 //                bus.getPlate(),
 //                bus.getCapacity(),
@@ -44,7 +44,7 @@ public interface BusMapper {
 //        );
 //    }
 
-    default BusResponse toResponse(Bus entity) {
+    default busResponse toResponse(Bus entity) {
         if (entity == null) return null;
 
         String amenitiesJson = "{}";
@@ -57,7 +57,7 @@ public interface BusMapper {
             }
         }
 
-        return new BusResponse(
+        return new busResponse(
                 entity.getId(),
                 entity.getPlate(),
                 entity.getCapacity(),
@@ -66,10 +66,10 @@ public interface BusMapper {
         );
     }
 
-    default BusWithSeatsResponse toResponseWithSeats(Bus bus, Integer availableSeats) {
+    default busWithSeatsResponse toResponseWithSeats(Bus bus, Integer availableSeats) {
         if (bus == null) return null;
 
-        return new BusWithSeatsResponse(
+        return new busWithSeatsResponse(
                 bus.getId(),
                 bus.getPlate(),
                 bus.getCapacity(),

@@ -17,10 +17,10 @@ public interface BaggageMapper {
     @Mapping(target = "tagCode", expression = "java(generateTagCode())")
     @Mapping(target = "ticket", source = "ticketId", qualifiedByName = "mapTicket")
     @Mapping(target = "fee", source = "weightKg", qualifiedByName = "calculateFee")
-    Baggage toEntity(BaggageCreateRequest dto);
+    Baggage toEntity(baggageCreateRequest dto);
 
     @Mapping(target = "fee", source = "fee")
-    void updateEntity(BaggageUpdateRequest dto, @MappingTarget Baggage baggage);
+    void updateEntity(baggageUpdateRequest dto, @MappingTarget Baggage baggage);
 
 
     @Mapping(target = "id", source = "id")
@@ -31,7 +31,7 @@ public interface BaggageMapper {
     @Mapping(target = "passengerName", source = "ticket.passenger.name")
     @Mapping(target = "tripInfo", source = "ticket.trip", qualifiedByName = "formatTripInfo")
     @Mapping(target = "excessWeight", ignore = true)
-    BaggageResponse toResponse(Baggage entity);
+    baggageResponse toResponse(Baggage entity);
     @Named("mapTicket")
     default Ticket mapTicket(Long id) {
         if (id == null) return null;

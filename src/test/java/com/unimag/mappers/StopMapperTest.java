@@ -22,10 +22,10 @@ class StopMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear StopCreateRequest a la entidad Stop")
+    @DisplayName("Debe mapear stopCreateRequest a la entidad Stop")
     void toEntity() {
 
-        StopCreateRequest request = new StopCreateRequest(
+        stopCreateRequest request = new stopCreateRequest(
                 "Terminal Bogotá",
                 0,
                 new BigDecimal("4.6533"),
@@ -46,7 +46,7 @@ class StopMapperTest {
     }
 
     @Test
-    @DisplayName("Debe actualizar la entidad Stop desde StopUpdateRequest")
+    @DisplayName("Debe actualizar la entidad Stop desde stopUpdateRequest")
     void updateEntity() {
 
         Stop existingStop = Stop.builder()
@@ -57,7 +57,7 @@ class StopMapperTest {
                 .lng(new BigDecimal("-74.0000"))
                 .build();
 
-        StopUpdateRequest request = new StopUpdateRequest(
+        stopUpdateRequest request = new stopUpdateRequest(
                 "New Terminal",
                 1
         );
@@ -72,7 +72,7 @@ class StopMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Stop a StopResponse")
+    @DisplayName("Debe mapear la entidad Stop a stopResponse")
     void toResponse() {
 
         Route route = Route.builder()
@@ -90,7 +90,7 @@ class StopMapperTest {
                 .route(route)
                 .build();
 
-        StopResponse response = stopMapper.toResponse(stop);
+        stopResponse response = stopMapper.toResponse(stop);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -108,7 +108,7 @@ class StopMapperTest {
     void mapRoute() {
 
         Long routeId = 42L;
-        StopCreateRequest request = new StopCreateRequest(
+        stopCreateRequest request = new stopCreateRequest(
                 "Test Stop",
                 0,
                 BigDecimal.ZERO,
@@ -126,7 +126,7 @@ class StopMapperTest {
     @DisplayName("Debe preservar todos los campos durante el ciclo completo de mapeo")
     void shouldPreserveAllFieldsDuringFullCycleMapping() {
 
-        StopCreateRequest request = new StopCreateRequest(
+        stopCreateRequest request = new stopCreateRequest(
                 "Complete Stop",
                 5,
                 new BigDecimal("10.1234567"),
@@ -142,7 +142,7 @@ class StopMapperTest {
                 .name("Test Route")
                 .build());
 
-        StopResponse response = stopMapper.toResponse(stop);
+        stopResponse response = stopMapper.toResponse(stop);
 
         assertEquals(999L, response.id());
         assertEquals("Complete Stop", response.name());
@@ -156,7 +156,7 @@ class StopMapperTest {
     @Test
     @DisplayName("Debe manejar coordenadas con alta precisión")
     void shouldHandleHighPrecisionCoordinates() {
-        StopCreateRequest request = new StopCreateRequest(
+        stopCreateRequest request = new stopCreateRequest(
                 "Precise Location",
                 0,
                 new BigDecimal("4.6533278"),
@@ -175,7 +175,7 @@ class StopMapperTest {
     @DisplayName("Debe manejar diferentes órdenes de stop")
     void shouldHandleDifferentStopOrders() {
         for (int order = 0; order < 10; order++) {
-            StopCreateRequest request = new StopCreateRequest(
+            stopCreateRequest request = new stopCreateRequest(
                     "Stop " + order,
                     order,
                     BigDecimal.ZERO,
@@ -191,7 +191,7 @@ class StopMapperTest {
     @Test
     @DisplayName("Debe manejar valores de latitud extremos")
     void shouldHandleExtremeLatitudeValues() {
-        StopCreateRequest request1 = new StopCreateRequest(
+        stopCreateRequest request1 = new stopCreateRequest(
                 "North Pole",
                 0,
                 new BigDecimal("90.0"),
@@ -203,7 +203,7 @@ class StopMapperTest {
 
         assertEquals(new BigDecimal("90.0"), stop1.getLat());
 
-        StopCreateRequest request2 = new StopCreateRequest(
+        stopCreateRequest request2 = new stopCreateRequest(
                 "South Pole",
                 1,
                 new BigDecimal("-90.0"),
@@ -219,7 +219,7 @@ class StopMapperTest {
     @Test
     @DisplayName("Debe manejar valores de longitud extremos")
     void shouldHandleExtremeLongitudeValues() {
-        StopCreateRequest request1 = new StopCreateRequest(
+        stopCreateRequest request1 = new stopCreateRequest(
                 "East Point",
                 0,
                 BigDecimal.ZERO,
@@ -230,7 +230,7 @@ class StopMapperTest {
         Stop stop1 = stopMapper.toEntity(request1);
         assertEquals(new BigDecimal("180.0"), stop1.getLng());
 
-        StopCreateRequest request2 = new StopCreateRequest(
+        stopCreateRequest request2 = new stopCreateRequest(
                 "West Point",
                 1,
                 BigDecimal.ZERO,

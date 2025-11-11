@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public class IncidentDTO {
 
-    public record IncidentCreateRequest(
+    public record incidentCreateRequest(
             @NotNull(message = "entityType is required")
             EntityType entityType,
             @NotNull(message = "entityId is required")
@@ -21,10 +21,10 @@ public class IncidentDTO {
             @NotNull(message = "reportedBy is required")
             Long reportedBy) implements Serializable {}
 
-    public record IncidentUpdateRequest(
+    public record incidentUpdateRequest(
             @NotBlank String note) implements Serializable {}
 
-    public record IncidentResponse(
+    public record incidentResponse(
             Long id,
             String entityType,
             Long entityId,

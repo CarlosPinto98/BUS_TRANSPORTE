@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class SeatDTO {
 
-    public record SeatCreateRequest(
+    public record seatCreateRequest(
             @NotBlank(message = "number is required")
             @Size(max = 10, message = "number must not exceed 10 characters")
             String number,
@@ -18,11 +18,11 @@ public class SeatDTO {
             @NotNull(message = "busId is required")
             Long busId) implements Serializable {}
 
-    public record SeatUpdateRequest(
+    public record seatUpdateRequest(
             @NotNull(message = "type is required")
             Type type) implements Serializable {}
 
-    public record SeatResponse(
+    public record seatResponse(
             Long id,
             String number,
             String type,

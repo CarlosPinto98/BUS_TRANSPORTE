@@ -21,21 +21,21 @@ public interface RouteMapper {
     @Mapping(target = "destination", source = "destination")
     @Mapping(target = "distanceKm", source = "distanceKm")
     @Mapping(target = "durationMin", source = "durationMin")
-    Route toEntity(RouteCreateRequest dto);
+    Route toEntity(routeCreateRequest dto);
 
     @Mapping(target = "name", source = "name")
     @Mapping(target = "distanceKm", source = "distanceKm")
     @Mapping(target = "durationMin", source = "durationMin")
-    void updateEntity(RouteUpdateRequest dto, @MappingTarget Route route);
+    void updateEntity(routeUpdateRequest dto, @MappingTarget Route route);
 
     @Mapping(target = "stops", source = "stops", qualifiedByName = "mapStopsToSummary")
-    RouteResponse toResponse(Route entity);
+    routeResponse toResponse(Route entity);
 
     @Named("mapStopsToSummary")
-    default List<StopSummary> mapStopsToSummary(List<Stop> stops) {
+    default List<stopSummary> mapStopsToSummary(List<Stop> stops) {
         if (stops == null) return null;
         return stops.stream()
-                .map(stop -> new StopSummary(
+                .map(stop -> new stopSummary(
                         stop.getId(),
                         stop.getName(),
                         stop.getOrder(),

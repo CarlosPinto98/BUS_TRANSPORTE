@@ -17,18 +17,18 @@ public interface StopMapper {
     @Mapping(target = "lat", source = "lat")
     @Mapping(target = "lng", source = "lng")
     @Mapping(target = "route", source = "routeId", qualifiedByName = "mapRoute")
-    Stop toEntity(StopCreateRequest dto);
+    Stop toEntity(stopCreateRequest dto);
 
 
     @Mapping(target = "name", source = "name")
     @Mapping(target = "order", source = "order")
-    void updateEntity(StopUpdateRequest dto, @MappingTarget Stop stop);
+    void updateEntity(stopUpdateRequest dto, @MappingTarget Stop stop);
 
 
     @Mapping(target = "routeId", source = "route.id")
     @Mapping(target = "routeName", source = "route.name")
     @Mapping(target = "routeCode", source = "route.code")
-    StopResponse toResponse(Stop entity);
+    stopResponse toResponse(Stop entity);
     @Named("mapRoute")
     default Route mapRoute(Long id) {
         if (id == null) return null;

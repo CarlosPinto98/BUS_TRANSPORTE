@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 public class TicketDTO {
 
-    public record TicketCreateRequest(
+    public record ticketCreateRequest(
             @NotNull(message = "tripId is required")
             Long tripId,
             @NotNull(message = "passengerId is required")
@@ -27,11 +27,11 @@ public class TicketDTO {
             @NotNull(message = "paymentMethod is required")
             PaymentMethod paymentMethod) implements Serializable {}
 
-    public record TicketUpdateRequest(
+    public record ticketUpdateRequest(
             @NotNull(message = "status is required")
             StatusTicket statusTicket) implements Serializable {}
 
-    public record TicketResponse(
+    public record ticketResponse(
             Long id,
             Long tripId,
             String tripDate,

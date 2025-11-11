@@ -22,10 +22,10 @@ class ConfigMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear ConfigCreateRequest a la entidad Config")
+    @DisplayName("Debe mapear configCreateRequest a la entidad Config")
     void toEntity() {
 
-        ConfigCreateRequest request = new ConfigCreateRequest(
+        configCreateRequest request = new configCreateRequest(
                 "seat.hold.minutes",
                 "10",
                 "Minutes to hold a seat"
@@ -45,7 +45,7 @@ class ConfigMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Config a ConfigResponse")
+    @DisplayName("Debe mapear la entidad Config a configResponse")
     void toResponse() {
 
         LocalDateTime updatedAt = LocalDateTime.now();
@@ -58,7 +58,7 @@ class ConfigMapperTest {
                 .updatedAt(updatedAt)
                 .build();
 
-        ConfigResponse response = configMapper.toResponse(config);
+        configResponse response = configMapper.toResponse(config);
 
         assertNotNull(response);
         assertEquals(1L, response.id());

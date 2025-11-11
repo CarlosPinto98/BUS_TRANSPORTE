@@ -28,10 +28,10 @@ public interface TicketMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "seatNumber", source = "seatNumber") //ignore = true
     @Mapping(target = "paymentMethod", source = "paymentMethod") // ignore = true
-    Ticket toEntity(TicketCreateRequest dto);
+    Ticket toEntity(ticketCreateRequest dto);
 
     @Mapping(target = "statusTicket", source = "statusTicket")
-    void updateEntity(TicketUpdateRequest dto, @MappingTarget Ticket entity);
+    void updateEntity(ticketUpdateRequest dto, @MappingTarget Ticket entity);
 
     @Mapping(target = "tripId", source = "trip.id")
     @Mapping(target = "tripDate", source = "trip.date", qualifiedByName = "formatDate")
@@ -45,7 +45,7 @@ public interface TicketMapper {
     @Mapping(target = "toStopName", source = "toStop.name")
     @Mapping(target = "paymentMethod", source = "paymentMethod")
     @Mapping(target = "statusTicket", source = "statusTicket")
-    TicketResponse toResponse(Ticket entity);
+    ticketResponse toResponse(Ticket entity);
 
     @Named("mapTrip")
     default Trip mapTrip(Long id) {

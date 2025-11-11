@@ -25,10 +25,10 @@ class SeatMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear SeatCreateRequest a la entidad Seat")
+    @DisplayName("Debe mapear seatCreateRequest a la entidad Seat")
     void toEntity() {
 
-        SeatCreateRequest request = new SeatCreateRequest(
+        seatCreateRequest request = new seatCreateRequest(
                 "1A",
                 Type.STANDARD,
                 1L
@@ -45,7 +45,7 @@ class SeatMapperTest {
     }
 
     @Test
-    @DisplayName("Debe actualizar la entidad Seat desde SeatUpdateRequest")
+    @DisplayName("Debe actualizar la entidad Seat desde seatUpdateRequest")
     void updateEntity() {
 
         Seat existingSeat = Seat.builder()
@@ -54,7 +54,7 @@ class SeatMapperTest {
                 .type(Type.STANDARD)
                 .build();
 
-        SeatUpdateRequest request = new SeatUpdateRequest(
+        seatUpdateRequest request = new seatUpdateRequest(
                 Type.PREFERENTIAL
         );
 
@@ -65,7 +65,7 @@ class SeatMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad Seat a SeatResponse")
+    @DisplayName("Debe mapear la entidad Seat a seatResponse")
     void toResponse() {
 
         Bus bus = Bus.builder()
@@ -83,7 +83,7 @@ class SeatMapperTest {
                 .bus(bus)
                 .build();
 
-        SeatResponse response = seatMapper.toResponse(seat);
+        seatResponse response = seatMapper.toResponse(seat);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -99,7 +99,7 @@ class SeatMapperTest {
     void mapBus() {
 
         for (Type type : Type.values()) {
-            SeatCreateRequest request = new SeatCreateRequest(
+            seatCreateRequest request = new seatCreateRequest(
                     "TEST",
                     type,
                     1L
@@ -114,7 +114,7 @@ class SeatMapperTest {
                     .statusBus(StatusBus.ACTIVE)
                     .build());
 
-            SeatResponse response = seatMapper.toResponse(seat);
+            seatResponse response = seatMapper.toResponse(seat);
 
             assertEquals(type, seat.getType());
             assertEquals(type.name(), response.type());
@@ -126,7 +126,7 @@ class SeatMapperTest {
             String[] seatNumbers = {"1", "1A", "A1", "10", "10B", "VIP-1", "PREF_5"};
 
             for (String number : seatNumbers) {
-                SeatCreateRequest request = new SeatCreateRequest(
+                seatCreateRequest request = new seatCreateRequest(
                         number,
                         Type.STANDARD,
                         1L
@@ -142,7 +142,7 @@ class SeatMapperTest {
         @DisplayName("Debe preservar la referencia al autobús durante el mapeo")
         void shouldPreserveBusReferenceDuringMapping() {
             Long busId = 42L;
-            SeatCreateRequest request = new SeatCreateRequest(
+            seatCreateRequest request = new seatCreateRequest(
                     "1A",
                     Type.STANDARD,
                     busId
@@ -172,7 +172,7 @@ class SeatMapperTest {
                     .bus(bus)
                     .build();
 
-            SeatResponse response = seatMapper.toResponse(seat);
+            seatResponse response = seatMapper.toResponse(seat);
 
             assertEquals(5L, response.id());
             assertEquals("VIP-1", response.number());
@@ -185,7 +185,7 @@ class SeatMapperTest {
         @Test
         @DisplayName("Debe manejar el tipo de asiento 'standard' como predeterminado")
         void shouldHandleStandardSeatTypeAsDefault() {
-            SeatCreateRequest request = new SeatCreateRequest(
+            seatCreateRequest request = new seatCreateRequest(
                     "1A",
                     Type.STANDARD,
                     1L
@@ -211,7 +211,7 @@ class SeatMapperTest {
                     .bus(originalBus)
                     .build();
 
-            SeatUpdateRequest request = new SeatUpdateRequest(
+            seatUpdateRequest request = new seatUpdateRequest(
                     Type.PREFERENTIAL
             );
 
@@ -226,7 +226,7 @@ class SeatMapperTest {
         @Test
         @DisplayName("Debe preservar todos los campos durante el ciclo completo de mapeo")
         void shouldPreserveAllFieldsDuringFullCycleMapping() {
-            SeatCreateRequest request = new SeatCreateRequest(
+            seatCreateRequest request = new seatCreateRequest(
                     "FULL-TEST-1",
                     Type.PREFERENTIAL,
                     999L
@@ -241,7 +241,7 @@ class SeatMapperTest {
                     .statusBus(StatusBus.ACTIVE)
                     .build());
 
-            SeatResponse response = seatMapper.toResponse(seat);
+            seatResponse response = seatMapper.toResponse(seat);
 
             assertEquals(100L, response.id());
             assertEquals("FULL-TEST-1", response.number());

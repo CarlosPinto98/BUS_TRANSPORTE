@@ -18,11 +18,11 @@ public interface AssignmentMapper {
     @Mapping(target = "dispatcher", source = "dispatcherId", qualifiedByName = "mapUser")
     @Mapping(target = "checklistOk", constant = "false")
     @Mapping(target = "assignedAt", ignore = true)
-    Assignment toEntity(AssignmentDTO.AssignmentCreateRequest dto);
+    Assignment toEntity(AssignmentDTO.assignmentCreateRequest dto);
 
 
     @Mapping(target = "checklistOk", source = "checklistOk")
-    void updateEntity(AssignmentDTO.AssignmentUpdateRequest dto, @MappingTarget Assignment entity);
+    void updateEntity(AssignmentDTO.assignmentUpdateRequest dto, @MappingTarget Assignment entity);
 
     @Mapping(target = "tripId", source = "trip.id")
     @Mapping(target = "tripInfo", source = "trip", qualifiedByName = "formatTripInfo")
@@ -31,7 +31,7 @@ public interface AssignmentMapper {
     @Mapping(target = "driverName", source = "driver.name")
     @Mapping(target = "dispatcherId", source = "dispatcher.id")
     @Mapping(target = "dispatcherName", source = "dispatcher.name")
-    AssignmentDTO.AssignmentResponse toResponse(Assignment entity);
+    AssignmentDTO.assignmentResponse toResponse(Assignment entity);
 
     @Named("mapTrip")
     default Trip mapTrip(Long id) {

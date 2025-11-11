@@ -26,10 +26,10 @@ class SeatHoldMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear SeatHoldCreateRequest a la entidad SeatHold")
+    @DisplayName("Debe mapear seatHoldCreateRequest a la entidad SeatHold")
     void toEntity() {
 
-        SeatHoldCreateRequest request = new SeatHoldCreateRequest(
+        seatHoldCreateRequest request = new seatHoldCreateRequest(
                 1L,
                 "1A",
                 2L,
@@ -47,7 +47,7 @@ class SeatHoldMapperTest {
     }
 
     @Test
-    @DisplayName("Debe actualizar la entidad SeatHold desde SeatHoldUpdateRequest")
+    @DisplayName("Debe actualizar la entidad SeatHold desde seatHoldUpdateRequest")
     void updateEntity() {
 
         SeatHold existingSeatHold = SeatHold.builder()
@@ -57,7 +57,7 @@ class SeatHoldMapperTest {
                 .expiresAt(LocalDateTime.now().plusMinutes(10))
                 .build();
 
-        SeatHoldUpdateRequest request = new SeatHoldUpdateRequest(
+        seatHoldUpdateRequest request = new seatHoldUpdateRequest(
                 StatusSeatHold.EXPIRED
         );
 
@@ -68,7 +68,7 @@ class SeatHoldMapperTest {
     }
 
     @Test
-    @DisplayName("Debe mapear la entidad SeatHold a SeatHoldResponse")
+    @DisplayName("Debe mapear la entidad SeatHold a seatHoldResponse")
     void toResponse() {
 
         Route route = Route.builder()
@@ -101,7 +101,7 @@ class SeatHoldMapperTest {
                 .createdAt(createdAt)
                 .build();
 
-        SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
+        seatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertNotNull(response);
         assertEquals(1L, response.id());
@@ -136,7 +136,7 @@ class SeatHoldMapperTest {
                     .createdAt(LocalDateTime.now())
                     .build();
 
-            SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
+            seatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
             assertEquals(status.name(), response.statusSeatHold());
         }
@@ -162,7 +162,7 @@ class SeatHoldMapperTest {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
+        seatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertEquals("2025-03-15", response.tripDate());
         assertEquals("16:45", response.tripTime());
@@ -188,7 +188,7 @@ class SeatHoldMapperTest {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
+        seatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertNotNull(response.minutesLeft());
         assertTrue(response.minutesLeft() >= 7 && response.minutesLeft() <= 8);
@@ -213,7 +213,7 @@ class SeatHoldMapperTest {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
+        seatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertEquals(0, response.minutesLeft());
     }
@@ -235,7 +235,7 @@ class SeatHoldMapperTest {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
+        seatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertNull(response.minutesLeft());
     }
@@ -246,7 +246,7 @@ class SeatHoldMapperTest {
         String[] seatNumbers = {"1A", "10B", "VIP-1", "PREF_5", "25"};
 
         for (String seatNumber : seatNumbers) {
-            SeatHoldCreateRequest request = new SeatHoldCreateRequest(
+            seatHoldCreateRequest request = new seatHoldCreateRequest(
                     1L, seatNumber, 2L, 3L
             );
 
@@ -258,7 +258,7 @@ class SeatHoldMapperTest {
     @Test
     @DisplayName("Debe preservar todos los campos durante el ciclo completo de mapeo")
     void shouldPreserveAllFieldsDuringFullCycleMapping() {
-        SeatHoldCreateRequest request = new SeatHoldCreateRequest(
+        seatHoldCreateRequest request = new seatHoldCreateRequest(
                 100L, "VIP-10", 200L, 300L
         );
 
@@ -278,7 +278,7 @@ class SeatHoldMapperTest {
                 .route(Route.builder().id(1L).name("New Year Route").build())
                 .build());
 
-        SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
+        seatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertEquals(999L, response.id());
         assertEquals("VIP-10", response.seatNumber());
@@ -312,7 +312,7 @@ class SeatHoldMapperTest {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
+        seatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertNotNull(response.minutesLeft());
         assertTrue(response.minutesLeft() >= 9 && response.minutesLeft() <= 10);
