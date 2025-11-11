@@ -41,4 +41,15 @@ public class Route {
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("order ASC")
     private List<Stop> stops = new ArrayList<>();
+
+    public void addOrigin(Stop origin) {
+        this.origin = origin;
+        origin.getOriginRoutes().add(this);
+    }
+
+    public void addDestination(Stop destination) {
+        this.destination = destination;
+        destination.getDestinationRoutes().add(this);
+    }
+
 }
