@@ -16,13 +16,17 @@ public class FareRuleDTO {
             @NotNull DynamicPricing dynamicPricing,
             @NotNull Long routeId,
             @NotNull Long fromStopId,
-            @NotNull Long toStopId
+            @NotNull Long toStopId,
+            @NotNull Long originId,
+            @NotNull Long destinationId
     ) implements Serializable {}
 
     public record fareRuleUpdateRequest(
             @DecimalMin("0.0") BigDecimal basePrice,
             Map<String, Object> discounts,
-            DynamicPricing dynamicPricing
+            DynamicPricing dynamicPricing,
+            Long originId,
+            Long destinationId
     ) implements Serializable {}
 
     public record fareRuleResponse(
@@ -35,5 +39,6 @@ public class FareRuleDTO {
             Long toStopId,
             String fromStopName,
             String toStopName
+
     ) implements Serializable {}
 }

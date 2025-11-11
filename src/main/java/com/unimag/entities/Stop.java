@@ -33,4 +33,19 @@ public class Stop {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "routeID", nullable = false)
     private Route route;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cityId")
+    private City city;
+
+    public void addCity(City city) {
+        this.city = city;
+        city.getStops().add(this);
+    }
+
+    public void removeCity(City city) {
+        this.city = null;
+        city.getStops().remove(this);
+    }
+
 }

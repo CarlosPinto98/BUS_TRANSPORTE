@@ -29,8 +29,8 @@ public class StopServiceImpl implements StopService {
 
     @Override
     public StopDTO.stopResponse save(StopDTO.stopCreateRequest createRequest) {
-        var s = stopMapper.toEntity(stopDTO);
-        s.addCity(cityService.getObject(StopDTO.cityId()));
+        var s = stopMapper.toEntity(createRequest);
+        s.addCity(cityService.getObject(createRequest.cityId()));
         return stopMapper.toResponse(stopRepository.save(s));
     }
 
@@ -57,7 +57,7 @@ public class StopServiceImpl implements StopService {
 
     @Override
     public Stop getObject(String name) {
-        var s = stopRepository.findByNameContainingIgnoreCase(name).orElseThrow(() -> new NotFoundException("Stop not found"));
+        var s = stopRepository.findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Stop not found"));
         return s;
     }
 
@@ -79,7 +79,7 @@ public class StopServiceImpl implements StopService {
     public StopDTO.stopResponse updateStop(StopDTO.stopUpdateRequest stopDTO, Long id) {
         var s = getObject(id);
         var city = s.getCity();
-        stopMapper.updateStop(stopDTO, s);
+        stopMapper.updateEntity(stopDTO, s);
         if (!city.getId().equals(stopDTO.cityId()) && stopDTO.cityId() != null) {
             s.removeCity(city);
             s.addCity(cityService.getObject(stopDTO.cityId()));

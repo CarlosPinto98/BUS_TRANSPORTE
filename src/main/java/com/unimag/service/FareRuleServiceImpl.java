@@ -27,9 +27,9 @@ public class FareRuleServiceImpl implements FareRuleService {
         if (createRequest.originId() == createRequest.destinationId()){
             throw new IllegalArgumentException("origen debe ser diferente a destino");
         }
-        s.setOrigin(stopService.getObject(createRequest.originId()));
-        s.setDestination(stopService.getObject(createRequest.destinationId()));
-        return fareRuleMapper.toDto(fareRuleRepository.save(s));
+        s.setFromStop(stopService.getObject(createRequest.originId()));
+        s.setToStop(stopService.getObject(createRequest.destinationId()));
+        return fareRuleMapper.toResponse(fareRuleRepository.save(s));
     }
 
     @Override
@@ -56,15 +56,17 @@ public class FareRuleServiceImpl implements FareRuleService {
     @Override
     public FareRuleDTO.fareRuleResponse update(FareRuleDTO.fareRuleUpdateRequest updateRequest, Long id) {
         var s =  getObject(id);
+        // tambien se puede aplicar de esta manera
+        // if (Objects.equals(updateRequest.originId(), updateRequest.destinationId()))
         if (updateRequest.originId() == updateRequest.destinationId()) { // se encarga que se tenga el mismo origin y destino, los nulos los evita el mapper
             throw new IllegalArgumentException("originId and destinationId cannot be the same");
         }
-        fareRuleMapper.update(updateRequest, s);
+        fareRuleMapper.updateEntity(updateRequest, s);
         if (updateRequest.originId() != null){
-            s.setOrigin(stopService.getObject(updateRequest.originId()));
+            s.setFromStop(stopService.getObject(updateRequest.originId()));
         }
         if (updateRequest.destinationId() != null){
-            s.setDestination(stopService.getObject(updateRequest.destinationId()));
+            s.setToStop(stopService.getObject(updateRequest.destinationId()));
         }
         return fareRuleMapper.toResponse(s);
     }

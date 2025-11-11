@@ -18,11 +18,14 @@ public class StopDTO {
             @DecimalMax(value = "180.0", message = "Longitude must be between -180 and 180")
             BigDecimal lng,
             @NotNull(message = "routeId is required")
-            Long routeId) implements Serializable {}
+            Long routeId,
+            @NotNull
+            Long cityId) implements Serializable {}
 
     public record stopUpdateRequest(
             @NotBlank String name,
-            @Min(0) Integer order) implements Serializable {}
+            @Min(0) Integer order,
+            Long cityId) implements Serializable {}
 
     public record stopResponse(
             Long id,
@@ -32,5 +35,9 @@ public class StopDTO {
             BigDecimal lng,
             Long routeId,
             String routeName,
-            String routeCode) implements Serializable {}
+            String routeCode,
+            cityDTO city) implements Serializable {}
+
+    public record cityDTO(String name) implements  Serializable{}
+
 }
