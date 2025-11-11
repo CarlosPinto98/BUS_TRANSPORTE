@@ -1,5 +1,8 @@
 package com.unimag.service;
 
+import com.unimag.DTO.CityDTO;
+import com.unimag.entities.City;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 public interface CityService {

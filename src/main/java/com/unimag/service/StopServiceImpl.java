@@ -30,7 +30,7 @@ public class StopServiceImpl implements StopService {
     @Override
     public StopDTO.stopResponse save(StopDTO.stopCreateRequest createRequest) {
         var s = stopMapper.toEntity(stopDTO);
-        s.addCity(cityService.getObject(stopDTO.cityId()));
+        s.addCity(cityService.getObject(StopDTO.cityId()));
         return stopMapper.toResponse(stopRepository.save(s));
     }
 
