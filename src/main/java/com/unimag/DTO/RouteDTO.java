@@ -29,7 +29,9 @@ public class RouteDTO {
     public record routeUpdateRequest(
             @NotBlank String name,
             @Min(1) Integer distanceKm,
-            @Min(1) Integer durationMin) implements Serializable {}
+            @Min(1) Integer durationMin,
+            Long  originId,
+            Long destinationId ) implements Serializable {}
 
     public record routeResponse(
             Long id,

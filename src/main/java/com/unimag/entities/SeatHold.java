@@ -1,5 +1,4 @@
 package com.unimag.entities;
-
 import com.unimag.entities.Enums.StatusSeatHold;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,6 +29,10 @@ public class SeatHold {
     @JoinColumn(name = "userID", nullable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seatId")
+    private Seat seat;
+
     @Column(nullable = false)
     private LocalDateTime expiresAt;
 
@@ -42,4 +45,39 @@ public class SeatHold {
     @Column(nullable = false, length = 20)
     private StatusSeatHold statusSeatHold = StatusSeatHold.HOLD;
 
+    public void setSeat(Seat seat) {
+        if (this.seat == seat){return;}
+        Seat oldSeat = this.seat;
+        if (oldSeat != null){
+            oldSeat.getSeatHolds().remove(this);
+        }
+        this.seat = seat;
+        if (this.seat != null){
+            this.seat.getSeatHolds().add(this);
+        }
+    }
+
+    public void setUser(User user) {
+        if (this.user == user){return;}
+        User oldUser = this.user;
+        if (oldUser != null){
+            oldUser.getSeatHolds().remove(this);
+        }
+        this.user = user;
+        if (this.user != null){
+            this.user.getSeatHolds().add(this);
+        }
+    }
+
+    public void setTrip(Trip trip) {
+        if (this.trip == trip){return;}
+        Trip oldTrip = this.trip;
+        if (oldTrip != null){
+            oldTrip.getSeatHolds().remove(this);
+        }
+        this.trip = trip;
+        if (this.trip != null){
+            this.trip.getSeatHolds().add(this);
+        }
+    }
 }

@@ -4,6 +4,9 @@ import com.unimag.entities.Enums.Type;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,4 +33,19 @@ public class Seat {
     @Column(nullable = false, length = 20)
     private Type type = Type.STANDARD;
 
+    @OneToMany(mappedBy = "seat")
+    private Set<SeatHold> seatHolds = new HashSet<>();
+
+    public void setBus(Bus bus) {
+        if (this.bus == bus){return;}
+
+        Bus oldBus = this.bus;
+        if (oldBus != null) {
+            oldBus.getSeats().remove(this);
+        }
+        this.bus = bus;
+        if (this.bus != null) {
+            this.bus.getSeats().add(this);
+        }
+    }
 }

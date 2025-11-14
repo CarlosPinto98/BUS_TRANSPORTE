@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -47,5 +48,11 @@ public class Stop {
         this.city = null;
         city.getStops().remove(this);
     }
+
+    @OneToMany(mappedBy = "origin")
+    private Set<Route> originRoutes;
+
+    @OneToMany(mappedBy = "destination")
+    private Set<Route> destinationRoutes;
 
 }

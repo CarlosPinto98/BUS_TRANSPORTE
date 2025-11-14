@@ -23,17 +23,19 @@ public class TripDTO {
 
             @NotNull(message = "routeId is required")
             Long routeId,
-
-            Long busId) implements Serializable {}
+            @NotNull Long fareRuleId
+    ) implements Serializable {}
 
     public record tripUpdateRequest(
+            @NotNull Long busId,
+            @NotNull Long routeId,
             @NotNull(message = "departureAt is required")
             LocalDateTime departureAt,
             @NotNull(message = "arrivalEta is required")
             LocalDateTime arrivalEta,
-            Long busId,
             @NotNull(message = "status is required")
-            StatusTrip statusTrip) implements Serializable {}
+            StatusTrip statusTrip,
+            Long fareRuleId) implements Serializable {}
 
     public record tripResponse(
             Long id,

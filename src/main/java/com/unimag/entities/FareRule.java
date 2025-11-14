@@ -9,6 +9,7 @@ import org.hibernate.annotations.Type;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -47,4 +48,7 @@ public class FareRule {
     @ManyToOne(optional = false)
     @JoinColumn(name = "routeID", nullable = false)
     private Route route;
+
+    @OneToMany(mappedBy = "fareRule")
+    private Set<Trip> trips;
 }

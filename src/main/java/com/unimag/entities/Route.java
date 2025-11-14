@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@Data
 @Table(name = "routes")
 
 public class Route {
@@ -42,14 +43,25 @@ public class Route {
     @OrderBy("order ASC")
     private List<Stop> stops = new ArrayList<>();
 
-    public void addOrigin(Stop origin) {
-        this.origin = origin;
-        origin.getOriginRoutes().add(this);
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "originId")
+    private Stop originStop;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "destinationId")
+    private Stop destinationStop;
+
+    @OneToMany(mappedBy = "route")
+    private List<Trip> trips = new ArrayList<>();
+
+    public void addOrigin(Stop originStop) {
+        this.originStop = originStop;
+        originStop.getOriginRoutes().add(this);
     }
 
-    public void addDestination(Stop destination) {
-        this.destination = destination;
-        destination.getDestinationRoutes().add(this);
+    public void addDestination(Stop destinationStop) {
+        this.destinationStop = destinationStop;
+        destinationStop.getDestinationRoutes().add(this);
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
 
-    List<Seat> findByBusId(Long busId);
+    Optional<Seat> findByBusId(Long busId);
 
     List<Seat> findByBusIdOrderByNumberAsc(Long busId);
 
@@ -19,5 +19,6 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
 
     List<Seat> findByBusIdAndType(Long busId, Type type);
 
+    Optional<Seat> findByNumberBusId(Integer number, Long busId);
     long countByBusId(Long busId);
 }
