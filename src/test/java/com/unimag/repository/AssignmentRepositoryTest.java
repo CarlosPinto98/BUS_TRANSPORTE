@@ -248,7 +248,6 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
     }
 
     private Trip createAndSaveTrip(String code, String plateBus) {
-
         return createTripForDate(LocalDate.now(), code, plateBus);
     }
 
@@ -321,6 +320,7 @@ class AssignmentRepositoryTest extends AbstractRepositoryTest {
                 .passwordHash("hash-de-prueba")
                 .build();
         return userRepository.save(user);
+
     }
 
     private Assignment createAssignment(Trip trip, User driver, User dispatcher) {

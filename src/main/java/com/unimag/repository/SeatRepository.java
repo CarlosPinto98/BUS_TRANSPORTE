@@ -18,6 +18,6 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     Optional<Seat> findByBusIdAndNumber(Long busId, String number);
 
     List<Seat> findByBusIdAndType(Long busId, Type type);
-
+    Optional<Seat> findByNumberAndBusId(String number, Long busId);
     long countByBusId(Long busId);
 }

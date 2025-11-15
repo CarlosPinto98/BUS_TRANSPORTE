@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -56,18 +58,14 @@ public class FareRuleServiceImpl implements FareRuleService {
     @Override
     public FareRuleDTO.fareRuleResponse update(FareRuleDTO.fareRuleUpdateRequest updateRequest, Long id) {
         var s =  getObject(id);
-        // tambien se puede aplicar de esta manera
-        // if (Objects.equals(updateRequest.originId(), updateRequest.destinationId()))
-        if (updateRequest.originId() == updateRequest.destinationId()) { // se encarga que se tenga el mismo origin y destino, los nulos los evita el mapper
+        if (updateRequest.originId() != null &&
+                updateRequest.destinationId() != null &&
+                Objects.equals(updateRequest.originId(), updateRequest.destinationId())) {
+
             throw new IllegalArgumentException("originId and destinationId cannot be the same");
         }
         fareRuleMapper.updateEntity(updateRequest, s);
-        if (updateRequest.originId() != null){
-            s.setFromStop(stopService.getObject(updateRequest.originId()));
-        }
-        if (updateRequest.destinationId() != null){
-            s.setToStop(stopService.getObject(updateRequest.destinationId()));
-        }
         return fareRuleMapper.toResponse(s);
     }
+
 }

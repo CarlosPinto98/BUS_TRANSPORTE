@@ -19,11 +19,9 @@ public interface StopMapper {
     @Mapping(target = "route", source = "routeId", qualifiedByName = "mapRoute")
     Stop toEntity(stopCreateRequest dto);
 
-
     @Mapping(target = "name", source = "name")
     @Mapping(target = "order", source = "order")
     void updateEntity(stopUpdateRequest dto, @MappingTarget Stop stop);
-
 
     @Mapping(target = "routeId", source = "route.id")
     @Mapping(target = "routeName", source = "route.name")

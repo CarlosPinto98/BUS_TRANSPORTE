@@ -20,15 +20,19 @@ public class SeatHold {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "tripID", nullable = false)
+    @JoinColumn(name = "tripID")//, nullable = false)
     private Trip trip;
 
     @Column(nullable = false, length = 10)
     private String seatNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userID", nullable = false)
+    @JoinColumn(name = "userID")//, nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seatId")
+    private Seat seat;
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;
@@ -41,5 +45,41 @@ public class SeatHold {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatusSeatHold statusSeatHold = StatusSeatHold.HOLD;
+
+    public void setSeat(Seat seat) {
+        if (this.seat == seat){return;}
+        Seat oldSeat = this.seat;
+        if (oldSeat != null){
+            oldSeat.getSeatHolds().remove(this);
+            }
+        this.seat = seat;
+        if (this.seat != null){
+            this.seat.getSeatHolds().add(this);
+        }
+    }
+
+    public void setUser(User user) {
+        if (this.user == user){return;}
+        User oldUser = this.user;
+        if (oldUser != null){
+            oldUser.getSeatHolds().remove(this);
+        }
+        this.user = user;
+        if (this.user != null){
+            this.user.getSeatHolds().add(this);
+        }
+    }
+
+    public void setTrip(Trip trip) {
+        if (this.trip == trip){return;}
+        Trip oldTrip = this.trip;
+        if (oldTrip != null){
+            oldTrip.getSeatHolds().remove(this);
+        }
+        this.trip = trip;
+        if (this.trip != null){
+            this.trip.getSeatHolds().add(this);
+        }
+    }
 
 }

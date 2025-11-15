@@ -203,11 +203,36 @@ class UserRepositoryTest extends AbstractRepositoryTest {
     @DisplayName("Encontrar por nombre")
     void findByName() {
 
-        Optional<User> found = userRepository.findByName("john_doe");
+        final String targetName = "Diana Carolina";
+        final String otherName = "Andrés Felipe";
 
-        assertThat(found).isPresent();
-        assertThat(found.get().getName()).isEqualTo("john_doe");
-        assertThat(found.get().getEmail()).isEqualTo("john@example.com");
+        userRepository.saveAll(List.of(
+                createAndSaveUser(targetName, "diana.c@unimag.com", "3001111111"),
+                createAndSaveUser(otherName, "andres.f@unimag.com", "3002222222")
+        ));
+
+        Optional<User> foundUserOptional = userRepository.findByName(targetName);
+
+        assertThat(foundUserOptional).isPresent();
+
+        User foundUser = foundUserOptional.get();
+        assertThat(foundUser.getName()).isEqualTo(targetName);
+        assertThat(foundUser.getEmail()).isEqualTo("diana.c@unimag.com");
+
+        Optional<User> notFoundUser = userRepository.findByName("Nombre Que No Existe");
+
+        assertThat(notFoundUser).isEmpty();
+    }
+
+    private User createAndSaveUser(String name, String email, String phone) {
+        var user = User.builder()
+                .name(name)
+                .email(email)
+                .phone(phone)
+                .role(Role.DRIVER) // Usar un rol por defecto
+                .passwordHash("hash-de-prueba")
+                .build();
+        return userRepository.save(user);
     }
 }
 

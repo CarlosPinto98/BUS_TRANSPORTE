@@ -12,9 +12,7 @@ import java.util.Optional;
 public interface RouteRepository extends JpaRepository<Route,Long> {
 
     Optional<Route> findByCode(String code);
-
     List<Route> findByOriginAndDestination(String origin, String destination);
-
     List<Route> findByOriginContainingIgnoreCaseOrDestinationContainingIgnoreCase(
             String origin, String destination);
 

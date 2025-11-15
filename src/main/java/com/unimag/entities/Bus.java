@@ -43,4 +43,7 @@ public class Bus {
     @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();
 
+    @OneToMany(mappedBy = "bus")
+    private List<Trip> trips = new ArrayList<>();
+
 }

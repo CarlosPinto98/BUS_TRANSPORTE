@@ -14,7 +14,7 @@ public interface IncidentRepository extends JpaRepository<Incident,Long> {
 
     List<Incident> findByEntityTypeAndEntityId(EntityType entityType, Long entityId);
 
-    List<Incident> findByIncidentType(TypeIncident typeIncident);
+    List<Incident> findByTypeIncident(TypeIncident typeIncident);
 
     List<Incident> findByReportedById(Long reportedById);
 
@@ -30,7 +30,7 @@ public interface IncidentRepository extends JpaRepository<Incident,Long> {
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end);
 
-    @Query("SELECT COUNT(i) FROM Incident i WHERE i.incidentType = :type " +
+    @Query("SELECT COUNT(i) FROM Incident i WHERE i.typeIncident = :type " +
             "AND i.createdAt >= :since")
     long countByTypeAndCreatedAtAfter(
             @Param("type") TypeIncident typeIncident,

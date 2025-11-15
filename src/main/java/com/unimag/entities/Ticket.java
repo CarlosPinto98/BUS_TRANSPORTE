@@ -1,5 +1,6 @@
 package com.unimag.entities;
 
+import com.unimag.entities.Enums.CancellationPolicy;
 import com.unimag.entities.Enums.PaymentMethod;
 import com.unimag.entities.Enums.StatusTicket;
 import jakarta.persistence.*;
@@ -28,6 +29,9 @@ public class Ticket {
     @Column(nullable = false,precision = 10,scale = 2)
     private BigDecimal price;
 
+    @Column(precision = 10, scale = 2)
+    private BigDecimal discountAmount;
+
     @Column(nullable = false, length = 100, unique = true)
     private String qrCode;
 
@@ -35,9 +39,20 @@ public class Ticket {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "cancelled_at")
+    private LocalDateTime cancelledAt;
+
+    @Column(name = "refund_amount",precision = 10, scale = 2)
+    private BigDecimal refundAmount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cancellation_policy", length = 50)
+    private CancellationPolicy cancellationPolicy;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 20)
     private PaymentMethod paymentMethod;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 20)

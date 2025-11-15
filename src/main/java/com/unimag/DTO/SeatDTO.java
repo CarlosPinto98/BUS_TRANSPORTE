@@ -20,7 +20,9 @@ public class SeatDTO {
 
     public record seatUpdateRequest(
             @NotNull(message = "type is required")
-            Type type) implements Serializable {}
+            Type type,
+            Long busId,
+            Integer number) implements Serializable {}
 
     public record seatResponse(
             Long id,

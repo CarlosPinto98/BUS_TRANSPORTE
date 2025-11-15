@@ -36,7 +36,7 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     @DisplayName("Buscar incident por tipo")
-    void findByIncidentType() {
+    void findByTypeIncident() {
 
         var reporter = createAndSaveUser("type@example.com", "3003333333");
 
@@ -46,7 +46,7 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
                 createIncident(EntityType.PARCEL, 3L, TypeIncident.DELIVERY_FAIL, reporter,"El destinatario no estaba en casa y el teléfono de contacto no existe. Paquete devuelto a bodega.")
         ));
 
-        List<Incident> vehicleIncidents = incidentRepository.findByIncidentType(TypeIncident.VEHICLE);
+        List<Incident> vehicleIncidents = incidentRepository.findByTypeIncident(TypeIncident.VEHICLE);
 
         assertThat(vehicleIncidents).hasSize(2);
         assertThat(vehicleIncidents).allMatch(i -> i.getTypeIncident() == TypeIncident.VEHICLE);
@@ -141,7 +141,6 @@ class IncidentRepositoryTest extends AbstractRepositoryTest {
         assertThat(securityCount).isEqualTo(2);
         assertThat(deliveryFailCount).isEqualTo(1);
     }
-
 
     @Test
     @DisplayName("Buscar incidents asociandos a una entity")

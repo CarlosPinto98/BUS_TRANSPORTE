@@ -39,7 +39,9 @@ class FareRuleMapperTest {
                 DynamicPricing.ON,
                 1L,
                 2L,
-                3L
+                3L,
+                1L,
+                1L
         );
 
         FareRule fareRule = fareRuleMapper.toEntity(request);

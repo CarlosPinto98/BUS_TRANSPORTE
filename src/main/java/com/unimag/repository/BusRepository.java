@@ -21,8 +21,6 @@ public interface BusRepository extends JpaRepository<Bus,Long> {
     @Query("SELECT b FROM Bus b JOIN FETCH b.seats WHERE b.id = :id")
     Optional<Bus> findByIdWithSeats(Long id);
 
-//    @Query("SELECT b FROM Bus b WHERE b.statusBus = :status AND b.capacity >= :minCapacity")
-//    List<Bus> findAvailableBusesByCapacity(StatusBus statusBus, Integer minCapacity);
 
     @Query("SELECT b FROM Bus b WHERE b.statusBus = :status AND b.capacity >= :minCapacity")
     List<Bus> findAvailableBusesByCapacity(@Param("status") StatusBus statusBus, @Param("minCapacity") Integer minCapacity

@@ -55,7 +55,9 @@ class SeatMapperTest {
                 .build();
 
         seatUpdateRequest request = new seatUpdateRequest(
-                Type.PREFERENTIAL
+                Type.PREFERENTIAL,
+                1L,
+                1
         );
 
         seatMapper.updateEntity(request, existingSeat);
@@ -212,7 +214,9 @@ class SeatMapperTest {
                     .build();
 
             seatUpdateRequest request = new seatUpdateRequest(
-                    Type.PREFERENTIAL
+                    Type.PREFERENTIAL,
+                    1L,
+                    1
             );
 
             seatMapper.updateEntity(request, existingSeat);

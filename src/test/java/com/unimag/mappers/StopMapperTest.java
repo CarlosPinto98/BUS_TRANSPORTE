@@ -1,6 +1,7 @@
 package com.unimag.mappers;
 
 import com.unimag.DTO.StopDTO.*;
+import com.unimag.entities.City;
 import com.unimag.entities.Route;
 import com.unimag.entities.Stop;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,11 +26,13 @@ class StopMapperTest {
     @DisplayName("Debe mapear stopCreateRequest a la entidad Stop")
     void toEntity() {
 
+
         stopCreateRequest request = new stopCreateRequest(
                 "Terminal Bogotá",
                 0,
                 new BigDecimal("4.6533"),
                 new BigDecimal("-74.0836"),
+                1L,
                 1L
         );
 
@@ -59,14 +62,15 @@ class StopMapperTest {
 
         stopUpdateRequest request = new stopUpdateRequest(
                 "New Terminal",
-                1
+                1,
+                1L
         );
 
         stopMapper.updateEntity(request, existingStop);
 
         assertEquals("New Terminal", existingStop.getName());
         assertEquals(1, existingStop.getOrder());
-
+        // Verificamos que lat y lng NO cambiaron (solo se actualiza name, order y cityId)
         assertEquals(new BigDecimal("4.0000"), existingStop.getLat());
         assertEquals(new BigDecimal("-74.0000"), existingStop.getLng());
     }
@@ -113,7 +117,8 @@ class StopMapperTest {
                 0,
                 BigDecimal.ZERO,
                 BigDecimal.ZERO,
-                routeId
+                routeId,
+                1L
         );
 
         Stop stop = stopMapper.toEntity(request);
@@ -131,7 +136,8 @@ class StopMapperTest {
                 5,
                 new BigDecimal("10.1234567"),
                 new BigDecimal("-75.9876543"),
-                100L
+                100L,
+                1L
         );
 
         Stop stop = stopMapper.toEntity(request);
@@ -161,6 +167,7 @@ class StopMapperTest {
                 0,
                 new BigDecimal("4.6533278"),
                 new BigDecimal("-74.0836333"),
+                1L,
                 1L
         );
 
@@ -180,6 +187,7 @@ class StopMapperTest {
                     order,
                     BigDecimal.ZERO,
                     BigDecimal.ZERO,
+                    1L,
                     1L
             );
 
@@ -196,6 +204,7 @@ class StopMapperTest {
                 0,
                 new BigDecimal("90.0"),
                 BigDecimal.ZERO,
+                1L,
                 1L
         );
 
@@ -208,6 +217,7 @@ class StopMapperTest {
                 1,
                 new BigDecimal("-90.0"),
                 BigDecimal.ZERO,
+                1L,
                 1L
         );
 
@@ -224,6 +234,7 @@ class StopMapperTest {
                 0,
                 BigDecimal.ZERO,
                 new BigDecimal("180.0"),
+                1L,
                 1L
         );
 
@@ -235,7 +246,9 @@ class StopMapperTest {
                 1,
                 BigDecimal.ZERO,
                 new BigDecimal("-180.0"),
+                1L,
                 1L
+
         );
 
         Stop stop2 = stopMapper.toEntity(request2);

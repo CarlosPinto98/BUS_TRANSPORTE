@@ -58,7 +58,10 @@ class SeatHoldMapperTest {
                 .build();
 
         seatHoldUpdateRequest request = new seatHoldUpdateRequest(
-                StatusSeatHold.EXPIRED
+                StatusSeatHold.EXPIRED,
+                1L,
+                1L,
+                1L
         );
 
         seatHoldMapper.updateEntity(request, existingSeatHold);

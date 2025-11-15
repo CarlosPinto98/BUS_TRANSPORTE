@@ -1,16 +1,25 @@
 package com.unimag.service;
 
-import com.unimag.DTO.BusDTO;
+import com.unimag.DTO.BusDTO.*;
 import com.unimag.entities.Bus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.unimag.entities.Enums.StatusBus;
+
+import java.util.List;
 
 public interface BusService {
 
-    BusDTO.busResponse save (BusDTO.busCreateRequest request);
-    BusDTO.busResponse get(Long id);
-    Page<BusDTO.busResponse> getAll(Pageable pageable);
-    void delete(Long id);
-    BusDTO.busResponse update(BusDTO.busUpdateRequest request, Long busId);
+
+    busResponse createBus(busCreateRequest createRequest);
+    busResponse updateBus(Long id,busUpdateRequest updateRequest);
+    busResponse getBusById(Long id);
+    busResponse getBusWithSeats(Long id);
+    busResponse getBusbyPlate(String plate);
+    List<busResponse> getAllBuses();
+    List<busResponse> getBusesByStatus(StatusBus status);
+    List<busResponse> getAvailableBuses(Integer minCapacity);
+    void deleteBus(Long id);
+    boolean existsByPlate(String plate);
+    busResponse changeBusStatus(Long id, StatusBus status);
     Bus getObject(Long id);
+
 }

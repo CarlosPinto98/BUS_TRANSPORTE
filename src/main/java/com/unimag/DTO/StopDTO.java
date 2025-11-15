@@ -19,13 +19,14 @@ public class StopDTO {
             BigDecimal lng,
             @NotNull(message = "routeId is required")
             Long routeId,
-            @NotNull
-            Long cityId) implements Serializable {}
+            Long cityId
+    ) implements Serializable {}
 
     public record stopUpdateRequest(
             @NotBlank String name,
             @Min(0) Integer order,
-            Long cityId) implements Serializable {}
+            Long cityId
+    ) implements Serializable {}
 
     public record stopResponse(
             Long id,

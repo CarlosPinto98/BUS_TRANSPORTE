@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -33,6 +34,12 @@ public class Stop {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "routeID", nullable = false)
     private Route route;
+
+    @OneToMany(mappedBy = "origin")
+    private Set<Route> originRoutes;
+
+    @OneToMany(mappedBy = "destination")
+    private Set<Route> destinationRoutes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cityId")

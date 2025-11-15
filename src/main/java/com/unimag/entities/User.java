@@ -4,7 +4,11 @@ import com.unimag.entities.Enums.Role;
 import com.unimag.entities.Enums.StatusUser;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -35,6 +39,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private Set<SeatHold> seatHolds;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -43,4 +50,11 @@ public class User {
     @Builder.Default
     @Column(nullable = false, updatable = false)
     private LocalDateTime createAt =  LocalDateTime.now();
+
+    @Column(name ="dateOfBirth")
+    private LocalDate dateOfBirth;
+
+    public int getAge(){
+        return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
+    }
 }

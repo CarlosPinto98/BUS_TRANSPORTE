@@ -7,7 +7,6 @@ import com.unimag.mappers.StopMapper;
 import com.unimag.repository.StopRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,13 +17,9 @@ import org.springframework.stereotype.Service;
 
 public class StopServiceImpl implements StopService {
 
-    @Autowired
+
     private final StopRepository stopRepository;
-
-    @Autowired
     private final StopMapper stopMapper;
-
-    @Autowired
     private final CityServiceImpl cityService;
 
     @Override

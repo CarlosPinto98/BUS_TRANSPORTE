@@ -33,7 +33,9 @@ class RouteMapperTest {
                 "Bogotá",
                 "Tunja",
                 150,
-                180
+                180,
+                1L,
+                1L
         );
 
         Route route = routeMapper.toEntity(request);
@@ -204,7 +206,9 @@ class RouteMapperTest {
                 "Medellín",
                 "Cali",
                 420,
-                540
+                540,
+                1L,
+                1L
         );
 
         Route route = routeMapper.toEntity(request);
@@ -230,7 +234,9 @@ class RouteMapperTest {
                 "C",
                 "D",
                 1,
-                1
+                1,
+                1L,
+                1L
         );
 
         Route route = routeMapper.toEntity(request);

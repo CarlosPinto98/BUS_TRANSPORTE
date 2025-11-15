@@ -23,7 +23,10 @@ public class SeatHoldDTO {
 
     public record seatHoldUpdateRequest(
             @NotNull(message = "status is required")
-            StatusSeatHold statusSeatHold) implements Serializable {}
+            StatusSeatHold statusSeatHold,
+            Long userId,
+            Long tripId,
+            Long seatId) implements Serializable {}
 
     public record seatHoldResponse(
             Long id,
