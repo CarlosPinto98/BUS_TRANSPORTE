@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Builder
 @AllArgsConstructor
@@ -41,7 +38,13 @@ public class Bus {
 
     @Builder.Default
     @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Seat> seats = new ArrayList<>();
+    private Set<Seat> seats = new HashSet<>();
+
+    @OneToMany(mappedBy = "bus")
+    private List<Trip> trips = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "bus")
+//    private Set<Seat> seats = new HashSet<>();
 
     @OneToMany(mappedBy = "bus")
     private List<Trip> trips = new ArrayList<>();

@@ -1,16 +1,21 @@
 package com.unimag.mappers;
 
+import com.unimag.DTO.TicketDTO;
 import com.unimag.DTO.TripDTO.*;
 import com.unimag.entities.Bus;
+import com.unimag.entities.Enums.PaymentMethod;
 import com.unimag.entities.Enums.StatusBus;
+import com.unimag.entities.Enums.StatusTicket;
 import com.unimag.entities.Enums.StatusTrip;
 import com.unimag.entities.Route;
+import com.unimag.entities.Ticket;
 import com.unimag.entities.Trip;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -60,30 +65,24 @@ class TripMapperTest {
     @DisplayName("Debe actualizar la entidad Trip desde tripUpdateRequest")
     void updateEntity() {
 
-        Trip existingTrip = Trip.builder()
+        Ticket existingTicket = Ticket.builder()
                 .id(1L)
-                .date(LocalDate.of(2025, 12, 25))
-                .departureAt(LocalDateTime.of(2025, 12, 25, 8, 0))
-                .arrivalEta(LocalDateTime.of(2025, 12, 25, 11, 0))
-                .statusTrip(StatusTrip.SCHEDULED)
+                .seatNumber("1A")
+                .price(new BigDecimal("50000"))
+                .paymentMethod(PaymentMethod.CASH)
+                .statusTicket(StatusTicket.SOLD)
+                .qrCode("QR-123")
                 .build();
 
-        LocalDateTime newDeparture = LocalDateTime.of(2025, 12, 25, 9, 0);
-        LocalDateTime newArrival = LocalDateTime.of(2025, 12, 25, 12, 0);
-
-        tripUpdateRequest request = new tripUpdateRequest(
-                newDeparture,
-                newArrival,
-                3L,
-                StatusTrip.BOARDING
+        TicketDTO.ticketUpdateRequest request = new TicketDTO.ticketUpdateRequest(
+                StatusTicket.CANCELLED
         );
 
-        tripMapper.updateEntity(request, existingTrip);
+         ticketMapper.updateEntity(request, existingTicket);
 
-        assertEquals(newDeparture, existingTrip.getDepartureAt());
-        assertEquals(newArrival, existingTrip.getArrivalEta());
-        assertEquals(StatusTrip.BOARDING, existingTrip.getStatusTrip());
-        assertEquals(LocalDate.of(2025, 12, 25), existingTrip.getDate());
+        assertEquals(StatusTicket.CANCELLED, existingTicket.getStatusTicket() );
+        assertEquals("1A", existingTicket.getSeatNumber());
+        assertEquals(new BigDecimal("50000"), existingTicket.getPrice());
     }
 
     @Test

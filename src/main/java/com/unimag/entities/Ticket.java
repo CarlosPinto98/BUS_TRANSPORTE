@@ -64,11 +64,11 @@ public class Ticket {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fromStopID", nullable = false)
-    private Stop fromStop;
+    private Stop fromStop; // ORIGEN
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "toStopId", nullable = false)
-    private Stop toStop;
+    @JoinColumn(name = "toStopID", nullable = false)
+    private Stop toStop; // DESTINO
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tripID", nullable = false)

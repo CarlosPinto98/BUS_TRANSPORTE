@@ -55,4 +55,10 @@ public class Stop {
         city.getStops().remove(this);
     }
 
+    @OneToMany(mappedBy = "origin")
+    private Set<Route> originRoutes;
+
+    @OneToMany(mappedBy = "destination")
+    private Set<Route> destinationRoutes;
+
 }

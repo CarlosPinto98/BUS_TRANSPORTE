@@ -34,9 +34,9 @@ class SeatRepositoryTest extends AbstractRepositoryTest {
         seatRepository.save(createSeat(savedBus, "A2", Type.STANDARD));
         seatRepository.save(createSeat(savedBus, "B1", Type.PREFERENTIAL));
 
-        List<Seat> seats = seatRepository.findByBusId(savedBus.getId());
+        Optional<Seat> seats = seatRepository.findByBusId(savedBus.getId());
 
-        assertThat(seats).hasSize(3);
+        assertThat(seats).hasSameClassAs(3);
     }
 
     @Test

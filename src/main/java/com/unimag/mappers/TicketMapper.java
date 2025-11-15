@@ -22,16 +22,22 @@ public interface TicketMapper {
     @Mapping(target = "fromStop", source = "fromStopId", qualifiedByName = "mapStop")
     @Mapping(target = "toStop", source = "toStopId", qualifiedByName = "mapStop")
 
+
     @Mapping(target = "statusTicket", expression = "java(com.unimag.entities.Enums.StatusTicket.SOLD)")
     @Mapping(target = "price", ignore = true)
     @Mapping(target = "qrCode", expression =  "java(generateQrCode(dto.tripId(), dto.seatNumber()))")
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "seatNumber", source = "seatNumber") //ignore = true
-    @Mapping(target = "paymentMethod", source = "paymentMethod") // ignore = true
+    @Mapping(target = "seatNumber", source = "seatNumber")
+    @Mapping(target = "paymentMethod", source = "paymentMethod")
     Ticket toEntity(ticketCreateRequest dto);
 
     @Mapping(target = "statusTicket", source = "statusTicket")
     void updateEntity(ticketUpdateRequest dto, @MappingTarget Ticket entity);
+
+    @Mapping(target = "tripId", source = "trip.id")
+    @Mapping(target = "tripDate", source = "trip.date", qualifiedByName = "formatDate")
+    @Mapping(target = "tripTime", source = "trip.departureAt", qualifiedByName = "formatTime")
+    @Mapping(target = "passengerId", source = "passenger.id")
 
     @Mapping(target = "tripId", source = "trip.id")
     @Mapping(target = "tripDate", source = "trip.date", qualifiedByName = "formatDate")
