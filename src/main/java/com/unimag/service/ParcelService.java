@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ParcelService {
 
+    ParcelDTO.parcelResponse createParcel(ParcelDTO.parcelCreateRequest request);
     ParcelDTO.parcelResponse save(ParcelDTO.parcelCreateRequest parcelDTO);
     Page<ParcelDTO.parcelResponse> getAll(Pageable pageable);
     ParcelDTO.parcelResponse get(Long id);

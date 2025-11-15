@@ -2,9 +2,13 @@ package com.unimag.service;
 
 import com.unimag.DTO.ParcelDTO;
 import com.unimag.entities.Parcel;
+import com.unimag.entities.Stop;
+import com.unimag.entities.Trip;
 import com.unimag.exception.NotFoundException;
 import com.unimag.mappers.ParcelMapper;
 import com.unimag.repository.ParcelRepository;
+import com.unimag.repository.StopRepository;
+import com.unimag.repository.TripRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +24,37 @@ import java.io.Serializable;
 
 public class ParcelServiceImpl implements ParcelService {
 
-    @Autowired
-    private final ParcelRepository parcelRepository;
 
-    @Autowired
+    private final ParcelRepository parcelRepository;
+    private final TripRepository tripRepository;
+    private final StopRepository stopRepository;
     private final ParcelMapper parcelMapper;
 
+    @Override
+    public ParcelDTO.parcelResponse createParcel(ParcelDTO.parcelCreateRequest request) {
+        Stop fromStop = stopRepository.findById(request.fromStopId())
+                .orElseThrow(() -> new IllegalArgumentException("From stop not found: " + request.fromStopId()));
+
+        Stop toStop = stopRepository.findById(request.toStopId())
+                .orElseThrow(() -> new IllegalArgumentException("To stop not found: " + request.toStopId()));
+
+        if (!fromStop.getRoute().getId().equals(toStop.getRoute().getId())) {
+            throw new IllegalArgumentException("Stops must belong to the same route");
+        }
+
+        Parcel parcel = parcelMapper.toEntity(request);
+        parcel.setFromStop(fromStop);
+        parcel.setToStop(toStop);
+
+        if (request.tripId() != null) {
+            Trip trip = tripRepository.findById(request.tripId())
+                    .orElseThrow(() -> new IllegalArgumentException("Trip not found: " + request.tripId()));
+            parcel.setTrip(trip);
+        }
+
+        Parcel savedParcel = parcelRepository.save(parcel);
+        return parcelMapper.toResponse(savedParcel);
+    }
 
     @Override
     public ParcelDTO.parcelResponse save(ParcelDTO.parcelCreateRequest parcelDTO) {

@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 
 public interface BaggageService {
 
+    BaggageDTO.baggageResponse create(BaggageDTO.baggageCreateRequest request);
     BaggageDTO.baggageResponse save(BaggageDTO.baggageCreateRequest request);
     BaggageDTO.baggageResponse get(Long id);
     BaggageDTO.baggageResponse get(String tagCode);
@@ -14,4 +15,6 @@ public interface BaggageService {
     boolean delete(Long id);
     BaggageDTO.baggageResponse update(BaggageDTO.baggageUpdateRequest request, Long id);
     Baggage getObject(Long id);
+
+
 }

@@ -1,7 +1,12 @@
 package com.unimag.service;
 
+import com.unimag.DTO.IncidentDTO;
+import com.unimag.DTO.RouteDTO;
 import com.unimag.DTO.SeatDTO;
+import com.unimag.entities.Incident;
+import com.unimag.entities.Route;
 import com.unimag.entities.Seat;
+import com.unimag.entities.User;
 import com.unimag.exception.NotFoundException;
 import com.unimag.mappers.SeatMapper;
 import com.unimag.repository.SeatRepository;
@@ -9,6 +14,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +27,19 @@ public class SeatServiceImpl implements SeatService {
     private final SeatRepository seatRepository;
     private final SeatMapper seatMapper;
     private final BusService busService;
+
+//    @Override
+//    public RouteDTO.routeResponse create(RouteDTO.routeCreateRequest request) {
+//        log.info("Creating new seat {} for bus: {}", request.number(), request.busId());
+//
+//        SeatResponse created = seatService.createSeat(request);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+//    }
+
+    @Override
+    public RouteDTO.routeResponse create(RouteDTO.routeCreateRequest createRequest) {
+        return null;
+    }
 
     @Override
     public SeatDTO.seatResponse save(SeatDTO.seatCreateRequest seatDTO) {

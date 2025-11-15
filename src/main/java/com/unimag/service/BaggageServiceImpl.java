@@ -2,10 +2,14 @@ package com.unimag.service;
 
 import com.unimag.DTO.BaggageDTO;
 import com.unimag.entities.Baggage;
+import com.unimag.entities.Ticket;
 import com.unimag.exception.NotFoundException;
 import com.unimag.mappers.BaggageMapper;
 import com.unimag.repository.BaggageRepository;
+import com.unimag.repository.TicketRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +25,27 @@ public class BaggageServiceImpl implements BaggageService {
 
     private BaggageRepository baggageRepository;
     private BaggageMapper baggageMapper;
+    private final TicketRepository ticketRepository;
+
+    private static final BigDecimal FREE_WEIGHT_KG = new BigDecimal("20.0");
+    private static final BigDecimal PRICE_PER_KG = new BigDecimal("2000");
+
+
+    @Override
+    public BaggageDTO.baggageResponse create(BaggageDTO.baggageCreateRequest request) {
+
+        Ticket ticket = ticketRepository.findById(request.ticketId())
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found: " + request.ticketId()));
+
+        Baggage baggage = baggageMapper.toEntity(request);
+        baggage.setTicket(ticket);
+
+        BigDecimal fee = calculateBaggageFee(request.weightKg());
+        baggage.setFee(fee);
+
+        Baggage savedBaggage = baggageRepository.save(baggage);
+        return baggageMapper.toResponse(savedBaggage);
+    }
 
     @Override
     public BaggageDTO.baggageResponse save(BaggageDTO.baggageCreateRequest createRequest) {
@@ -74,5 +99,18 @@ public class BaggageServiceImpl implements BaggageService {
     @Override
     public Baggage getObject(Long id) {
         return baggageRepository.findById(id).orElseThrow(() -> new NotFoundException("baggage not found"));
+    }
+
+    public BigDecimal calculateBaggageFee(BigDecimal weightKg) {
+        if (weightKg.compareTo(FREE_WEIGHT_KG) <= 0) {
+            return BigDecimal.ZERO;
+        }
+        BigDecimal excessWeight = weightKg.subtract(FREE_WEIGHT_KG);
+        return excessWeight.multiply(PRICE_PER_KG);
+    }
+
+    public BigDecimal getTotalWeightByTrip(Long tripId) {
+        BigDecimal totalWeight = baggageRepository.getTotalWeightByTrip(tripId);
+        return totalWeight != null ? totalWeight : BigDecimal.ZERO;
     }
 }

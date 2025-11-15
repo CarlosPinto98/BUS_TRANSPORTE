@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface FareRuleService {
 
+    FareRuleDTO.fareRuleResponse createFareRule(FareRuleDTO.fareRuleCreateRequest request);
     FareRuleDTO.fareRuleResponse save(FareRuleDTO.fareRuleCreateRequest request);
     FareRuleDTO.fareRuleResponse get(Long id);
     Page<FareRuleDTO.fareRuleResponse> getAll(Pageable pageable);

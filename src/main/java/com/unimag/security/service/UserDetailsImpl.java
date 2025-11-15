@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-//@SuppressWarnings("ClassCanBeRecord")
 public class UserDetailsImpl implements UserDetails {
 
     private final Long id;

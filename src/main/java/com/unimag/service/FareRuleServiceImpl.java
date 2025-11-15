@@ -2,9 +2,13 @@ package com.unimag.service;
 
 import com.unimag.DTO.FareRuleDTO;
 import com.unimag.entities.FareRule;
+import com.unimag.entities.Route;
+import com.unimag.entities.Stop;
 import com.unimag.exception.NotFoundException;
 import com.unimag.mappers.FareRuleMapper;
 import com.unimag.repository.FareRuleRepository;
+import com.unimag.repository.RouteRepository;
+import com.unimag.repository.StopRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +26,33 @@ public class FareRuleServiceImpl implements FareRuleService {
     private final FareRuleRepository fareRuleRepository;
     private final FareRuleMapper fareRuleMapper;
     private final StopService stopService;
+    private final RouteRepository routeRepository;
+    private final StopRepository stopRepository;
+
+    @Override
+    public FareRuleDTO.fareRuleResponse createFareRule(FareRuleDTO.fareRuleCreateRequest request) {
+
+        Route route = routeRepository.findById(request.routeId())
+                .orElseThrow(() -> new IllegalArgumentException("Route not found: " + request.routeId()));
+
+        Stop fromStop = stopRepository.findById(request.fromStopId())
+                .orElseThrow(() -> new IllegalArgumentException("From stop not found: " + request.fromStopId()));
+
+        var toStop = stopRepository.findById(request.toStopId())
+                .orElseThrow(() -> new IllegalArgumentException("To stop not found: " + request.toStopId()));
+
+        if (fromStop.getOrder() >= toStop.getOrder()) {
+            throw new IllegalArgumentException("Invalid stop sequence");
+        }
+
+        FareRule fareRule = fareRuleMapper.toEntity(request);
+        fareRule.setRoute(route);
+        fareRule.setFromStop(fromStop);
+        fareRule.setToStop(toStop);
+
+        FareRule savedFareRule = fareRuleRepository.save(fareRule);
+        return fareRuleMapper.toResponse(savedFareRule);
+    }
 
     @Override
     public FareRuleDTO.fareRuleResponse save(FareRuleDTO.fareRuleCreateRequest createRequest) {

@@ -3,8 +3,12 @@ package com.unimag.service;
 import com.unimag.DTO.AssignmentDTO;
 import com.unimag.entities.Assignment;
 import com.unimag.entities.Enums.Role;
+import com.unimag.entities.Trip;
+import com.unimag.entities.User;
 import com.unimag.mappers.AssignmentMapper;
 import com.unimag.repository.AssignmentRepository;
+import com.unimag.repository.TripRepository;
+import com.unimag.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +24,45 @@ import org.springframework.stereotype.Service;
 public class AssignmentServiceImpl implements AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
+    private final UserRepository userRepository;
     private final AssignmentMapper assignmentMapper;
     private final UserServiceImpl userService;
     private final TripServiceImpl tripService;
+    private final TripRepository tripRepository;
+
+    @Override
+    public AssignmentDTO.assignmentResponse create(AssignmentDTO.assignmentCreateRequest request) {
+
+        Trip trip = tripRepository.findById(request.tripId())
+                .orElseThrow(() -> new IllegalArgumentException("Trip not found: " + request.tripId()));
+
+        User driver = userRepository.findById(request.driverId())
+                .orElseThrow(() -> new IllegalArgumentException("Driver not found: " + request.driverId()));
+
+        User dispatcher = userRepository.findById(request.dispatcherId())
+                .orElseThrow(() -> new IllegalArgumentException("Dispatcher not found: " + request.dispatcherId()));
+
+        // Validar roles
+        if (driver.getRole() != Role.DRIVER) {
+            throw new IllegalArgumentException("User " + driver.getId() + " is not a DRIVER");
+        }
+
+        if (dispatcher.getRole() != Role.DISPATCHER) {
+            throw new IllegalArgumentException("User " + dispatcher.getId() + " is not a DISPATCHER");
+        }
+
+        if (assignmentRepository.existsByTripId(request.tripId())) {
+            throw new IllegalArgumentException("Trip already has an assignment");
+        }
+
+        Assignment assignment = assignmentMapper.toEntity(request);
+        assignment.setTrip(trip);
+        assignment.setDriver(driver);
+        assignment.setDispatcher(dispatcher);
+
+        Assignment savedAssignment = assignmentRepository.save(assignment);
+        return assignmentMapper.toResponse(savedAssignment);
+    }
 
     @Override
     public AssignmentDTO.assignmentResponse save(AssignmentDTO.assignmentCreateRequest createRequest) {
