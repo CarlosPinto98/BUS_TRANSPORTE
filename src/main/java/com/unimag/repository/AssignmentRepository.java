@@ -32,5 +32,6 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end);
 
+    List<Assignment> findByDriverIdAndAssignedAtBetween(Long driverId, LocalDateTime start, LocalDateTime end);
     boolean existsByTripId(Long tripId);
 }

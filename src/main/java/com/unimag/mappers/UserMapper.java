@@ -2,6 +2,7 @@ package com.unimag.mappers;
 
 import com.unimag.DTO.UserDTO.*;
 import com.unimag.entities.User;
+import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -20,7 +21,7 @@ public interface UserMapper {
 
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "statusUser", source = "statusUser")
-    void updateEntity(userUpdateRequest dto, @MappingTarget User user);
+    void updateEntity(@Valid UserSelfUpdateRequest dto, @MappingTarget User user);
 
     @Mapping(target = "role", source = "role")
     @Mapping(target = "statusUser", source = "statusUser")

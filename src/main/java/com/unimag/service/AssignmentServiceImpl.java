@@ -16,12 +16,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 
 public class AssignmentServiceImpl implements AssignmentService {
+    @Override
+    public List<AssignmentDTO.assignmentResponse> getAssignmentsByDriverAndDate(Long driverId, LocalDate date) {
+        if (!userRepository.existsById(driverId)) {
+            throw new IllegalArgumentException("Driver not found: " + driverId);
+        }
+
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.atTime(LocalTime.MAX);
+
+        return assignmentRepository.findByDriverIdAndAssignedAtBetween(driverId, start, end).stream()
+                .map(assignmentMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
 
     private final AssignmentRepository assignmentRepository;
     private final UserRepository userRepository;
