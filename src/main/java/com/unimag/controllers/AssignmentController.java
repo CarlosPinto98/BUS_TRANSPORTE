@@ -1,7 +1,6 @@
 package com.unimag.controllers;
 
 import com.unimag.DTO.AssignmentDTO.*;
-
 import com.unimag.service.AssignmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/api/v1/assignments")
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class AssignmentController {
 
 //    @PostMapping("/create")
 //    public ResponseEntity<AssignmentDTO.assignmentResponse> create(@Valid @RequestBody assignmentResponse req,
-//                                                UriComponentsBuilder uriBuilder) {
+//                                                                   UriComponentsBuilder uriBuilder) {
 //        var memberCreated = service.create(req);
 //        var location = uriBuilder.path("/api/members/{id}").buildAndExpand(memberCreated.id()).toUri();
 //        return ResponseEntity.created(location).body(memberCreated);
@@ -34,7 +34,7 @@ public class AssignmentController {
 
     @PostMapping("/create")
     public ResponseEntity<assignmentResponse > create(
-            @Valid @RequestBody assignmentCreateRequest createRequest
+             @Valid @RequestBody assignmentResponse createRequest
     ) {
         log.info("Creating assignment for trip {} - driver: {}",
                 createRequest.tripId(), createRequest.driverId());

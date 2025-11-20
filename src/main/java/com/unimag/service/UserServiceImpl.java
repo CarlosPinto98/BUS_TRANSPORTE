@@ -2,11 +2,13 @@ package com.unimag.service;
 
 import com.unimag.DTO.UserDTO;
 import com.unimag.entities.Enums.Role;
+import com.unimag.entities.Enums.StatusUser;
 import com.unimag.entities.User;
 import com.unimag.exception.NotFoundException;
 import com.unimag.mappers.UserMapper;
 import com.unimag.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +22,65 @@ import java.time.OffsetDateTime;
 
 public class UserServiceImpl implements UserService {
 
+
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    @Override
+    public boolean getByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+        return userMapper.toResponse(user);
+    }
+
+    @Override
+    public boolean getByPhone(String phone) {
+        User user = userRepository.findByPhone(phone)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with phone: " + phone));
+        return userMapper.toResponse(user);
+    }
+
+    @Override
+    public UserDTO.userResponse changeStatus(Long id, StatusUser status) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
+        user.setStatusUser(status);
+        User updatedUser = userRepository.save(user);
+        return userMapper.toResponse(updatedUser);
+    }
+
+    @Override
+    public UserDTO.userResponse create(UserDTO.userCreateRequest request) {
+        if (userRepository.existsByEmail(request.email())) {
+            throw new IllegalArgumentException("Email already exists: " + request.email());
+        }
+        if (userRepository.existsByPhone(request.phone())) {
+            throw new IllegalArgumentException("Phone already exists: " + request.phone());
+        }
+
+        User user = userMapper.toEntity(request);
+        user.setPasswordHash(request.password());
+        user.setStatusUser(StatusUser.ACTIVE);
+
+        User savedUser = userRepository.save(user);
+        return userMapper.toResponse(savedUser);
+    }
+
+//    @Override
+//    public UserDTO.userResponse changeStatus(Long id, StatusUser status) {
+//        User user = userRepository.findById(id)
+//                .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
+//        user.setStatusUser(status);
+//        User updatedUser = userRepository.save(user);
+//        return userMapper.toResponse(updatedUser);
+//    }
+
+    @Override
+    public UserDTO.userResponse getById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
+        return userMapper.toResponse(user);
+    }
 
     @Override
     public UserDTO.userResponse save(UserDTO.userCreateRequest userCreateRequest) {
@@ -60,9 +119,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO.userResponse update(UserDTO.userUpdateRequest userUpdateRequest, Long id) {
+    public UserDTO.userResponse update(UserDTO.@Valid UserSelfUpdateRequest userUpdateRequest, Long id) {
         var f = getObject(id);
-        userMapper.updateEntity(userUpdateRequest, f);
+        userMapper.updateEntity(userUpdateRequest,f);
         return userMapper.toResponse(f);
     }
 

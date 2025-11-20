@@ -1,21 +1,16 @@
 package com.unimag.service;
 
-import com.unimag.DTO.IncidentDTO;
 import com.unimag.DTO.RouteDTO;
 import com.unimag.DTO.SeatDTO;
-import com.unimag.entities.Incident;
-import com.unimag.entities.Route;
 import com.unimag.entities.Seat;
-import com.unimag.entities.User;
 import com.unimag.exception.NotFoundException;
 import com.unimag.mappers.SeatMapper;
 import com.unimag.repository.SeatRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,7 +32,7 @@ public class SeatServiceImpl implements SeatService {
 //    }
 
     @Override
-    public RouteDTO.routeResponse create(RouteDTO.routeCreateRequest createRequest) {
+    public RouteDTO.routeResponse create(SeatDTO.@Valid seatCreateRequest createRequest) {
         return null;
     }
 

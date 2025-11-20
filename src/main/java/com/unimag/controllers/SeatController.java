@@ -1,5 +1,6 @@
 package com.unimag.controllers;
 
+import com.unimag.DTO.RouteDTO;
 import com.unimag.DTO.SeatDTO;
 import com.unimag.service.SeatService;
 import jakarta.validation.Valid;
@@ -23,13 +24,13 @@ public class SeatController {
 
     private final SeatService seatService;
 
-//    @PostMapping("/create")
-//    public ResponseEntity<SeatDTO.seatResponse> create(@Valid @RequestBody SeatCreateRequest request) {
-//        log.info("Creating new seat {} for bus: {}", request.number(), request.busId());
-//
-//        SeatDTO.seatResponse created = seatService.create(request);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-//    }
+    @PostMapping("/create")
+    public ResponseEntity<RouteDTO.routeResponse> create(@Valid @RequestBody SeatDTO.seatCreateRequest request) {
+        log.info("Creating new seat {} for bus: {}", request.number(), request.busId());
+
+        RouteDTO.routeResponse created = seatService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
 
     @GetMapping("/all")
     public ResponseEntity<Page<SeatDTO.seatResponse>> getAll(Pageable pageable) {

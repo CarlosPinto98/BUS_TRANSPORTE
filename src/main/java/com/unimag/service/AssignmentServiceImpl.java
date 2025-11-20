@@ -11,10 +11,17 @@ import com.unimag.repository.TripRepository;
 import com.unimag.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -22,6 +29,8 @@ import org.springframework.stereotype.Service;
 @Transactional
 
 public class AssignmentServiceImpl implements AssignmentService {
+
+
 
     private final AssignmentRepository assignmentRepository;
     private final UserRepository userRepository;
@@ -31,7 +40,31 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final TripRepository tripRepository;
 
     @Override
-    public AssignmentDTO.assignmentResponse create(AssignmentDTO.assignmentCreateRequest request) {
+    public List<AssignmentDTO.assignmentResponse> getActiveAssignmentsByDriver(Long driverId) {
+        if (!userRepository.existsById(driverId)) {
+            throw new IllegalArgumentException("Driver not found: " + driverId);
+        }
+        return assignmentRepository.findActiveAssignmentsByDriver(driverId).stream()
+                .map(assignmentMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AssignmentDTO.assignmentResponse> getAssignmentsByDriverAndDate(Long driverId,LocalDate date) {
+        if (!userRepository.existsById(driverId)) {
+            throw new IllegalArgumentException("Driver not found: " + driverId);
+        }
+
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.atTime(LocalTime.MAX);
+
+        return assignmentRepository.findByDriverIdAndAssignedAtBetween(driverId, start, end).stream()
+                .map(assignmentMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public AssignmentDTO.assignmentResponse create(AssignmentDTO.@Valid assignmentResponse request) {
 
         Trip trip = tripRepository.findById(request.tripId())
                 .orElseThrow(() -> new IllegalArgumentException("Trip not found: " + request.tripId()));
