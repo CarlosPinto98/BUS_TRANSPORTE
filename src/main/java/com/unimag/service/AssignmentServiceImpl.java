@@ -29,6 +29,20 @@ import java.util.stream.Collectors;
 @Transactional
 
 public class AssignmentServiceImpl implements AssignmentService {
+    @Override
+    public List<AssignmentDTO.assignmentResponse> getAssignmentsByDriverAndDate(Long driverId, LocalDate date) {
+        if (!userRepository.existsById(driverId)) {
+            throw new IllegalArgumentException("Driver not found: " + driverId);
+        }
+
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.atTime(LocalTime.MAX);
+
+        return assignmentRepository.findByDriverIdAndAssignedAtBetween(driverId, start, end).stream()
+                .map(assignmentMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
 
 
 
