@@ -17,8 +17,7 @@ public class RouteDTO {
             String name,
             @NotBlank(message = "origin is required")
             String origin,
-            @NotBlank(message = "destination is required")
-            String destination,
+            String number,
             @NotNull @Min(1)
             Integer distanceKm,
             @NotNull @Min(1)

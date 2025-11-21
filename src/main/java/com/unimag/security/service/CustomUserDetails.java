@@ -6,16 +6,16 @@ import com.unimag.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @AllArgsConstructor
+//@RequiredArgsConstructor
 @Builder
 
 public class CustomUserDetails implements UserDetails {
@@ -38,17 +38,27 @@ public class CustomUserDetails implements UserDetails {
         this.displayName = user.getName();
         this.phone = user.getPhone();
 
-        // Authorities más granulares
         this.authorities = buildAuthorities(user);
     }
+
+    public <T> CustomUserDetails(Long userId, String mail, String password, List<T> ts) {
+        this.id = userId;
+        this.userEmail = mail;
+        this.password = password;
+        this.role = Role.PASSENGER; // valor por defecto
+        this.status = StatusUser.ACTIVE; // valor por defecto
+        this.displayName = "Test User"; // opcional
+        this.phone = "0000000000"; // opcional
+        this.authorities = new ArrayList<>();
+
+    }
+
 
     private Collection<? extends GrantedAuthority> buildAuthorities(User user) {
         Set<GrantedAuthority> authorities = new java.util.HashSet<>();
 
-        // Rol básico
         authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
 
-        // Permisos específicos basados en el rol
         switch (user.getRole()) {
             case ADMIN:
                 authorities.add(new SimpleGrantedAuthority("PERMISSION_READ_ALL"));

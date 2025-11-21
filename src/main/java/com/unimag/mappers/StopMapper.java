@@ -1,6 +1,8 @@
 package com.unimag.mappers;
 
+import com.unimag.DTO.StopDTO;
 import com.unimag.DTO.StopDTO.*;
+import com.unimag.entities.City;
 import com.unimag.entities.Route;
 import com.unimag.entities.Stop;
 import org.mapstruct.Mapper;
@@ -26,12 +28,21 @@ public interface StopMapper {
     @Mapping(target = "routeId", source = "route.id")
     @Mapping(target = "routeName", source = "route.name")
     @Mapping(target = "routeCode", source = "route.code")
+    //@Mapping(target = "city", source = "city.name")
+    @Mapping(target = "city", source = "city")
     stopResponse toResponse(Stop entity);
+
     @Named("mapRoute")
     default Route mapRoute(Long id) {
         if (id == null) return null;
         Route r = new Route();
         r.setId(id);
         return r;
+    }
+
+    default StopDTO.cityDTO map(City city) {
+        if (city == null) return null;
+        // Asumiendo que StopDTO.cityDTO es un record con (Long id, String name)
+        return new StopDTO.cityDTO(city.getName());
     }
 }

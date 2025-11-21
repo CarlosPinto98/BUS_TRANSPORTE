@@ -25,26 +25,10 @@ import java.util.stream.Collectors;
 
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 
 public class AssignmentServiceImpl implements AssignmentService {
-    @Override
-    public List<AssignmentDTO.assignmentResponse> getAssignmentsByDriverAndDate(Long driverId, LocalDate date) {
-        if (!userRepository.existsById(driverId)) {
-            throw new IllegalArgumentException("Driver not found: " + driverId);
-        }
-
-        LocalDateTime start = date.atStartOfDay();
-        LocalDateTime end = date.atTime(LocalTime.MAX);
-
-        return assignmentRepository.findByDriverIdAndAssignedAtBetween(driverId, start, end).stream()
-                .map(assignmentMapper::toResponse)
-                .collect(Collectors.toList());
-    }
-
-
-
 
     private final AssignmentRepository assignmentRepository;
     private final UserRepository userRepository;
@@ -155,4 +139,18 @@ public class AssignmentServiceImpl implements AssignmentService {
     public Assignment getObject(Long id) {
         return assignmentRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("assignment not found"));
     }
+
+//    @Override
+//    public List<AssignmentDTO.assignmentResponse> getAssignmentsByDriverAndDate(LocalDate date, Long driverId) {
+//        if (!userRepository.existsById(driverId)) {
+//            throw new IllegalArgumentException("Driver not found: " + driverId);
+//        }
+//
+//        LocalDateTime start = date.atStartOfDay();
+//        LocalDateTime end = date.atTime(LocalTime.MAX);
+//
+//        return assignmentRepository.findByDriverIdAndAssignedAtBetween(driverId, start, end).stream()
+//                .map(assignmentMapper::toResponse)
+//                .collect(Collectors.toList());
+    //}
 }

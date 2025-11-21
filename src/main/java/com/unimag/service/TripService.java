@@ -25,13 +25,4 @@ public interface TripService {
     void validateTripSchedule(Long busId, LocalDate date, LocalDateTime departureAt);
     Trip getObject(Long id);
 
-
-//    TripDTO.tripResponse save(TripDTO.tripCreateRequest tripDTO);
-//    TripDTO.tripResponse update(TripDTO.tripUpdateRequest tripDTO, Trip trip);
-//    boolean delete(Long tripId);
-//    TripDTO.tripResponse get(Long id);
-//    Page<TripDTO.tripResponse> getAll(Pageable pageable);
-
-
-
 }

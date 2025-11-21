@@ -18,7 +18,8 @@ public interface RouteMapper {
     @Mapping(target = "code", source = "code")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "origin", source = "origin")
-    @Mapping(target = "destination", source = "destination")
+    //@Mapping(target = "destination", source = "destination")
+    @Mapping(target = "destination", ignore = true)
     @Mapping(target = "distanceKm", source = "distanceKm")
     @Mapping(target = "durationMin", source = "durationMin")
     Route toEntity(routeCreateRequest dto);

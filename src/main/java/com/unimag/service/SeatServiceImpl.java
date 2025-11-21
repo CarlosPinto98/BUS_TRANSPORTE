@@ -1,7 +1,8 @@
 package com.unimag.service;
 
-import com.unimag.DTO.RouteDTO;
+import com.unimag.DTO.RouteDTO.*;
 import com.unimag.DTO.SeatDTO;
+import com.unimag.DTO.SeatDTO.*;
 import com.unimag.entities.Seat;
 import com.unimag.exception.NotFoundException;
 import com.unimag.mappers.SeatMapper;
@@ -9,10 +10,14 @@ import com.unimag.repository.SeatRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -22,18 +27,15 @@ public class SeatServiceImpl implements SeatService {
     private final SeatRepository seatRepository;
     private final SeatMapper seatMapper;
     private final BusService busService;
+    private final SeatService seatService;
 
-//    @Override
-//    public RouteDTO.routeResponse create(RouteDTO.routeCreateRequest request) {
-//        log.info("Creating new seat {} for bus: {}", request.number(), request.busId());
-//
-//        SeatResponse created = seatService.createSeat(request);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-//    }
 
     @Override
-    public RouteDTO.routeResponse create(SeatDTO.@Valid seatCreateRequest createRequest) {
-        return null;
+    public SeatDTO.seatResponse create(SeatDTO.@Valid seatCreateRequest createRequest) {
+        log.info("Creating new seat {} for bus: {}", createRequest.number());
+
+        seatResponse created = seatService.create(createRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created).getBody();
     }
 
     @Override
@@ -68,8 +70,10 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Seat getSeatByNumberAndBusId(int number, Long busId) {
-        return seatRepository.findByBusIdAndNumber( busId, String.valueOf(number)).orElseThrow(()->new NotFoundException("Seat not found"));
+    public SeatDTO.seatResponse getSeatByNumberAndBusId(int number, Long busId) {
+        return seatRepository.findByBusIdAndNumber( busId, String.valueOf(number))
+        .map(seatMapper::toResponse).
+                orElseThrow(()->new NotFoundException("Seat not found"));
     }
 
     @Override

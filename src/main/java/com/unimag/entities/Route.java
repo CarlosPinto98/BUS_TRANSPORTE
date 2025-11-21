@@ -29,7 +29,7 @@ public class Route {
     @Column(nullable = false,length = 20)
     private String origin;
 
-    @Column(nullable = false,length = 20)
+    //@Column(nullable = false,length = 20)
     private String destination;
 
     @Column(nullable = false)

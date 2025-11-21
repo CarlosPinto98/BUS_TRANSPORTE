@@ -1,6 +1,7 @@
 package com.unimag.service;
 
 import com.unimag.DTO.UserDTO;
+import com.unimag.DTO.UserDTO.userResponse;
 import com.unimag.entities.Enums.Role;
 import com.unimag.entities.Enums.StatusUser;
 import com.unimag.entities.User;
@@ -8,7 +9,6 @@ import com.unimag.exception.NotFoundException;
 import com.unimag.mappers.UserMapper;
 import com.unimag.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,21 +27,28 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public boolean getByEmail(String email) {
+    public userResponse update(UserDTO.userUpdateRequest userUpdateRequest, Long id) {
+        var f = getObject(id);
+        userMapper.updateEntity(userUpdateRequest,f);
+        return userMapper.toResponse(f);
+    }
+
+    @Override
+    public userResponse getByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
         return userMapper.toResponse(user);
     }
 
     @Override
-    public boolean getByPhone(String phone) {
+    public userResponse getByPhone(String phone) {
         User user = userRepository.findByPhone(phone)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with phone: " + phone));
         return userMapper.toResponse(user);
     }
 
     @Override
-    public UserDTO.userResponse changeStatus(Long id, StatusUser status) {
+    public userResponse changeStatus(Long id, StatusUser status) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
         user.setStatusUser(status);
@@ -50,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO.userResponse create(UserDTO.userCreateRequest request) {
+    public userResponse create(UserDTO.userCreateRequest request) {
         if (userRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("Email already exists: " + request.email());
         }
@@ -66,43 +73,34 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponse(savedUser);
     }
 
-//    @Override
-//    public UserDTO.userResponse changeStatus(Long id, StatusUser status) {
-//        User user = userRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
-//        user.setStatusUser(status);
-//        User updatedUser = userRepository.save(user);
-//        return userMapper.toResponse(updatedUser);
-//    }
-
     @Override
-    public UserDTO.userResponse getById(Long id) {
+    public userResponse getById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
         return userMapper.toResponse(user);
     }
 
     @Override
-    public UserDTO.userResponse save(UserDTO.userCreateRequest userCreateRequest) {
+    public userResponse save(UserDTO.userCreateRequest userCreateRequest) {
         var entity = userMapper.toEntity(userCreateRequest);
         entity.setCreateAt(OffsetDateTime.now().toLocalDateTime());
         return userMapper.toResponse(userRepository.save(entity));
     }
 
     @Override
-    public UserDTO.userResponse get(Long id) {
+    public userResponse get(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
         return userMapper.toResponse(user);
     }
 
     @Override
-    public Page<UserDTO.userResponse> getAll(Pageable pageable) {
+    public Page<userResponse> getAll(Pageable pageable) {
         var users = userRepository.findAll(pageable);
         return users.map(userMapper::toResponse);
     }
 
     @Override
-    public UserDTO.userResponse getAssigments(Long id) {
+    public userResponse getAssigments(Long id) {
         var s = getObject(id);
         return userMapper.toResponse(s);
     }
@@ -118,12 +116,7 @@ public class UserServiceImpl implements UserService {
         return check;
     }
 
-    @Override
-    public UserDTO.userResponse update(UserDTO.@Valid UserSelfUpdateRequest userUpdateRequest, Long id) {
-        var f = getObject(id);
-        userMapper.updateEntity(userUpdateRequest,f);
-        return userMapper.toResponse(f);
-    }
+
 
     @Override
     public User getObject(Long id) {

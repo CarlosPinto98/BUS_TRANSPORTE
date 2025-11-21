@@ -33,16 +33,16 @@ public class UserDTO {
             @NotNull(message = "status is required")
             StatusUser statusUser) implements Serializable {}
 
-    public record UserSelfUpdateRequest(
-            @NotBlank(message = "name is required")
-            String name,
-
-            @NotBlank(message = "phone is required")
-            @Pattern(regexp = "\\d{10}")
-            String phone,
-
-            @Email(message = "email must be valid")
-            String email) implements Serializable {}
+//    public record userUpdateRequest(
+//            @NotBlank(message = "name is required")
+//            String name,
+//
+//            @NotBlank(message = "phone is required")
+//            @Pattern(regexp = "\\d{10}")
+//            String phone,
+//
+//            @Email(message = "email must be valid")
+//            String email) implements Serializable {}
 
     public record UserCheckRequest(
             @Email String email,

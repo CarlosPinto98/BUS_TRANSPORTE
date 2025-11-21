@@ -31,10 +31,10 @@ public class StopDTO {
     public record stopResponse(
             Long id,
             String name,
-            Integer order,
+            int order,
             BigDecimal lat,
             BigDecimal lng,
-            Long routeId,
+            long routeId,
             String routeName,
             String routeCode,
             cityDTO city) implements Serializable {}

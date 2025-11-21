@@ -27,10 +27,5 @@ public interface TicketService {
     long countSoldTicketsByTrip(Long tripId);
     Ticket getObject(long id);
 
-//    TicketDTO.ticketResponse create(TicketDTO.ticketCreateRequest request);
-//    TicketDTO.ticketResponse update(Long id, TicketDTO.ticketUpdateRequest request);
-//    void delete(Long id);
-//    Ticket getObject(long id);
-//    TicketDTO.ticketResponse get(Long id);
-//    Page<TicketDTO.ticketResponse> getAll(Pageable pageable);
+
 }

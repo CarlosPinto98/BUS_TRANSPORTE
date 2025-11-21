@@ -168,11 +168,9 @@ class SeatHoldServiceImplTest {
 
     @Test
     @DisplayName("GetAll - Debe retornar null (método no implementado)")
-    void getAll() {
-
-
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<SeatHoldDTO.seatHoldResponse> result = seatHoldService.getAll(pageable);
+    void getAll(Pageable pageable) {
+        pageable = PageRequest.of(0, 10);
+        Page<SeatHoldDTO.seatHoldResponse> result = (Page<SeatHoldDTO.seatHoldResponse>) seatHoldService.getAll(pageable);
         assertNull(result, "El método getAll() no está implementado y debe retornar null");
         verifyNoInteractions(seatHoldMapper, seatHoldRepository);
     }

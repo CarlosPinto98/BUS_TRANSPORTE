@@ -25,10 +25,10 @@ public class SeatController {
     private final SeatService seatService;
 
     @PostMapping("/create")
-    public ResponseEntity<RouteDTO.routeResponse> create(@Valid @RequestBody SeatDTO.seatCreateRequest request) {
+    public ResponseEntity<SeatDTO.seatResponse> create(@Valid @RequestBody SeatDTO.seatCreateRequest request) {
         log.info("Creating new seat {} for bus: {}", request.number(), request.busId());
 
-        RouteDTO.routeResponse created = seatService.create(request);
+        SeatDTO.seatResponse created = seatService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 

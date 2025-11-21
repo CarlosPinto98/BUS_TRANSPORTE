@@ -4,6 +4,7 @@ import com.unimag.DTO.*;
 import com.unimag.entities.Assignment;
 import com.unimag.entities.Trip;
 import com.unimag.entities.User;
+import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -57,4 +58,6 @@ public interface AssignmentMapper {
                 trip.getDate() + " " +
                 trip.getDepartureAt().toLocalTime();
     }
+
+    Assignment toEntity(AssignmentDTO.@Valid assignmentResponse request);
 }

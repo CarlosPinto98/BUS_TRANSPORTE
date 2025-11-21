@@ -41,8 +41,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiError> handleConstraint(ConstraintViolationException ex, WebRequest request) {
-        // Este bloque tiene un error: ConstraintViolationException no tiene método stream()
-        // Se debe manejar de forma diferente, por ejemplo, extrayendo el nombre de la restricción
+
         var violation = new ApiError.FieldViolation("Constraint", ex.getConstraintName());
         var body = ApiError.of(
                 HttpStatus.BAD_REQUEST,

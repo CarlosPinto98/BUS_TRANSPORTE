@@ -7,5 +7,7 @@ public enum TypeIncident {
     OVERBOOK,
     VEHICLE,
     PASSENGER_COMPLAINT,
+    MECHANICAL,
+    ACCIDENT,
     OTHER
 }

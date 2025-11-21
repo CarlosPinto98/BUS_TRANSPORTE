@@ -219,7 +219,7 @@ class RouteMapperTest {
         assertEquals(request.code(), response.code());
         assertEquals(request.name(), response.name());
         assertEquals(request.origin(), response.origin());
-        assertEquals(request.destination(), response.destination());
+        assertEquals(request.destinationId(), response.destination());
         assertEquals(request.distanceKm(), response.distanceKm());
         assertEquals(request.durationMin(), response.durationMin());
     }

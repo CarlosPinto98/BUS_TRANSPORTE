@@ -28,7 +28,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final AuthService authService;
+    private AuthService authService;
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
@@ -44,7 +44,7 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<userResponse> updateCurrentUser(
             Authentication authentication,
-            @Valid @RequestBody UserSelfUpdateRequest request
+            @Valid @RequestBody userUpdateRequest request
     ) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Long userId = userDetails.getId();
@@ -74,17 +74,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-
-//    @PutMapping("/update/{id}")
-//    @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER')")
-//    public ResponseEntity<userResponse> update(
-//            @PathVariable Long id,
-//            @Valid @RequestBody userUpdateRequest request) {
-//        log.info("Updating user ID: {}", id);
-//        userResponse response = userService.update(id, request);
-//        return  ResponseEntity.ok(response);
-//    }
-
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('DISPATCHER') or #id == authentication.principal.id")
     public ResponseEntity<userResponse> getUserById(@PathVariable Long id) {
@@ -96,18 +85,18 @@ public class UserController {
 
     @GetMapping("/email/{email}")
     @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER')")
-    public ResponseEntity<Boolean> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<userResponse> getUserByEmail(@PathVariable String email) {
         log.debug("Getting user by email: {}", email);
-        boolean response = userService.getByEmail(email);
+        userResponse response = userService.getByEmail(email);
         return ResponseEntity.ok(response);
     }
 
 
     @GetMapping("/phone/{phone}")
     @PreAuthorize("hasAnyRole('ADMIN', 'DISPATCHER')")
-    public ResponseEntity<Boolean> getUserByPhone(@PathVariable String phone) {
+    public ResponseEntity<userResponse> getUserByPhone(@PathVariable String phone) {
         log.debug("Getting user by phone: {}", phone);
-        boolean response = userService.getByPhone(phone);
+        userResponse response = userService.getByPhone(phone);
         return ResponseEntity.ok(response);
     }
 
@@ -142,17 +131,17 @@ public class UserController {
 
 
     @GetMapping("/exists/email/{email}")
-    public ResponseEntity<Boolean> existsByEmail(@PathVariable String email) {
+    public ResponseEntity<userResponse> existsByEmail(@PathVariable String email) {
         log.debug("Checking if email exists: {}", email);
-        boolean exists = userService.getByEmail(email);
+        userResponse exists = userService.getByEmail(email);
         return ResponseEntity.ok(exists);
     }
 
 
     @GetMapping("/exists/phone/{phone}")
-    public ResponseEntity<Boolean> getByPhone(@PathVariable String phone) {
+    public ResponseEntity<userResponse> getByPhone(@PathVariable String phone) {
         log.debug("Checking if phone exists: {}", phone);
-        boolean exists = userService.getByPhone(phone);
+        userResponse exists = userService.getByPhone(phone);
         return ResponseEntity.ok(exists);
     }
 
@@ -162,8 +151,8 @@ public class UserController {
         log.debug("Checking availability for email: {} and phone: {}",
                 request.email(), request.phone());
 
-        boolean emailAvailable = !userService.getByEmail(request.email());
-        boolean phoneAvailable = !userService.getByPhone(request.phone());
+        boolean emailAvailable = userService.getByEmail(request.email()) == null;
+        boolean phoneAvailable = userService.getByPhone(request.phone()) == null;
 
         UserAvailabilityResponse response = new UserAvailabilityResponse(emailAvailable, phoneAvailable);
         return ResponseEntity.ok(response);
@@ -172,7 +161,7 @@ public class UserController {
 
     @PutMapping("/me/complete")
     public ResponseEntity<userResponse> updateOwnProfileComplete(
-            @Valid @RequestBody UserSelfUpdateRequest request,
+            @Valid @RequestBody userUpdateRequest request,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         log.info("User {} updating complete profile", userDetails.getUsername());
 

@@ -198,12 +198,12 @@ class SeatServiceImplTest {
         when(seatRepository.findByBusIdAndNumber(1L, "1"))
                 .thenReturn(Optional.of(seat));
 
-        Seat result = seatService.getSeatByNumberAndBusId(1, 1L);
+        SeatDTO.seatResponse result = seatService.getSeatByNumberAndBusId(1, 1L);
 
         assertNotNull(result);
-        assertEquals(Long.valueOf(1L), result.getId());
-        assertEquals("A1", result.getNumber());
-        assertEquals(Type.STANDARD, result.getType());
+        assertEquals(Long.valueOf(1L), result.id());
+        assertEquals("A1", result.number());
+        assertEquals(Type.STANDARD, result.type());
 
         verify(seatRepository).findByBusIdAndNumber(1L, "1");
     }
@@ -264,7 +264,7 @@ class SeatServiceImplTest {
         when(seatRepository.findByBusIdAndNumber(1L, "15"))
                 .thenReturn(Optional.of(seat));
 
-        Seat result = seatService.getSeatByNumberAndBusId(15, 1L);
+        SeatDTO.seatResponse result = seatService.getSeatByNumberAndBusId(15, 1L);
 
         assertNotNull(result);
         verify(seatRepository).findByBusIdAndNumber(1L, "15");
